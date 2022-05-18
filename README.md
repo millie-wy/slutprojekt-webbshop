@@ -6,9 +6,9 @@ write something
 
 ### Developers
 
-Erik Isaksson (hello) </br>
-Ella Larsson (hello) </br>
-Fia Andersson (hello) </br>
+Erik Isaksson (https://github.com/Erikisak) </br>
+Ella Larsson (https://github.com/EllaMiri) </br>
+Fia Andersson (https://github.com/fiababiakandersson) </br>
 Millie Cheung (https://github.com/millie-wy)
 
 ### Getting started
