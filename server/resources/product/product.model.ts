@@ -1,6 +1,4 @@
-import { Address } from "cluster";
-import mongoose, { Schema, Types } from "mongoose";
-import { DeliveryOption } from "../schema/deliveryOption.schema";
+import mongoose from "mongoose";
 
 export interface Product {
   title: string;
