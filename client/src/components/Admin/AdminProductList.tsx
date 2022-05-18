@@ -53,6 +53,7 @@ function AdminProductList(props: Props) {
         </TableCell>
         <TableCell>{props.product.id}</TableCell>
         <TableCell>{numWithSpaces(props.product.price)} SEK</TableCell>
+        <TableCell>2</TableCell> {/* HERE GOES THE STOCK DATA */}
       </TableRow>
       {/* All info om produkten som är klickad*/}
       <TableRow>
@@ -85,6 +86,9 @@ function AdminProductList(props: Props) {
                     </TableCell>
                     <TableCell align="center" style={{ color: "#6C665F" }}>
                       Price
+                    </TableCell>
+                    <TableCell align="center" style={{ color: "#6C665F" }}>
+                      Stock
                     </TableCell>
                     <TableCell
                       align="right"
@@ -167,6 +171,25 @@ function AdminProductList(props: Props) {
                       )}
                     </TableCell>
                     <TableCell align="center">
+                      {isEdit ? (
+                        <TextField
+                          value={String(price)}
+                          variant="standard"
+                          onChange={(event) => {
+                            console.log(isNaN(Number(event.target.value)));
+                            if (!isNaN(Number(event.target.value))) {
+                              setPrice(Number(event.target.value));
+                            }
+                          }}
+                          inputProps={{ style: { fontSize: ".9rem" } }}
+                          InputLabelProps={{ style: { fontSize: ".9rem" } }}
+                        />
+                      ) : (
+                        numWithSpaces(props.product.price)
+                      )}{" "}
+                      {/* HERE GOES THE STOCK DATA */}
+                    </TableCell>
+                    <TableCell align="center">
                       <Button onClick={() => setOpenRemove(true)}>
                         {openRemove ? (
                           <RemoveProductConfirmation product={props.product} />
@@ -245,6 +268,6 @@ function AdminProductList(props: Props) {
         </TableCell>
       </TableRow>
     </Fragment>
-  )
+  );
 }
 export default AdminProductList;

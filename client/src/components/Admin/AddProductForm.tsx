@@ -60,17 +60,22 @@ function AddProductForm() {
       validationSchema: ProductValidationSchema,
       onSubmit: validateAndSaveNewProduct,
     });
-    
+
   return (
     <Container
       style={{
         display: "flex",
         flexDirection: "column",
       }}
-    > 
+    >
       <form
         onSubmit={handleSubmit}
-        style={{ display: "flex", flexDirection: "column", justifyContent:'center', alignItems:'center'}}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
       >
         <div
           style={{
@@ -128,6 +133,16 @@ function AddProductForm() {
             />
           </div>
         </div>
+        <TextField /* CHANGE TO CORRECT STOCK DATA */
+          required
+          type="number"
+          name="stock"
+          label="Stock"
+          value={values.price}
+          onChange={handleChange}
+          error={touched.price && Boolean(errors.price)}
+          margin="normal"
+        />
         <Button
           onClick={NewProductConfirmation}
           size="large"
@@ -139,7 +154,7 @@ function AddProductForm() {
             backgroundColor: "#CAC2B9",
             color: "white",
             letterSpacing: "3px",
-            marginTop: '2rem'
+            marginTop: "2rem",
           }}
           type="submit"
         >
@@ -150,6 +165,5 @@ function AddProductForm() {
     </Container>
   );
 }
-
 
 export default AddProductForm;

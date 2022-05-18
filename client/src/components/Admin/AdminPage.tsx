@@ -3,6 +3,7 @@ import { Box, Button, Container, Typography } from "@mui/material";
 import { useState } from "react";
 import AddProductForm from "./AddProductForm";
 import AdminCollapsibleTable from "./AdminCollapsibleTable";
+import BasicTable from "./OrderTable";
 import Modal from "./Modal";
 
 function AdminPage() {
@@ -40,8 +41,23 @@ function AdminPage() {
           <AddProductForm />
         </Modal>
       </Box>
-      <AdminCollapsibleTable />
-      
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          rowGap: "3rem",
+        }}
+      >
+        <AdminCollapsibleTable />
+
+        <Typography
+          sx={{ textTransform: "uppercase", fontFamily: "Prata", mt: "1rem" }}
+          variant="h6"
+        >
+          Orders
+        </Typography>
+        <BasicTable />
+      </div>
     </Container>
   );
 }

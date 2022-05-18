@@ -35,6 +35,11 @@ function AdminCollapsibleTable() {
                 Price
               </Typography>
             </TableCell>
+            <TableCell align="left">
+              <Typography variant="subtitle1" fontWeight="bold" color="white">
+                Stock
+              </Typography>
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
