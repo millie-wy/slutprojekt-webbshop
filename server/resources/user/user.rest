@@ -1,0 +1,28 @@
+GET http://localhost:3000/api/user
+###
+
+POST http://localhost:3000/api/user
+Content-Type: application/json
+
+{
+"firstname": "David", 
+"lastname": "Jensen", 
+"password": "123",
+"address": {
+    "street": "ABCvägen", 
+    "zipCode": 41234,
+    "city": "Göteborg"
+}
+}
+
+###
+
+PUT http://localhost:3000/api/user/1234
+Content-Type: application/json
+
+{
+
+} 
+###
+
+DELETE http://localhost:3000/api/user/1234

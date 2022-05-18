@@ -1,0 +1,22 @@
+GET http://localhost:3000/api/order
+###
+
+POST http://localhost:3000/api/order
+Content-Type: application/json
+
+{
+    "customer": "628359898c5d20642d80ecac",
+    "products": ["product 1", "product 2"]
+}
+
+###
+
+PUT http://localhost:3000/api/order/1234
+Content-Type: application/json
+
+{
+
+} 
+###
+
+DELETE http://localhost:3000/api/order/1234
