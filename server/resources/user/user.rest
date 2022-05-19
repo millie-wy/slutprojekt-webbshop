@@ -18,7 +18,8 @@ PUT http://localhost:3001/api/user/62862a31f7896b496c7b16bc
 Content-Type: application/json
 
 {
-    "firstname": "Erik"
+    "firstname": "Erik!!!!",
+    "password": "1234"
 } 
 ###
 
