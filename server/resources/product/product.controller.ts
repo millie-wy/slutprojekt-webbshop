@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import { User } from "../user";
 import { Product, ProductModel } from "./product.model";
 
 // get full product list from product db
@@ -65,6 +64,7 @@ export const updateProduct = async (
     res.status(200).json("UPDATED PRODUCT WITH ID :" + req.params.id);
   } catch (err: unknown) {
     if (err instanceof Error) {
+      // MongooseError.StrictModeError ??
       return res.status(500).json(err.message);
     }
   }
