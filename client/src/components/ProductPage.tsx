@@ -1,10 +1,12 @@
 import { Box, Container, Typography } from "@mui/material";
+import MenuListComposition from "./MenuList";
 import ProductCard from "./ProductCard";
 
 function ProductPage() {
   return (
     <Box>
       <Container>
+        <MenuListComposition />
         <Typography
           sx={{
             padding: "1rem 0 ",
