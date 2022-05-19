@@ -1,11 +1,12 @@
-GET http://localhost:3000/api/product 
+GET http://localhost:3001/api/product 
 ###
 
 // Get a specific product by id
-GET http://localhost:3000/api/product/6284f14355d8b506e5ba2ea6
+GET http://localhost:3001/api/product/6284f14355d8b506e5ba2ea6
 
 ###
-POST http://localhost:3000/api/product
+
+POST http://localhost:3001/api/product
 Content-Type: application/json
 
   {
@@ -19,18 +20,23 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:3000/api/product/6284f9c7542e8a2b159c651a
+PUT http://localhost:3001/api/product/62860a5147c7968ac6117955
 Content-Type: application/json
 
   {
-    "image": "image",
     "title": "Lorem Ipsum haha",
-    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-    "price": 999,
-    "category": ["Chairs & Stools"],
     "quantity": 5
   }
 
+  #   {
+  #   "image": "image",
+  #   "title": "Lorem Ipsum haha",
+  #   "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+  #   "price": 999,
+  #   "category": ["Chairs & Stools"],
+  #   "quantity": 5
+  # }
+
 ###
 
-DELETE http://localhost:3000/api/product/6284f9c7542e8a2b159c651a
+DELETE http://localhost:3001/api/product/62860a5147c7968ac6117955
