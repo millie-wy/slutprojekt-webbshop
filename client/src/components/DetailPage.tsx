@@ -1,18 +1,39 @@
-import { Container, Typography } from "@mui/material";
-import React from "react";
+import { Box, CircularProgress, Container, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import detailInfo from "../assets/images/detailinfo.png";
-import { ProductContext } from "../context/AdminPageContext";
-import { numWithSpaces } from "../Helper";
+import { makeRequest, numWithSpaces } from "../Helper";
+import { Product } from "../Types";
 import AddToCartButton from "./shared/AddToCartButton";
 
 function DetailPage() {
-  const newproduct = React.useContext(ProductContext).products;
   const params = useParams<{ id: string }>();
-  const product = newproduct.find((product) => product.id === params?.id);
-  if (!product) return null;
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [product, setProduct] = useState<Product>();
 
-  return (
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const response = await makeRequest(`/api/product/${params.id}`, "GET");
+      setProduct(response);
+      setIsLoading(false);
+    };
+    fetchProduct();
+  }, []);
+
+  return isLoading ? (
+    <Container sx={{ height: "calc(100vh - 8rem)", mt: "2rem" }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100%",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    </Container>
+  ) : (
     <Container
       style={{
         display: "flex",
@@ -33,7 +54,7 @@ function DetailPage() {
           marginTop: "2rem",
           marginBottom: "2rem",
         }}
-        src={product.image}
+        src={product!.image}
       ></Container>
       <Container
         style={{
@@ -47,7 +68,7 @@ function DetailPage() {
         }}
       >
         <Typography variant="h3" gutterBottom style={{ fontSize: "2rem" }}>
-          {product.title}
+          {product!.title}
         </Typography>
         <Typography
           variant="h6"
@@ -60,7 +81,7 @@ function DetailPage() {
             color: "#545454",
           }}
         >
-          {product.description}
+          {product!.description}
         </Typography>
         <Typography
           variant="h4"
@@ -69,10 +90,10 @@ function DetailPage() {
             fontSize: "1.4rem",
           }}
         >
-          {numWithSpaces(product.price)} SEK
+          {numWithSpaces(product!.price)} SEK
         </Typography>
         <AddToCartButton
-          product={product}
+          product={product!}
           size="large"
           style={{
             margin: "2rem",

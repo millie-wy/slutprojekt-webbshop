@@ -1,6 +1,22 @@
 import { ItemData, useCart } from "./context/CartContextProvider";
 import { ShippingProvider } from "./ShippingProviderData";
 
+// make data fetching request
+export const makeRequest = async (
+  url: string,
+  method: string,
+  body?: BodyInit
+) => {
+  let response = await fetch(url, {
+    method,
+    body: JSON.stringify(body),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return await response.json();
+};
+
 export const sumQuantity = (itemData: ItemData[]) => {
   let sum = 0;
   for (let i = 0; i < itemData.length; i++) {
