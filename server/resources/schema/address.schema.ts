@@ -6,8 +6,11 @@ export interface Address {
   city: string;
 }
 
-export const addressSchema = new mongoose.Schema({
-  street: { type: String, required: true },
-  zipCode: { type: Number, required: true },
-  city: { type: String, required: true },
-});
+export const addressSchema = new mongoose.Schema(
+  {
+    street: { type: String, required: true, minlength: 5, maxlength: 45 },
+    zipCode: { type: Number, required: true, min: 10000, max: 99999 },
+    city: { type: String, required: true, maxlength: 30 },
+  },
+  { strict: "throw" }
+);
