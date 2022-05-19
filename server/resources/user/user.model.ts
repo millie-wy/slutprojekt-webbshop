@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema(
     lastname: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true, select: false }, // to not include password unless on request
-    isAdmin: { type: Boolean, required: true, default: false },
+    isAdmin: { type: Boolean, default: false },
   },
   { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
   // whether the the virtual values will also be saved in db
@@ -29,6 +29,7 @@ userSchema.virtual("fullname").get(function (this: User) {
 
 userSchema.pre("save", encryptPassword);
 userSchema.pre("updateOne", encryptPassword);
+
 
 async function encryptPassword(this: User, next: Function) {
   this.password = await bcrypt.hash(this.password, 10); // not tested
