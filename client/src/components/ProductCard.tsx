@@ -4,20 +4,47 @@ import {
   CardActionArea,
   CardActions,
   CardMedia,
+  CircularProgress,
+  Container,
   SxProps,
   Theme,
   Typography,
 } from "@mui/material";
-import { CSSProperties } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useAdmin } from "../context/AdminPageContext";
-import { numWithSpaces } from "../Helper";
+import { makeRequest, numWithSpaces } from "../Helper";
+import { Product } from "../Types";
 import AddToCartButton from "./shared/AddToCartButton";
 
 function ProductCard() {
-  const { products } = useAdmin();
+  // const { products } = useAdmin();
+  const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  return (
+  useEffect(() => {
+    // get all products from the product collection in db
+    const fetchData = async () => {
+      let response = await makeRequest("/api/product", "GET");
+      setProducts(response);
+      setIsLoading(false);
+    };
+    fetchData();
+  }, []);
+
+  return isLoading ? (
+    <Container sx={{ height: "calc(100vh - 8rem)", mt: "2rem" }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100%",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    </Container>
+  ) : (
     <Box
       sx={{
         display: "flex",
@@ -29,7 +56,7 @@ function ProductCard() {
       }}
     >
       {products.map((product) => (
-        <Card sx={cardStyle} key={product.title}>
+        <Card sx={cardStyle} key={product.id}>
           <Link to={`/detail/${product.id}`} style={linkStyle}>
             <CardActionArea>
               <CardMedia
