@@ -5,18 +5,23 @@ POST http://localhost:3001/api/order
 Content-Type: application/json
 
 {
-    "customer": "628359898c5d20642d80ecac",
-    "products": ["product 1", "product 2"]
+  "customer": "62862a31f7896b496c7b16bc",
+  "deliveryAddress": {
+    "street": "ABC Street",
+    "zipCode": "12345",
+    "city": "City"
+  },
+  "deliveryOption": "628742cf55d8b506e565d82e",
+  "phoneNumber": 1234567,
+  "products": ["6284f14355d8b506e5ba2ea2", "6284f14355d8b506e5ba2ea3"],
+  "paymentMethod": "Swish"
 }
 
 ###
 
-PUT http://localhost:3001/api/order/1234
+PUT http://localhost:3001/api/order/62875821a82034ed999dac4a
 Content-Type: application/json
 
 {
-
+ "isShipped": true
 } 
-###
-
-DELETE http://localhost:3001/api/order/1234
