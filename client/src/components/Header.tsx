@@ -18,6 +18,7 @@ import userIcon from "../assets/icons/icon-user.webp";
 import logo from "../assets/images/logo.svg";
 import { useCart } from "../context/CartContextProvider";
 import { sumQuantity } from "../Helper";
+import LoginIcon from '@mui/icons-material/Login';
 
 interface Page {
   label: string;
@@ -66,8 +67,8 @@ function Header() {
   const icons = () => {
     return (
       <div className={iconsContainer}>
-        <Link to="/admin">
-          <img className={icon} src={userIcon} alt="admin" />
+        <Link to="/login">
+          <img className={icon} src={userIcon} alt="login" />
         </Link>
         <Link className={quantityIcon} to="/checkoutpage">
           <Badge

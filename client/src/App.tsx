@@ -11,6 +11,8 @@ import StartPage from "./components/StartPage";
 import ProductProvider from "./context/AdminPageContext";
 import CartProvider from "./context/CartContextProvider";
 import OrderProvider from "./context/OrderContextProvider";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
 
 function App() {
   return (
@@ -43,6 +45,9 @@ function App() {
                 {/* added a quick fix in AdminPage component for now */}
                 <Route path="/admin" element={<AdminPage />} />
                 <Route path="/checkoutpage" element={<CheckoutPage />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+
                 <Route path="*" element={<NotFound />} />
               </Route>
             </Routes>

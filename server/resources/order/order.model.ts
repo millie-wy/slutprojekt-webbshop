@@ -18,7 +18,12 @@ const orderSchema = new mongoose.Schema(
     customer: { type: Schema.Types.ObjectId, ref: "user", required: true },
     products: { type: [String], required: true },
   },
-  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+    strict: "throw",
+  }
   // whether the the virtual values will also be saved in db
 );
 
