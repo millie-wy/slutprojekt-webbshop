@@ -30,6 +30,8 @@ function ProductCard(props) {
     console.log("productCard");
   }, []);
 
+  productContext.getFilteredList();
+
   return productContext.isLoading ? (
     <Container sx={{ height: "calc(100vh - 8rem)", mt: "2rem" }}>
       <Box

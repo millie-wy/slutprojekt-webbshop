@@ -9,14 +9,10 @@ import Stack from "@mui/material/Stack";
 import { Link } from "react-router-dom";
 import { useState, useContext } from "react";
 import { ProductContext } from "../context/ProductContext";
-
-// interface Props {
-//   props: Props;
-// }
+import { Product } from "../Types";
 
 function MenuListComposition(props) {
   const productContext = useContext(ProductContext);
-
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
 
@@ -31,7 +27,6 @@ function MenuListComposition(props) {
     ) {
       return;
     }
-
     setOpen(false);
   };
 
@@ -50,11 +45,8 @@ function MenuListComposition(props) {
     if (prevOpen.current === true && open === false) {
       anchorRef.current!.focus();
     }
-
     prevOpen.current = open;
   }, [open]);
-
-  // productContext.handleCategoryChange(e);
 
   return (
     <Stack
@@ -73,7 +65,6 @@ function MenuListComposition(props) {
         }}
       >
         <MenuList
-          onChange={productContext.handleCategoryChange}
           style={{
             width: "100%",
             display: "flex",
@@ -90,6 +81,7 @@ function MenuListComposition(props) {
               paddingLeft: "1.3rem",
               color: "black",
             }}
+            onClick={productContext.handleCategoryChange}
             value="ChairsAndStools"
           >
             Chairs {`&`} Stools
@@ -103,6 +95,7 @@ function MenuListComposition(props) {
               paddingLeft: ".6rem",
               color: "black",
             }}
+            onClick={productContext.handleCategoryChange}
             value="SofasAndArmchairs"
           >
             Sofas {`&`} Armchairs
@@ -117,6 +110,7 @@ function MenuListComposition(props) {
               color: "black",
             }}
             value="Tables"
+            onClick={productContext.handleCategoryChange}
           >
             Tables
           </MenuItem>
@@ -130,6 +124,7 @@ function MenuListComposition(props) {
               color: "black",
             }}
             value="Beds"
+            onClick={productContext.handleCategoryChange}
           >
             Beds
           </MenuItem>
@@ -143,6 +138,7 @@ function MenuListComposition(props) {
               color: "black",
             }}
             value="Storage"
+            onClick={productContext.handleCategoryChange}
           >
             Storage
           </MenuItem>
@@ -156,6 +152,7 @@ function MenuListComposition(props) {
               color: "black",
             }}
             value="Mirrors"
+            onClick={productContext.handleCategoryChange}
           >
             Mirrors
           </MenuItem>

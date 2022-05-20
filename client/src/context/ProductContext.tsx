@@ -9,6 +9,7 @@ interface ProductContextValue {
   filteredList: Product[];
   isLoading: boolean;
   handleCategoryChange: (e) => void;
+  getFilteredList: () => void;
 }
 
 export const ProductContext = createContext<ProductContextValue>({
@@ -17,14 +18,13 @@ export const ProductContext = createContext<ProductContextValue>({
   isLoading: false,
   handleCategoryChange: (e) => {},
   products: [],
+  getFilteredList: () => {},
 });
 
 const ProductProvider: FC = (props) => {
-  const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [products, setProducts] = useState<Product[]>([]);
   const [selectedCategory, setSelectedCategory] = useState();
-  const [productList, setProductList] = useState([]);
-
   // TODO: SET PRODUCTS TO CORRECT PRODUCTDATA
 
   const fetchProducts = async (products: Product) => {
@@ -36,13 +36,16 @@ const ProductProvider: FC = (props) => {
 
   function handleCategoryChange(e) {
     setSelectedCategory(e.target.value);
+    getFilteredList();
+    console.log(selectedCategory);
   }
 
   function getFilteredList() {
     if (!selectedCategory) {
       return products;
     }
-    return products.filter((item) => item.category === selectedCategory);
+    console.log("getFilteredList");
+    return products.filter((product) => product.category === selectedCategory);
   }
 
   var filteredList = useMemo(getFilteredList, [selectedCategory, products]);
@@ -55,6 +58,7 @@ const ProductProvider: FC = (props) => {
         filteredList,
         isLoading,
         handleCategoryChange,
+        getFilteredList,
       }}
     >
       {props.children}
