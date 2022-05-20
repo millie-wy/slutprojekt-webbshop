@@ -21,6 +21,3 @@ Content-Type: application/json
     "firstname": "Erik!!!!",
     "password": "1234"
 } 
-###
-
-DELETE http://localhost:3001/api/user/1234

@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { userInfo } from "os";
-import { UserModel, User } from "./user.model";
+import { User, UserModel } from "./user.model";
 
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
@@ -30,10 +29,7 @@ export const addUser = async (
     user.isAdmin;
     await user.save();
     return res.json("new user created");
-    // console.log(user);
-    console.log(user.fullname);
     // const errors = user.validateSync();
-    res.status(200).json(user);
   } catch (err: any) {
     if (err.code == 1100)
       return res.status(401).json("email does already exist");
@@ -53,7 +49,6 @@ export const updateUser = async (
     if (email) user!.email = email;
     if (password) user!.password = password;
     if (isAdmin) user!.isAdmin = isAdmin;
-    console.log(user);
 
     await UserModel.updateOne({ _id: req.params.id }, user!);
     res.status(200).json("UPDATED USER WITH ID :" + req.params.id);
@@ -62,8 +57,4 @@ export const updateUser = async (
       return res.status(500).json(err.message);
     }
   }
-};
-
-export const deleteUser = (req: Request, res: Response) => {
-  res.status(200).json("DELETED USER");
 };
