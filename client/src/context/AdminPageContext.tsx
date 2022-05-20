@@ -3,7 +3,6 @@ import { useLocalStorageState } from "../components/hooks/useLocalStorageState";
 import { ProductData, productData } from "../ProductData";
 
 interface AdminContextValue {
-
   products: ProductData[];
   isEdit: boolean;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,7 +11,7 @@ interface AdminContextValue {
   removeProduct: (product: ProductData) => void;
 }
 
-export const ProductContext = createContext<AdminContextValue>({
+export const AdminContext = createContext<AdminContextValue>({
   products: [],
   isEdit: false,
   addProduct: () => {},
@@ -21,7 +20,7 @@ export const ProductContext = createContext<AdminContextValue>({
   removeProduct: () => {},
 });
 
-const ProductProvider: FC = (props) => {
+const AdminProvider: FC = (props) => {
   const [products, setProducts] = useLocalStorageState(productData, "adminLS");
   const [isEdit, setEdit] = useState(false);
 
@@ -62,7 +61,6 @@ const ProductProvider: FC = (props) => {
       setProducts([...products, editedProduct]);
     }
 
-
     /**
      * makes a new list that contains the edited product, sets edit to false
      */
@@ -77,7 +75,7 @@ const ProductProvider: FC = (props) => {
   };
 
   return (
-    <ProductContext.Provider
+    <AdminContext.Provider
       value={{
         products,
         isEdit,
@@ -88,9 +86,9 @@ const ProductProvider: FC = (props) => {
       }}
     >
       {props.children}
-    </ProductContext.Provider>
+    </AdminContext.Provider>
   );
 };
 
-export default ProductProvider;
-export const useAdmin = () => useContext(ProductContext);
+export default AdminProvider;
+export const useAdmin = () => useContext(AdminContext);

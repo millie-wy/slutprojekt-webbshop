@@ -1,14 +1,22 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
-import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Grow from "@mui/material/Grow";
 import Paper from "@mui/material/Paper";
 import Popper from "@mui/material/Popper";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import Stack from "@mui/material/Stack";
+import { Link } from "react-router-dom";
+import { useState, useContext } from "react";
+import { ProductContext } from "../context/ProductContext";
 
-function MenuListComposition() {
+// interface Props {
+//   props: Props;
+// }
+
+function MenuListComposition(props) {
+  const productContext = useContext(ProductContext);
+
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
 
@@ -46,6 +54,8 @@ function MenuListComposition() {
     prevOpen.current = open;
   }, [open]);
 
+  // productContext.handleCategoryChange(e);
+
   return (
     <Stack
       style={{
@@ -63,6 +73,7 @@ function MenuListComposition() {
         }}
       >
         <MenuList
+          onChange={productContext.handleCategoryChange}
           style={{
             width: "100%",
             display: "flex",
@@ -77,7 +88,9 @@ function MenuListComposition() {
               width: "9rem",
               textAlign: "center",
               paddingLeft: "1.3rem",
+              color: "black",
             }}
+            value="ChairsAndStools"
           >
             Chairs {`&`} Stools
           </MenuItem>
@@ -88,7 +101,9 @@ function MenuListComposition() {
               width: "9rem",
               textAlign: "center",
               paddingLeft: ".6rem",
+              color: "black",
             }}
+            value="SofasAndArmchairs"
           >
             Sofas {`&`} Armchairs
           </MenuItem>
@@ -99,7 +114,9 @@ function MenuListComposition() {
               width: "9rem",
               textAlign: "center",
               paddingLeft: "3rem",
+              color: "black",
             }}
+            value="Tables"
           >
             Tables
           </MenuItem>
@@ -110,7 +127,9 @@ function MenuListComposition() {
               width: "9rem",
               textAlign: "center",
               paddingLeft: "3.2rem",
+              color: "black",
             }}
+            value="Beds"
           >
             Beds
           </MenuItem>
@@ -121,7 +140,9 @@ function MenuListComposition() {
               width: "9rem",
               textAlign: "center",
               paddingLeft: "3rem",
+              color: "black",
             }}
+            value="Storage"
           >
             Storage
           </MenuItem>
@@ -132,7 +153,9 @@ function MenuListComposition() {
               width: "9rem",
               textAlign: "center",
               paddingLeft: "3rem",
+              color: "black",
             }}
+            value="Mirrors"
           >
             Mirrors
           </MenuItem>

@@ -10,28 +10,27 @@ import {
   Theme,
   Typography,
 } from "@mui/material";
-import { CSSProperties, useEffect, useState } from "react";
+import { CSSProperties, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { isContext } from "vm";
+import { ProductContext } from "../context/ProductContext";
 import { makeRequest, numWithSpaces } from "../Helper";
 import { Product } from "../Types";
 import AddToCartButton from "./shared/AddToCartButton";
 
-function ProductCard() {
-  // const { products } = useAdmin();
-  const [products, setProducts] = useState<Product[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+interface Props {
+  props: Product;
+}
+
+function ProductCard(props) {
+  const productContext = useContext(ProductContext);
 
   useEffect(() => {
-    // get all products from the product collection in db
-    const fetchData = async () => {
-      let response = await makeRequest("/api/product", "GET");
-      setProducts(response);
-      setIsLoading(false);
-    };
-    fetchData();
+    productContext.fetchProducts(props);
+    console.log("productCard");
   }, []);
 
-  return isLoading ? (
+  return productContext.isLoading ? (
     <Container sx={{ height: "calc(100vh - 8rem)", mt: "2rem" }}>
       <Box
         sx={{
@@ -55,7 +54,7 @@ function ProductCard() {
         paddingBottom: "6rem",
       }}
     >
-      {products.map((product) => (
+      {productContext.filteredList.map((product) => (
         <Card sx={cardStyle} key={product.id}>
           <Link to={`/detail/${product.id}`} style={linkStyle}>
             <CardActionArea>
@@ -113,3 +112,6 @@ const linkStyle: CSSProperties = {
 };
 
 export default ProductCard;
+function fetchData() {
+  throw new Error("Function not implemented.");
+}
