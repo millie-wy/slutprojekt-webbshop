@@ -6,18 +6,18 @@ POST http://localhost:3001/api/user
 Content-Type: application/json
 
 {
-"firstname": "David", 
-"lastname": "Jensen", 
-"password": "123",
-"email": "erik.isak@gmail.com"
+    "firstname": "David", 
+    "lastname": "Jensen", 
+    "password": "123",
+    "email": "erik.isak@gmail.com"
 }
 
 ### update user 
-PUT http://localhost:3001/api/user/62879adca04073c37eb4bf23
+PUT http://localhost:3001/api/user/6287c7be2ad733d0fc76376b
 Content-Type: application/json
 
 {
-    "firstname": "Erikkkk",
+    "firstname": "Erik",
     "password": "123"
 } 
 

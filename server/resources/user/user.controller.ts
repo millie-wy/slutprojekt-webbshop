@@ -1,16 +1,13 @@
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
+import { castErrorDB } from "../../errorRequestHandler";
 import { User, UserModel } from "./user.model";
+require("express-async-errors");
 
 export const getAllUsers = async (req: Request, res: Response) => {
-  try {
-    const users = await UserModel.find({}).select("+password");
-    res.status(200).json(users);
-  } catch (err: unknown) {
-    if (err instanceof Error) {
-      return res.status(500).json(err.message);
-    }
-  }
+  const users = await UserModel.find({}).select("+password");
+  if (!users) throw Error("not found");
+  res.status(200).json(users);
   // TODO: who is allowed to use this endpoint?
 };
 
@@ -26,12 +23,11 @@ export const addUser = async (req: Request<{}, {}, User>, res: Response) => {
     });
     user.isAdmin;
     await user.save();
-    return res.json("new user created");
+    return res.json("New user created");
     // const errors = user.validateSync();
   } catch (err: any) {
-    if (err.code == 11000)
-      return res.status(401).json("email does already exist");
-    res.status(500).json(err.message);
+    if (err.code == 11000) throw Error("unauthorized_email");
+    throw Error("other");
   }
 };
 
@@ -40,21 +36,18 @@ export const updateUser = async (
   req: Request<{ id: string }>,
   res: Response
 ) => {
-  try {
-    let { firstname, lastname, email, password, isAdmin } = req.body;
-    let user = await UserModel.findById(req.params.id);
-    if (firstname) user!.firstname = firstname;
-    if (lastname) user!.lastname = lastname;
-    if (email) user!.email = email;
-    if (password) user!.password = await bcrypt.hash(password, 10);
-    if (isAdmin) user!.isAdmin = isAdmin;
-    await UserModel.updateOne({ _id: req.params.id }, user!);
-    res.status(200).json("UPDATED USER WITH ID :" + req.params.id);
-  } catch (err: unknown) {
-    if (err instanceof Error) {
-      return res.status(500).json(err.message);
-    }
-  }
+  let { firstname, lastname, email, password, isAdmin } = req.body;
+  let user = await UserModel.findById(req.params.id);
+  console.log(user);
+  castErrorDB; // this line is not working
+
+  if (firstname) user!.firstname = firstname;
+  if (lastname) user!.lastname = lastname;
+  if (email) user!.email = email;
+  if (password) user!.password = await bcrypt.hash(password, 10);
+  if (isAdmin) user!.isAdmin = isAdmin;
+  await UserModel.updateOne({ _id: req.params.id }, user!);
+  res.status(200).json("Updated user with ID: " + req.params.id);
 };
 
 // sign in
@@ -62,21 +55,18 @@ export const signIn = async (req: Request, res: Response) => {
   const user = await UserModel.findOne({ email: req.body.email }).select(
     "+password"
   );
-  if (!user) return res.status(401).json("Email does not exist");
-  else {
-    const matchPw = await bcrypt.compare(req.body.password, user.password);
-    if (!matchPw) {
-      return res.status(401).json("You have entered a wrong password.");
-    } else {
-      req.session!.user = { _id: user.id, isAdmin: user.isAdmin };
-      return res.status(200).json("You are now logged in.");
-    }
-  }
+  if (!user) throw Error("unauthorized_email");
+
+  const matchPw = await bcrypt.compare(req.body.password, user.password);
+  if (!matchPw) throw Error("unauthorized_password");
+
+  req.session!.user = { _id: user.id, isAdmin: user.isAdmin };
+  return res.status(200).json("You are now logged in.");
 };
 
 // sign out
 export const signOut = async (req: Request<{ id: string }>, res: Response) => {
-  if (!req.session?.user) return res.status(403).json("You are not logged in.");
+  if (!req.session?.user) throw Error("unauthorized_login");
   req.session = null;
   res.status(200).json("You are logged out.");
 };
@@ -86,6 +76,6 @@ export const getCookieSession = async (
   req: Request<{ id: string }>,
   res: Response
 ) => {
-  if (!req.session?.user) return res.status(401).send("You are not logged in.");
+  if (!req.session?.user) throw Error("unauthorized_login");
   res.status(200).json(req.session);
 };

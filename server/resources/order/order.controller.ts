@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { User } from "../user";
 import { Order, OrderModel } from "./order.model";
+require("express-async-errors");
 
 //** this function works but currently only the user object is shown in the get result, not the delivery option and products
 
@@ -11,6 +12,7 @@ export const getAllOrders = async (req: Request, res: Response) => {
     "customer"
   );
   // orders[0].customer.
+  if (!orders) throw Error("not found");
   res.status(200).json(orders);
 };
 
@@ -26,7 +28,7 @@ export const addOrder = async (
     // const errors = order.validateSync();
     res.status(200).json(order);
   } catch (err) {
-    next(err);
+    throw Error("other");
   }
 };
 
@@ -36,14 +38,11 @@ export const updateOrder = async (
   res: Response
 ) => {
   await OrderModel.findById(req.params.id);
-  try {
-    let { isShipped } = req.body;
-    let order = await OrderModel.findByIdAndUpdate(req.params.id, req.body);
-    if (isShipped) order!.isShipped = isShipped;
-    res.status(200).json("UPDATED ORDER WITH ID :" + req.params.id);
-  } catch (err: unknown) {
-    if (err instanceof Error) {
-      return res.status(500).json(err.message);
-    }
-  }
+  let { isShipped } = req.body;
+
+  let order = await OrderModel.findByIdAndUpdate(req.params.id, req.body);
+  if (!order) throw Error("not found"); // this line doesnt work for now
+
+  if (isShipped) order!.isShipped = isShipped;
+  res.status(200).json("UPDATED ORDER WITH ID :" + req.params.id);
 };

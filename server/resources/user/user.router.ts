@@ -1,5 +1,5 @@
 import express from "express";
-import { get } from "mongoose";
+import { adminOnly, auth } from "../../middleware";
 import {
   addUser,
   getAllUsers,
@@ -11,7 +11,7 @@ import {
 
 export const userRouter = express
   .Router()
-  .get("/", /* adminSecure,*/ getAllUsers)
+  .get("/", auth, getAllUsers)
   .post("/", addUser)
   .put("/:id", updateUser)
 

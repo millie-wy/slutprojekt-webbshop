@@ -1,12 +1,14 @@
 import cookieSession from "cookie-session";
 import express from "express";
 import mongoose from "mongoose";
+import { errorHandler } from "./errorRequestHandler";
 import {
   deliveryOptionRouter,
   orderRouter,
   productRouter,
   userRouter,
 } from "./resources";
+require("express-async-errors");
 
 const app = express();
 
@@ -28,7 +30,7 @@ app.use("/api/product", productRouter);
 app.use("/api/deliveryOption", deliveryOptionRouter);
 
 // error handler
-// app.use(errorRequestHandler);
+app.use(errorHandler);
 
 mongoose.connect(
   "mongodb+srv://millie:EKSxW2xFhesqUys@mycluster.kecdt.mongodb.net/CommeCiCommeCa",
