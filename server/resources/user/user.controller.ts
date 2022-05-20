@@ -1,10 +1,10 @@
-import { NextFunction, Request, Response } from "express";
-import { User, UserModel } from "./user.model";
 import bcrypt from "bcrypt";
+import { Request, Response } from "express";
+import { User, UserModel } from "./user.model";
 
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
-    const users = await UserModel.find({});
+    const users = await UserModel.find({}).select("+password");
     res.status(200).json(users);
   } catch (err: unknown) {
     if (err instanceof Error) {
@@ -14,6 +14,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
   // TODO: who is allowed to use this endpoint?
 };
 
+// create new user
 export const addUser = async (req: Request<{}, {}, User>, res: Response) => {
   // TODO: how do we handle errors in async middlewares?
   try {
@@ -34,19 +35,19 @@ export const addUser = async (req: Request<{}, {}, User>, res: Response) => {
   }
 };
 
+// password is not encrypted when this function fires - but it is not a requirement so not fixing for now
 export const updateUser = async (
   req: Request<{ id: string }>,
   res: Response
 ) => {
   try {
     let { firstname, lastname, email, password, isAdmin } = req.body;
-    let user = await UserModel.findById(req.params.id).select("+password");
+    let user = await UserModel.findById(req.params.id);
     if (firstname) user!.firstname = firstname;
     if (lastname) user!.lastname = lastname;
     if (email) user!.email = email;
-    if (password) user!.password = password;
+    if (password) user!.password = await bcrypt.hash(password, 10);
     if (isAdmin) user!.isAdmin = isAdmin;
-
     await UserModel.updateOne({ _id: req.params.id }, user!);
     res.status(200).json("UPDATED USER WITH ID :" + req.params.id);
   } catch (err: unknown) {
@@ -61,17 +62,15 @@ export const signIn = async (req: Request, res: Response) => {
   const user = await UserModel.findOne({ email: req.body.email }).select(
     "+password"
   );
-  if (!user) {
-    res.status(401).json("Email does not exist");
-  } else if (user && user.password !== req.body.password) {
-    res.status(401).json("You have entered a wrong password.");
-  } else {
-    req.session!.user = {
-      id: user.id,
-      email: user.email,
-      isAdmin: user.isAdmin,
-    };
-    res.status(200).json("You are now logged in.");
+  if (!user) return res.status(401).json("Email does not exist");
+  else {
+    const matchPw = await bcrypt.compare(req.body.password, user.password);
+    if (!matchPw) {
+      return res.status(401).json("You have entered a wrong password.");
+    } else {
+      req.session!.user = { _id: user.id, isAdmin: user.isAdmin };
+      return res.status(200).json("You are now logged in.");
+    }
   }
 };
 
