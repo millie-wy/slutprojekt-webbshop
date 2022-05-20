@@ -1,16 +1,25 @@
+import cookieSession from "cookie-session";
 import express from "express";
 import mongoose from "mongoose";
 import {
-  userRouter,
+  deliveryOptionRouter,
   orderRouter,
   productRouter,
-  deliveryOptionRouter,
+  userRouter,
 } from "./resources";
 
 const app = express();
 
 // add global middlewares
 app.use(express.json());
+app.use(
+  cookieSession({
+    secret: "1fjEknf3Fkd9p",
+    sameSite: "strict",
+    httpOnly: false,
+    secure: false,
+  })
+);
 
 // add routers
 app.use("/api/user", userRouter);
