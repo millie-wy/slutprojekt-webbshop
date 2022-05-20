@@ -13,12 +13,12 @@ Content-Type: application/json
 }
 
 ### update user 
-PUT http://localhost:3001/api/user/62878f6861b82c3a21343ea5
+PUT http://localhost:3001/api/user/62879adca04073c37eb4bf23
 Content-Type: application/json
 
 {
     "firstname": "Erikkkk",
-    "password": "1234"
+    "password": "123"
 } 
 
 // Below is for sign in/out
@@ -29,7 +29,7 @@ Content-Type: application/json
 
 {
     "email": "erik.isak@gmail.com",
-    "password": "1234"
+    "password": "123"
 } 
 
 ### sign out

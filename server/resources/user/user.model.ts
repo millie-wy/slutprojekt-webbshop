@@ -36,11 +36,10 @@ userSchema.virtual("fullname").get(function (this: User) {
 });
 
 userSchema.pre("save", encryptPassword);
-userSchema.pre("updateOne", encryptPassword);
 
-async function encryptPassword(this: User, next: Function) {
+export async function encryptPassword(this: User, next: Function) {
   if (this.password) {
-    this.password = await bcrypt.hash(this.password, 10); // not tested
+    this.password = await bcrypt.hash(this.password, 10);
     next();
   }
 }

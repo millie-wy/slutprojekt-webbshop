@@ -35,7 +35,7 @@ export const addUser = async (req: Request<{}, {}, User>, res: Response) => {
   }
 };
 
-// password is not encrypted when this function fires - but it is not a requirement so not fixing for now
+// update user
 export const updateUser = async (
   req: Request<{ id: string }>,
   res: Response
