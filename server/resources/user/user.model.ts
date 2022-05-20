@@ -11,15 +11,23 @@ export interface User {
   createdAt: Date;
 }
 
+// combines user and a xxx?
+// export type UserDocument = User & Document;
+
 const userSchema = new mongoose.Schema(
   {
     firstname: { type: String, required: true },
     lastname: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true, select: false }, // to not include password unless on request
-    isAdmin: { type: Boolean, required: true, default: false },
+    isAdmin: { type: Boolean, default: false },
   },
-  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+    strict: "throw",
+  }
   // whether the the virtual values will also be saved in db
 );
 
@@ -31,8 +39,10 @@ userSchema.pre("save", encryptPassword);
 userSchema.pre("updateOne", encryptPassword);
 
 async function encryptPassword(this: User, next: Function) {
-  this.password = await bcrypt.hash(this.password, 10); // not tested
-  next();
+  if (this.password) {
+    this.password = await bcrypt.hash(this.password, 10); // not tested
+    next();
+  }
 }
 
 export const UserModel = mongoose.model<User>("user", userSchema);

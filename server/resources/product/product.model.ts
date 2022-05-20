@@ -18,7 +18,12 @@ const productSchema = new mongoose.Schema(
     quantity: { type: Number, required: true },
     image: { type: String, required: true }, // for now
   },
-  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+    strict: "throw",
+  }
   // whether the the virtual values will also be saved in db
 );
 

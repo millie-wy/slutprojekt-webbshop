@@ -1,6 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
-import { userRouter, orderRouter, productRouter } from "./resources";
+import {
+  userRouter,
+  orderRouter,
+  productRouter,
+  deliveryOptionRouter,
+} from "./resources";
 
 const app = express();
 
@@ -11,6 +16,10 @@ app.use(express.json());
 app.use("/api/user", userRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/product", productRouter);
+app.use("/api/deliveryOption", deliveryOptionRouter);
+
+// error handler
+// app.use(errorRequestHandler);
 
 mongoose.connect(
   "mongodb+srv://millie:EKSxW2xFhesqUys@mycluster.kecdt.mongodb.net/CommeCiCommeCa",
