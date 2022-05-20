@@ -55,12 +55,22 @@ export const updateProduct = async (
   req: Request<{ id: string }>,
   res: Response
 ) => {
+  const currentProduct = await ProductModel.findById(req.params.id);
+
   try {
-    const product = await ProductModel.findByIdAndUpdate(
+    let { title, description, category, price, quantity, image } = req.body;
+    const updatingProduct = await ProductModel.findByIdAndUpdate(
       req.params.id,
       req.body
     );
-    console.log(product);
+    if (title) updatingProduct!.title = title;
+    if (description) updatingProduct!.description = description;
+    if (category) updatingProduct!.category = category;
+    if (price) updatingProduct!.price = price;
+    if (quantity) updatingProduct!.quantity = quantity;
+    if (image) updatingProduct!.image = image;
+
+    console.log(currentProduct);
     res.status(200).json("UPDATED PRODUCT WITH ID :" + req.params.id);
   } catch (err: unknown) {
     if (err instanceof Error) {
