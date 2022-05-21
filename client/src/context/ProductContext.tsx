@@ -1,11 +1,10 @@
 import { createContext, FC, useContext, useMemo, useState } from "react";
-import { useLocalStorageState } from "../components/hooks/useLocalStorageState";
 import { makeRequest } from "../Helper";
 import { Product } from "../Types";
 
 interface ProductContextValue {
   products: Product[];
-  fetchProducts: (products: Product) => void;
+  fetchProducts: () => void;
   filteredList: Product[];
   isLoading: boolean;
   handleCategoryChange: (e) => void;
@@ -27,7 +26,7 @@ const ProductProvider: FC = (props) => {
   const [selectedCategory, setSelectedCategory] = useState();
   // TODO: SET PRODUCTS TO CORRECT PRODUCTDATA
 
-  const fetchProducts = async (products: Product) => {
+  const fetchProducts = async () => {
     let response = await makeRequest("/api/product", "GET");
     setProducts(response);
     setIsLoading(false);
@@ -68,7 +67,3 @@ const ProductProvider: FC = (props) => {
 
 export default ProductProvider;
 export const useProduct = () => useContext(ProductContext);
-
-function fetchData() {
-  throw new Error("Function not implemented.");
-}

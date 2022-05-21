@@ -10,29 +10,22 @@ import {
   Theme,
   Typography,
 } from "@mui/material";
-import { CSSProperties, useContext, useEffect, useState } from "react";
+import { CSSProperties, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { isContext } from "vm";
-import { ProductContext } from "../context/ProductContext";
-import { makeRequest, numWithSpaces } from "../Helper";
-import { Product } from "../Types";
+import { useProduct } from "../context/ProductContext";
+import { numWithSpaces } from "../Helper";
 import AddToCartButton from "./shared/AddToCartButton";
 
-interface Props {
-  props: Product;
-}
-
-function ProductCard(props) {
-  const productContext = useContext(ProductContext);
+function ProductCard() {
+  const { fetchProducts, isLoading, products } = useProduct();
 
   useEffect(() => {
-    productContext.fetchProducts(props);
-    console.log("productCard");
+    fetchProducts();
   }, []);
 
-  productContext.getFilteredList();
+  // productContext.getFilteredList();
 
-  return productContext.isLoading ? (
+  return isLoading ? (
     <Container sx={{ height: "calc(100vh - 8rem)", mt: "2rem" }}>
       <Box
         sx={{
@@ -56,7 +49,7 @@ function ProductCard(props) {
         paddingBottom: "6rem",
       }}
     >
-      {productContext.filteredList.map((product) => (
+      {products.map((product) => (
         <Card sx={cardStyle} key={product.id}>
           <Link to={`/detail/${product.id}`} style={linkStyle}>
             <CardActionArea>
@@ -114,6 +107,3 @@ const linkStyle: CSSProperties = {
 };
 
 export default ProductCard;
-function fetchData() {
-  throw new Error("Function not implemented.");
-}
