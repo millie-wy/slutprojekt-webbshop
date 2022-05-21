@@ -10,7 +10,7 @@ function ProductCategoryList() {
 
   const categoryOnChange = (e) => {
     handleCategoryChange(e);
-    setSelected(e.currentTarget.innerText);
+    setSelected(e.currentTarget.innerText.trim());
   };
 
   return (

@@ -1,63 +1,56 @@
-import { createContext, FC, useContext, useMemo, useState } from "react";
+import { ChangeEvent, createContext, FC, useContext, useState } from "react";
 import { makeRequest } from "../Helper";
 import { Product } from "../Types";
 
 interface ProductContextValue {
   products: Product[];
-  fetchProducts: () => void;
-  filteredList: Product[];
+  fetchAllProducts: () => void;
   isLoading: boolean;
   handleCategoryChange: (e) => void;
-  getFilteredList: () => void;
+  filteredProducts: Product[];
 }
 
 export const ProductContext = createContext<ProductContextValue>({
-  fetchProducts: () => {},
-  filteredList: [],
-  isLoading: false,
-  handleCategoryChange: (e) => {},
+  fetchAllProducts: () => {},
+  isLoading: true,
+  handleCategoryChange: () => {},
   products: [],
-  getFilteredList: () => {},
+  filteredProducts: [],
 });
 
 const ProductProvider: FC = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState<Product[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState();
-  // TODO: SET PRODUCTS TO CORRECT PRODUCTDATA
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
 
-  const fetchProducts = async () => {
+  const fetchAllProducts = async () => {
     let response = await makeRequest("/api/product", "GET");
     setProducts(response);
+    setFilteredProducts(response);
     setIsLoading(false);
-    // fetchData();
   };
 
-  function handleCategoryChange(e) {
-    setSelectedCategory(e.target.value);
-    getFilteredList();
-    console.log(selectedCategory);
-  }
+  const handleCategoryChange = (e: ChangeEvent<HTMLLIElement>) => {
+    const target = e.target.innerText.trim();
+    target !== "All" ? filterProducts(target) : setFilteredProducts(products);
+  };
 
-  function getFilteredList() {
-    if (!selectedCategory) {
-      return products;
-    }
-    console.log("getFilteredList");
-    return products.filter((product) => product.category === selectedCategory);
-  }
-
-  var filteredList = useMemo(getFilteredList, [selectedCategory, products]);
+  const filterProducts = (category: string) => {
+    // check if the product category array has the value of the argument "category"
+    const filter = products.filter(
+      (product) => product.category.indexOf(category) !== -1
+    );
+    setFilteredProducts(filter);
+  };
 
   return (
     <ProductContext.Provider
       value={{
         products,
-        fetchProducts,
-        filteredList,
+        fetchAllProducts,
+        filteredProducts,
         isLoading,
         handleCategoryChange,
-        getFilteredList,
       }}
     >
       {props.children}

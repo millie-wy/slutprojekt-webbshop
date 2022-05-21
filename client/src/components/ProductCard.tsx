@@ -17,13 +17,11 @@ import { numWithSpaces } from "../Helper";
 import AddToCartButton from "./shared/AddToCartButton";
 
 function ProductCard() {
-  const { fetchProducts, isLoading, products } = useProduct();
+  const { fetchAllProducts, isLoading, filteredProducts } = useProduct();
 
   useEffect(() => {
-    fetchProducts();
+    fetchAllProducts();
   }, []);
-
-  // productContext.getFilteredList();
 
   return isLoading ? (
     <Container sx={{ height: "calc(100vh - 8rem)", mt: "2rem" }}>
@@ -49,7 +47,7 @@ function ProductCard() {
         paddingBottom: "6rem",
       }}
     >
-      {products.map((product) => (
+      {filteredProducts.map((product) => (
         <Card sx={cardStyle} key={product.id}>
           <Link to={`/detail/${product.id}`} style={linkStyle}>
             <CardActionArea>
