@@ -1,4 +1,4 @@
-import { Box, Button, Container, Paper, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, Paper, SxProps, TextField, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
@@ -11,11 +11,9 @@ const useStyles = makeStyles(theme => ({
         "& .MuiInputBase-input": {
             "& fieldset": { 
                 fontFamily: 'roboto',
-                
             },
         "&.MuiInputBase-input": {
-            fontFamily: "prata",
-            
+            fontFamily: "roboto",
         }
     }
 }
@@ -46,23 +44,24 @@ function Signup() {
     });
 
     return (
-        <Box>
-          <form onSubmit={formik.handleSubmit}>
-            <Paper sx={{
-                backgroundColor: '#C3BAB1',
-                height: '35rem',
-                width: {xs:'20rem', sm: '25' ,md: '25rem', lg: '25rem', xl: '25rem'},
-                paddingTop: '2rem',
-                marginTop: '3rem', 
-                marginBottom: '3rem',
-                marginRight: 'auto',
-                marginLeft: 'auto'}}
-                >
+      <Container>
+          <Box sx={boxStyle}>
+                <Link to="/login" style={{ textDecoration:'none' }}>
+                <Typography sx={header1}>Login</Typography>
+                </Link>
                 
-                <Typography sx={{ textAlign: 'center', fontSize: '2rem', fontFamily: "Prata", }}>Sign up</Typography>
+                <Typography sx={{ fontSize:'2rem' }}>/</Typography>
+             
+                <Link to="/signup" style={{ textDecoration:'none' }}>
+                <Typography sx={header2}>Sign up</Typography>
+                </Link>
+            </Box>
+          <form onSubmit={formik.handleSubmit}>
+            <Paper sx={paperStyle} >
+                
+                <Typography sx={header3}>Sign up</Typography>
 
-               
-                <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
+                <Box sx={boxStyle2}>
                 <TextField 
                 className={classes.textFieldStyle}
                 sx={{marginTop: '2rem' }}
@@ -72,14 +71,12 @@ function Signup() {
                 name="firstname"
                 value={formik.values.firstname}
                 onChange={formik.handleChange}
-                
-
                 >
-
                 </TextField>
+                
                 <TextField 
                 className={classes.textFieldStyle}
-                sx={{marginTop: '2rem', color: 'white' }}
+                sx={{marginTop: '2rem', }}
                 required
                 type="text"
                 label="Last name"
@@ -87,11 +84,11 @@ function Signup() {
                 value={formik.values.lastname}
                 onChange={formik.handleChange}
                 >
-
                 </TextField>
+
                 <TextField 
                 className={classes.textFieldStyle}
-                sx={{marginTop: '2rem', fontFamily: 'roboto' }}
+                sx={{marginTop: '2rem',}}
                 required
                 type="email"
                 label="Email address"
@@ -99,8 +96,8 @@ function Signup() {
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 >
-
                 </TextField>
+                
                 <TextField 
                 className={classes.textFieldStyle}
                 sx={{marginTop: '2rem', }}
@@ -111,7 +108,6 @@ function Signup() {
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 >
-
                 </TextField>
 
                 <Link to="/login"
@@ -119,27 +115,60 @@ function Signup() {
                 Sign in here
                 </Link>
 
-                <Button 
-                sx={{ 
-                marginTop: '3rem', 
-                backgroundColor: '#6C665F', 
-                color:'#fff', 
-                width: '8rem', 
-                height: '3rem',
-                '&:hover': {
-                    backgroundColor: '#857d75',
-                }
-                }}
-                type="submit"
-                >Sign up</Button>
-               
+                <Button sx={buttonStyle} type="submit">Sign up</Button>
                 </Box>          
                 
             </Paper>
             </form>
-        </Box>
+      </Container>
     );
 }
 
+const paperStyle: SxProps = {
+  backgroundColor: '#C3BAB1',
+  height: '35rem',
+  width: {xs:'20rem', sm: '25' ,md: '25rem', lg: '25rem', xl: '25rem'},
+  paddingTop: '2rem',
+  marginTop: '3rem', 
+  marginBottom: '3rem',
+  marginRight: 'auto',
+  marginLeft: 'auto'
+}
+const header1: SxProps = {
+  fontSize: '2rem', 
+  fontFamily: 'Prata', 
+  color: '#A8A8A8'
+}
+const header2: SxProps = {
+  fontSize: '2rem', 
+  fontFamily: 'Prata', 
+  color: 'black'
+}
+const header3: SxProps = {
+  textAlign: 'center', 
+  fontSize: '2rem', 
+  fontFamily: "Prata", 
+}
+const boxStyle: SxProps = {
+  display: 'flex', 
+  flexDirection: 'row', 
+  marginTop: '2rem', 
+  textIndent: '1rem'
+}
+const boxStyle2: SxProps = {
+  display: 'flex', 
+  alignItems: 'center', 
+  flexDirection: 'column'
+}
+const buttonStyle: SxProps = {
+  marginTop: '3rem', 
+  backgroundColor: '#6C665F', 
+  color:'#fff', 
+  width: '8rem', 
+  height: '3rem',
+    '&:hover': {
+      backgroundColor: '#857d75',
+    }             
+}
 
 export default Signup;
