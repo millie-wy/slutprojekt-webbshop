@@ -1,24 +1,18 @@
-import { NextFunction, Request, Response } from "express";
-import { userInfo } from "os";
-import { UserModel, User } from "./user.model";
+import bcrypt from "bcrypt";
+import { Request, Response } from "express";
+import { castErrorDB } from "../../errorRequestHandler";
+import { User, UserModel } from "./user.model";
+require("express-async-errors");
 
 export const getAllUsers = async (req: Request, res: Response) => {
-  try {
-    const users = await UserModel.find({});
-    res.status(200).json(users);
-  } catch (err: unknown) {
-    if (err instanceof Error) {
-      return res.status(500).json(err.message);
-    }
-  }
+  const users = await UserModel.find({}).select("+password");
+  if (!users) throw Error("not found");
+  res.status(200).json(users);
   // TODO: who is allowed to use this endpoint?
 };
 
-export const addUser = async (
-  req: Request<{}, {}, User>,
-  res: Response,
-  next: NextFunction
-) => {
+// create new user
+export const addUser = async (req: Request<{}, {}, User>, res: Response) => {
   // TODO: how do we handle errors in async middlewares?
   try {
     const user = new UserModel({
@@ -29,41 +23,59 @@ export const addUser = async (
     });
     user.isAdmin;
     await user.save();
-    return res.json("new user created");
-    // console.log(user);
-    console.log(user.fullname);
+    return res.json("New user created");
     // const errors = user.validateSync();
-    res.status(200).json(user);
   } catch (err: any) {
-    if (err.code == 1100)
-      return res.status(401).json("email does already exist");
-    res.status(500).json(err.message);
+    if (err.code == 11000) throw Error("unauthorized_email");
+    throw Error("other");
   }
 };
 
+// update user
 export const updateUser = async (
   req: Request<{ id: string }>,
   res: Response
 ) => {
-  try {
-    let { firstname, lastname, email, password, isAdmin } = req.body;
-    let user = await UserModel.findById(req.params.id).select("+password");
-    if (firstname) user!.firstname = firstname;
-    if (lastname) user!.lastname = lastname;
-    if (email) user!.email = email;
-    if (password) user!.password = password;
-    if (isAdmin) user!.isAdmin = isAdmin;
-    console.log(user);
+  let { firstname, lastname, email, password, isAdmin } = req.body;
+  let user = await UserModel.findById(req.params.id);
+  console.log(user);
+  castErrorDB; // this line is not working
 
-    await UserModel.updateOne({ _id: req.params.id }, user!);
-    res.status(200).json("UPDATED USER WITH ID :" + req.params.id);
-  } catch (err: unknown) {
-    if (err instanceof Error) {
-      return res.status(500).json(err.message);
-    }
-  }
+  if (firstname) user!.firstname = firstname;
+  if (lastname) user!.lastname = lastname;
+  if (email) user!.email = email;
+  if (password) user!.password = await bcrypt.hash(password, 10);
+  if (isAdmin) user!.isAdmin = isAdmin;
+  await UserModel.updateOne({ _id: req.params.id }, user!);
+  res.status(200).json("Updated user with ID: " + req.params.id);
 };
 
-export const deleteUser = (req: Request, res: Response) => {
-  res.status(200).json("DELETED USER");
+// sign in
+export const signIn = async (req: Request, res: Response) => {
+  const user = await UserModel.findOne({ email: req.body.email }).select(
+    "+password"
+  );
+  if (!user) throw Error("unauthorized_email");
+
+  const matchPw = await bcrypt.compare(req.body.password, user.password);
+  if (!matchPw) throw Error("unauthorized_password");
+
+  req.session!.user = { _id: user.id, isAdmin: user.isAdmin };
+  return res.status(200).json("You are now logged in.");
+};
+
+// sign out
+export const signOut = async (req: Request<{ id: string }>, res: Response) => {
+  if (!req.session?.user) throw Error("unauthorized_login");
+  req.session = null;
+  res.status(200).json("You are logged out.");
+};
+
+// return the information stored in the cookie - for testing
+export const getCookieSession = async (
+  req: Request<{ id: string }>,
+  res: Response
+) => {
+  if (!req.session?.user) throw Error("unauthorized_login");
+  res.status(200).json(req.session);
 };

@@ -1,16 +1,27 @@
+import cookieSession from "cookie-session";
 import express from "express";
 import mongoose from "mongoose";
+import { errorHandler } from "./errorRequestHandler";
 import {
-  userRouter,
+  deliveryOptionRouter,
   orderRouter,
   productRouter,
-  deliveryOptionRouter,
+  userRouter,
 } from "./resources";
+require("express-async-errors");
 
 const app = express();
 
 // add global middlewares
 app.use(express.json());
+app.use(
+  cookieSession({
+    secret: "1fjEknf3Fkd9p",
+    sameSite: "strict",
+    httpOnly: false,
+    secure: false,
+  })
+);
 
 // add routers
 app.use("/api/user", userRouter);
@@ -19,7 +30,7 @@ app.use("/api/product", productRouter);
 app.use("/api/deliveryOption", deliveryOptionRouter);
 
 // error handler
-// app.use(errorRequestHandler);
+app.use(errorHandler);
 
 mongoose.connect(
   "mongodb+srv://millie:EKSxW2xFhesqUys@mycluster.kecdt.mongodb.net/CommeCiCommeCa",

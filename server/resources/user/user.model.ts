@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema(
   {
     firstname: { type: String, required: true },
     lastname: { type: String, required: true },
-    email: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
     password: { type: String, required: true, select: false }, // to not include password unless on request
     isAdmin: { type: Boolean, default: false },
   },
@@ -36,11 +36,10 @@ userSchema.virtual("fullname").get(function (this: User) {
 });
 
 userSchema.pre("save", encryptPassword);
-userSchema.pre("updateOne", encryptPassword);
 
-async function encryptPassword(this: User, next: Function) {
+export async function encryptPassword(this: User, next: Function) {
   if (this.password) {
-    this.password = await bcrypt.hash(this.password, 10); // not tested
+    this.password = await bcrypt.hash(this.password, 10);
     next();
   }
 }

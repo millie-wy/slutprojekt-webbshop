@@ -1,26 +1,39 @@
+### get all users 
 GET http://localhost:3001/api/user
-###
 
+### create a new user
 POST http://localhost:3001/api/user
 Content-Type: application/json
 
 {
-"firstname": "David", 
-"lastname": "Jensen", 
-"password": "123",
-"email": "erik.isak@gmail.com"
+    "firstname": "David", 
+    "lastname": "Jensen", 
+    "password": "123",
+    "email": "erik.isak@gmail.com"
 }
 
-
-###
-
-PUT http://localhost:3001/api/user/62862a31f7896b496c7b16bc
+### update user 
+PUT http://localhost:3001/api/user/6287c7be2ad733d0fc76376b
 Content-Type: application/json
 
 {
-    "firstname": "Erik!!!!",
-    "password": "1234"
+    "firstname": "Erik",
+    "password": "123"
 } 
-###
 
-DELETE http://localhost:3001/api/user/1234
+// Below is for sign in/out
+
+### sign in 
+POST http://localhost:3001/api/user/login
+Content-Type: application/json
+
+{
+    "email": "erik.isak@gmail.com",
+    "password": "123"
+} 
+
+### sign out
+DELETE http://localhost:3001/api/user/logout
+
+### get cookie session (for testing)
+GET http://localhost:3001/api/user/login

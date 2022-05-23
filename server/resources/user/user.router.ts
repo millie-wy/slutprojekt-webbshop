@@ -1,14 +1,21 @@
 import express from "express";
+import { adminOnly, auth } from "../../middleware";
 import {
   addUser,
-  deleteUser,
   getAllUsers,
+  getCookieSession,
+  signIn,
+  signOut,
   updateUser,
 } from "./user.controller";
 
 export const userRouter = express
   .Router()
-  .get("/", /* adminSecure,*/ getAllUsers)
+  .get("/", auth, getAllUsers)
   .post("/", addUser)
   .put("/:id", updateUser)
-  .delete("/:id", deleteUser);
+
+  // below are for sign in/out
+  .post("/login", signIn)
+  .delete("/logout", signOut)
+  .get("/login", getCookieSession);
