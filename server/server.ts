@@ -8,6 +8,7 @@ import {
   productRouter,
   userRouter,
 } from "./resources";
+import { mediaRouter } from "./resources/media";
 require("express-async-errors");
 
 const app = express();
@@ -28,6 +29,7 @@ app.use("/api/user", userRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/product", productRouter);
 app.use("/api/deliveryOption", deliveryOptionRouter);
+app.use("/api/media", mediaRouter);
 
 // error handler
 app.use(errorHandler);
