@@ -1,15 +1,14 @@
 import { Box, Container, Typography } from "@mui/material";
-import MenuListComposition from "./MenuList";
 import ProductCard from "./ProductCard";
+import ProductCategoryList from "./ProductCategoryList";
 
 function ProductPage() {
   return (
     <Box>
       <Container>
-        <MenuListComposition />
         <Typography
           sx={{
-            padding: "1rem 0 ",
+            pt: "1rem",
             textTransform: "uppercase",
             fontFamily: "Prata",
             mt: "1rem",
@@ -18,6 +17,7 @@ function ProductPage() {
         >
           Furniture
         </Typography>
+        <ProductCategoryList />
       </Container>
       <ProductCard />
     </Box>

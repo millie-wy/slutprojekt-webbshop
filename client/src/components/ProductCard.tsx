@@ -10,25 +10,17 @@ import {
   Theme,
   Typography,
 } from "@mui/material";
-import { CSSProperties, useEffect, useState } from "react";
+import { CSSProperties, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { makeRequest, numWithSpaces } from "../Helper";
-import { Product } from "../Types";
+import { useProduct } from "../context/ProductContext";
+import { numWithSpaces } from "../Helper";
 import AddToCartButton from "./shared/AddToCartButton";
 
 function ProductCard() {
-  // const { products } = useAdmin();
-  const [products, setProducts] = useState<Product[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { fetchAllProducts, isLoading, filteredProducts } = useProduct();
 
   useEffect(() => {
-    // get all products from the product collection in db
-    const fetchData = async () => {
-      let response = await makeRequest("/api/product", "GET");
-      setProducts(response);
-      setIsLoading(false);
-    };
-    fetchData();
+    fetchAllProducts();
   }, []);
 
   return isLoading ? (
@@ -55,7 +47,7 @@ function ProductCard() {
         paddingBottom: "6rem",
       }}
     >
-      {products.map((product) => (
+      {filteredProducts.map((product) => (
         <Card sx={cardStyle} key={product.id}>
           <Link to={`/detail/${product.id}`} style={linkStyle}>
             <CardActionArea>
