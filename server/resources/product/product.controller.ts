@@ -32,7 +32,7 @@ export const updateProduct = async (
   req: Request<{ id: string }>,
   res: Response
 ) => {
-  let { title, description, category, price, quantity, image } = req.body;
+  let { title, description, category, price, quantity, imageId } = req.body;
   const updatingProduct = await ProductModel.findByIdAndUpdate(
     req.params.id,
     req.body
@@ -44,7 +44,7 @@ export const updateProduct = async (
   if (category) updatingProduct!.category = category;
   if (price) updatingProduct!.price = price;
   if (quantity) updatingProduct!.quantity = quantity;
-  if (image) updatingProduct!.image = image;
+  if (imageId) updatingProduct!.imageId = imageId;
   res.status(200).json("Updated product with ID :" + req.params.id);
 };
 
