@@ -20,7 +20,7 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:3001/api/product/6287caf0c5409e2324b8fb4a
+PUT http://localhost:3001/api/product/628b8550df072349e512bf1e
 Content-Type: application/json
 
   {
@@ -39,4 +39,4 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3001/api/product/6287caf0c5409e2324b8fb4a
+DELETE http://localhost:3001/api/product/628b8550df072349e512bf1e
