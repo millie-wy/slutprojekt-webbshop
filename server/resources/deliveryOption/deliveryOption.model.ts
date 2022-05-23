@@ -7,7 +7,7 @@ export interface DeliveryOption {
   logo: string;
 }
 
-const deliveryOptionSchema = new mongoose.Schema(
+export const deliveryOptionSchema = new mongoose.Schema<DeliveryOption>(
   {
     provider: { type: String, required: true },
     cost: { type: Number, required: true },
@@ -17,7 +17,7 @@ const deliveryOptionSchema = new mongoose.Schema(
   { strict: "throw" }
 );
 
-export const DeliveryOptionModel = mongoose.model<DeliveryOption>(
+export const DeliveryOptionModel = mongoose.model(
   "deliveryOption",
   deliveryOptionSchema
 );

@@ -9,7 +9,7 @@ export interface Product {
   image: string; // string for now...
 }
 
-const productSchema = new mongoose.Schema(
+export const productSchema = new mongoose.Schema<Product>(
   {
     title: { type: String, required: true, unique: true },
     description: { type: String, required: true },
@@ -27,4 +27,4 @@ const productSchema = new mongoose.Schema(
   // whether the the virtual values will also be saved in db
 );
 
-export const ProductModel = mongoose.model<Product>("product", productSchema);
+export const ProductModel = mongoose.model("product", productSchema);
