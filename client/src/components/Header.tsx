@@ -18,7 +18,6 @@ import userIcon from "../assets/icons/icon-user.webp";
 import logo from "../assets/images/logo.svg";
 import { useCart } from "../context/CartContextProvider";
 import { sumQuantity } from "../Helper";
-import LoginIcon from '@mui/icons-material/Login';
 
 interface Page {
   label: string;
@@ -28,6 +27,7 @@ interface Page {
 function Header() {
   const { cart } = useCart();
   const [anchorMenu, setAnchorMenu] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // we dont need to use this if there is a state that we can check if the user is logged in
   const { ccLogo, icon, iconsContainer, quantityIcon } = useStyles();
 
   const menuLeft: Page[] = [
@@ -66,10 +66,51 @@ function Header() {
 
   const icons = () => {
     return (
-      <div className={iconsContainer}>
-        <Link to="/login">
-          <img className={icon} src={userIcon} alt="login" />
-        </Link>
+      <div className={iconsContainer} style={{ gap: ".5rem" }}>
+        {isLoggedIn ? (
+          <Link
+            to="/login"
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              textDecoration: "none",
+              color: "white",
+              placeContent: "center",
+              placeItems: "center",
+            }}
+          >
+            <img className={icon} src={userIcon} alt="logout" />
+            <Typography
+              fontFamily="Prata"
+              variant="body2"
+              sx={{ textTransform: "capitalize" }}
+            >
+              Logout
+            </Typography>
+          </Link>
+        ) : (
+          <Link
+            to="/logout" // to be adjusted, dont know what the link is for now
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              textDecoration: "none",
+              color: "white",
+              placeContent: "center",
+              placeItems: "center",
+            }}
+          >
+            <img className={icon} src={userIcon} alt="login" />
+            <Typography
+              fontFamily="Prata"
+              variant="body2"
+              sx={{ textTransform: "capitalize" }}
+            >
+              Login
+            </Typography>
+          </Link>
+        )}
+
         <Link className={quantityIcon} to="/checkoutpage">
           <Badge
             anchorOrigin={{
