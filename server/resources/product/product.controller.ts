@@ -22,7 +22,7 @@ export const addProduct = async (
   req: Request<{}, {}, Product>,
   res: Response
 ) => {
-  const product = await ProductModel.create(req.body);
+  const product = await ProductModel.create({ ...req.body, quantity: 0 });
   // const errors = product.validateSync();
   res.status(200).json(product);
 };
