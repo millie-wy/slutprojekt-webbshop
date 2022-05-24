@@ -57,25 +57,27 @@ export const signIn = async (req: Request, res: Response) => {
   );
   if (!user) throw Error("unauthorized_email");
 
-  const matchPw = await bcrypt.compare(req.body.password, user.password);
+  const matchPw = await bcrypt.compare(req.body.password, user.password!);
   if (!matchPw) throw Error("unauthorized_password");
 
   req.session!.user = { _id: user.id, isAdmin: user.isAdmin };
-  return res.status(200).json("You are now logged in.");
+  delete user.password;
+  return res.status(200).json(user);
 };
 
 // sign out
 export const signOut = async (req: Request<{ id: string }>, res: Response) => {
   if (!req.session?.user) throw Error("unauthorized_login");
   req.session = null;
-  res.status(200).json("You are logged out.");
+  res.status(204).json(null);
 };
 
 // return the information stored in the cookie - for testing
-export const getCookieSession = async (
+export const getLoggedInUser = async (
   req: Request<{ id: string }>,
   res: Response
 ) => {
   if (!req.session?.user) throw Error("unauthorized_login");
-  res.status(200).json(req.session);
+  const user = await UserModel.findOne({ _id: req.session.user._id });
+  res.status(200).json(user);
 };

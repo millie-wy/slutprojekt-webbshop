@@ -7,10 +7,12 @@ import {
   updateProduct,
 } from "./product.controller";
 
+import { adminOnly } from "../../middleware";
+
 export const productRouter = express
   .Router()
-  .get("/", /* adminSecure,*/ getAllProducts)
+  .get("/", getAllProducts)
   .get("/:id", getOneProduct)
-  .post("/", addProduct)
-  .put("/:id", updateProduct)
-  .delete("/:id", deleteProduct);
+  .post("/", adminOnly, addProduct)
+  .put("/:id", adminOnly, updateProduct)
+  .delete("/:id", adminOnly, deleteProduct);
