@@ -5,7 +5,7 @@ import { ShippingProvider } from "./ShippingProviderData";
 export const makeRequest = async (
   url: string,
   method: string,
-  body?: BodyInit
+  body?: object
 ) => {
   let response = await fetch(url, {
     method,
@@ -14,7 +14,10 @@ export const makeRequest = async (
       "Content-Type": "application/json",
     },
   });
-  return await response.json();
+  if (response.ok) {
+    return await response.json();
+  }
+  return alert(await response.json());
 };
 
 export const sumQuantity = (itemData: ItemData[]) => {

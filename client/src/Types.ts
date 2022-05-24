@@ -7,3 +7,10 @@ export interface Product {
   image: string; // string for now...
   id: string;
 }
+
+export interface User {
+  firstname: string;
+  lastname: string;
+  email: string;
+  password: string;
+}
