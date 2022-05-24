@@ -10,32 +10,23 @@ POST http://localhost:3001/api/product
 Content-Type: application/json
 
   {
-    "image": "image",
-    "title": "Lorem Ipsum",
-    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-    "price": 999,
-    "category": ["Chairs & Stools"],
-    "stock": 5
+    "imageId": "628ccf4f0e2585784504d4c7",
+    "title": "Staycation",
+    "description": "Lightweight, slim wall cabinet in antique brass-colored, thin metal with tempered glass. Metal back. Glass door with which closes with hasp. Three fixed shelves in glass with decorative edge in metal. Dimensions: Width 40.5 cm, height 60 cm, depth 15.5 cm Height between shelves 19 cm. Mounted.",
+    "price": 1399,
+    "category": ["Storage"],
+    "stock": 3
   }
 
 ###
 
-PUT http://localhost:3001/api/product/628b8550df072349e512bf1e
+PUT http://localhost:3001/api/product/628ccfd00e2585784504d4c9
 Content-Type: application/json
 
   {
-    "title": "Lorem Ipsum haha",
-    "quantity": 5
+    "title": "Staycation",
+    "stock": 5
   }
-
-  #   {
-  #   "image": "image",
-  #   "title": "Lorem Ipsum haha",
-  #   "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-  #   "price": 999,
-  #   "category": ["Chairs & Stools"],
-  #   "quantity": 5
-  # }
 
 ###
 
