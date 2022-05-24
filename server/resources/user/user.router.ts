@@ -11,9 +11,9 @@ import {
 
 export const userRouter = express
   .Router()
-  .get("/", adminOnly, getAllUsers)
+  .get("/", auth, adminOnly, getAllUsers)
   .post("/", addUser)
-  .put("/:id", selfOrAdmin, updateUser)
+  .put("/:id", auth, selfOrAdmin, updateUser)
 
   // below are for sign in/out
   .post("/login", signIn)
