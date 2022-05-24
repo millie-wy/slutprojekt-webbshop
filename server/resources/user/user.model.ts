@@ -6,7 +6,7 @@ export interface User {
   lastname: string;
   /* Virtual */ fullname: string;
   email: string;
-  password: string;
+  password?: string;
   isAdmin: boolean;
   createdAt: Date;
 }

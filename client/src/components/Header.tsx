@@ -69,7 +69,7 @@ function Header() {
       <div className={iconsContainer} style={{ gap: ".5rem" }}>
         {isLoggedIn ? (
           <Link
-            to="/login"
+            to="/logout" // to be adjusted, dont know what the link is for now
             style={{
               display: "flex",
               flexDirection: "row",
@@ -90,7 +90,7 @@ function Header() {
           </Link>
         ) : (
           <Link
-            to="/logout" // to be adjusted, dont know what the link is for now
+            to="/login"
             style={{
               display: "flex",
               flexDirection: "row",

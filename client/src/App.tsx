@@ -14,6 +14,7 @@ import OrderProvider from "./context/OrderContextProvider";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import AdminProvider from "./context/AdminPageContext";
+import UserProvider from "./context/UserContextProvider";
 
 function App() {
   return (
@@ -22,37 +23,41 @@ function App() {
         <AdminProvider>
           <CartProvider>
             <OrderProvider>
-              <Routes>
-                <Route path="/" element={<Layout />}>
-                  <Route index element={<StartPage />} />
-                  <Route path="/furniture" element={<ProductPage />} />
-                  <Route
-                    path="/textiles"
-                    element={<EmptyPage page="Textiles" />}
-                  />
-                  <Route
-                    path="/lighting"
-                    element={<EmptyPage page="Lighting" />}
-                  />
-                  <Route
-                    path="/decoration"
-                    element={<EmptyPage page="Decoration" />}
-                  />
-                  <Route
-                    path="/inspiration"
-                    element={<EmptyPage page="Inspiration" />}
-                  />
-                  <Route path="/detail/:id" element={<DetailPage />} />
-                  <Route path="/confirmation" element={<OrderConfirmation />} />
-                  {/* added a quick fix in AdminPage component for now */}
-                  <Route path="/admin" element={<AdminPage />} />
-                  <Route path="/checkoutpage" element={<CheckoutPage />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/signup" element={<Signup />} />
+              <UserProvider>
+                <Routes>
+                  <Route path="/" element={<Layout />}>
+                    <Route index element={<StartPage />} />
+                    <Route path="/furniture" element={<ProductPage />} />
+                    <Route
+                      path="/textiles"
+                      element={<EmptyPage page="Textiles" />}
+                    />
+                    <Route
+                      path="/lighting"
+                      element={<EmptyPage page="Lighting" />}
+                    />
+                    <Route
+                      path="/decoration"
+                      element={<EmptyPage page="Decoration" />}
+                    />
+                    <Route
+                      path="/inspiration"
+                      element={<EmptyPage page="Inspiration" />}
+                    />
+                    <Route path="/detail/:id" element={<DetailPage />} />
+                    <Route
+                      path="/confirmation"
+                      element={<OrderConfirmation />}
+                    />
+                    <Route path="/admin" element={<AdminPage />} />
+                    <Route path="/checkoutpage" element={<CheckoutPage />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<Signup />} />
 
-                  <Route path="*" element={<NotFound />} />
-                </Route>
-              </Routes>
+                    <Route path="*" element={<NotFound />} />
+                  </Route>
+                </Routes>
+              </UserProvider>
             </OrderProvider>
           </CartProvider>
         </AdminProvider>
