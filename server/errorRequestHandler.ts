@@ -1,6 +1,6 @@
 import { ErrorRequestHandler } from "express";
-import mongoose, { Mongoose, MongooseError } from "mongoose";
 import { MongoError } from "mongodb";
+import mongoose from "mongoose";
 
 export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   console.error(err);
@@ -14,7 +14,9 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   if (err instanceof mongoose.Error.CastError)
     return Error(ErrorCodes.notFound);
 
-  if (err.message === ErrorCodes.unauthorizedLogin) {
+  if (err.message === ErrorCodes.noImageSent) {
+    res.status(400).json("No image file was sent.");
+  } else if (err.message === ErrorCodes.unauthorizedLogin) {
     res.status(401).json("You are not logged in.");
   } else if (err.message === ErrorCodes.unauthorizedEmail) {
     res.status(401).json("Invalid email");
@@ -28,6 +30,8 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     res.status(403).json("You are not permitted.");
   } else if (err.message === ErrorCodes.notFound) {
     res.status(404).json("Resource(s) not found.");
+  } else if (err.message === ErrorCodes.unsupportedImgFormat) {
+    res.status(415).json("Unsupported image format");
   } else {
     res.status(500).json(ErrorCodes.other);
   }
@@ -35,6 +39,7 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 };
 
 export const ErrorCodes = {
+  noImageSent: "noImageSent",
   invalidInput: "invalidInput",
   unauthorizedLogin: "unauthorizedLogin",
   unauthorizedEmail: "unauthorizedEmail",
@@ -42,5 +47,6 @@ export const ErrorCodes = {
   unauthorizedProduct: "unauthorizedProduct",
   accessDenied: "accessDenied",
   notFound: "notFound",
+  unsupportedImgFormat: "unsupportedImgFormat",
   other: "other",
 } as const;
