@@ -1,8 +1,7 @@
+import type { DeliveryOption, Product } from "@server/shared/client.types";
 import { createContext, FC, useContext, useState } from "react";
 import { useLocalStorageState } from "../components/hooks/useLocalStorageState";
 import { makeRequest } from "../Helper";
-import { DeliveryOption } from "../Types";
-import type { Product } from "@server/shared/client.types";
 
 interface CartContextValue {
   cart: Product[];
@@ -31,7 +30,6 @@ export const CartContext = createContext<CartContextValue>({
     provider: "",
     cost: 0,
     estTime: "",
-    id: "",
   },
   paymentMethod: "",
   selectSwish: () => {},
@@ -54,7 +52,6 @@ const CartProvider: FC = (props) => {
     provider: "Postnord",
     cost: 495,
     estTime: "3-5 Weekdays",
-    id: "628dd9f1585ecc5e46b07fd3",
   });
   const [paymentMethod, setPaymentMethod] = useState<String>("");
   const [isCreditCard, setIsCreditCard] = useState<Boolean>(true);

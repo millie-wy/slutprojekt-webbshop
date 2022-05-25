@@ -1,8 +1,11 @@
 import { createContext, FC, useContext, useState } from "react";
 import { FormValues } from "../components/cart-checkout/CheckoutFormContainer";
-import { Address, DeliveryOption } from "../Types";
 import { useCart } from "./CartContextProvider";
-import type { Product } from "@server/shared/client.types";
+import type {
+  Product,
+  DeliveryOption,
+  Address,
+} from "@server/shared/client.types";
 
 interface OrderData {
   // orderNo: string;
@@ -39,7 +42,7 @@ const OrderProvider: FC = (props) => {
     const boughtItems = [...cart];
     const deliveryAddress = {
       street: formValues.addressStreet,
-      zipCode: formValues.addressZipCode,
+      zipCode: Number(formValues.addressZipCode),
       city: formValues.addressCity,
     };
     // const customer: Customer = {
