@@ -23,6 +23,7 @@ export interface DeliveryOption {
   provider: string;
   cost: number;
   estTime: string;
-  logoId: string;
+  logoId?: string;
   id: string;
+  logoUrl?: string;
 }
