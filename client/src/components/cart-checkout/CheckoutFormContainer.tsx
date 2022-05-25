@@ -6,18 +6,33 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useCart } from "../../context/CartContextProvider";
-import { Customer, useOrder } from "../../context/OrderContextProvider";
+import { useOrder } from "../../context/OrderContextProvider";
 import CustomerDetails from "./CustomerDetails";
 import DeliveryOptions from "./DeliveryOptions";
 import PaymentMethod from "./PaymentMethod";
 import PriceOverview from "./PriceOverview";
-export interface FormValues extends Customer {
+export interface FormValues {
+  phoneNumber: number | "";
+  addressStreet: string | "";
+  addressZipCode: number | "";
+  addressCity: string | "";
   cardNumber: number | "";
   cardExpiry: number | "";
   cardCVC: number | "";
   swish: number | "";
   invoice: number | "";
 }
+
+// export interface Order {
+//   customer: Types.ObjectId;
+//   deliveryAddress: Address;
+//   deliveryOption: DeliveryOption;
+//   phoneNumber: number;
+//   products: Product[];
+//   isShipped?: boolean;
+//   paymentMethod: string;
+//   createdAt: Date;
+//   updatedAt: Date;
 
 function CheckoutFormContainer() {
   const navigate = useNavigate();
@@ -30,9 +45,11 @@ function CheckoutFormContainer() {
     /^(19|20)?(\d{6}([-+]|\s)\d{4}|(?!19|20)\d{10})$/;
 
   const InitialValue: FormValues = {
-    name: "",
-    email: "",
-    address: "",
+    // name: "",
+    // email: "",
+    addressStreet: "",
+    addressZipCode: "",
+    addressCity: "",
     phoneNumber: "",
     cardNumber: "",
     cardExpiry: "",
@@ -43,8 +60,10 @@ function CheckoutFormContainer() {
 
   const ValidationSchema = yup.object().shape({
     name: yup.string().min(2).required("Required"),
-    address: yup.string().min(5).required("Required"),
-    email: yup.string().email("Invalid email").required("Required"),
+    addressStreet: yup.string().min(3).required("Required"),
+    addressZipCode: yup.string().min(5).max(6).required("Required"),
+    addressCity: yup.string().required("Required"),
+    // email: yup.string().email("Invalid email").required("Required"),
     phoneNumber: yup
       .string()
       .required("Required")

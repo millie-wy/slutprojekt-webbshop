@@ -1,5 +1,5 @@
-import { ItemData, useCart } from "./context/CartContextProvider";
-import { DeliveryOption } from "./Types";
+import { useCart } from "./context/CartContextProvider";
+import { DeliveryOption, Product } from "./Types";
 
 // make data fetching request
 export const makeRequest = async (
@@ -20,19 +20,19 @@ export const makeRequest = async (
   return alert(await response.json());
 };
 
-export const sumQuantity = (itemData: ItemData[]) => {
+export const sumQuantity = (itemData: Product[]) => {
   let sum = 0;
   for (let i = 0; i < itemData.length; i++) {
-    sum += itemData[i].quantity;
+    sum += itemData[i].quantity!;
   }
   return sum;
 };
 
-export const UseSumTotal = (itemData: ItemData[], includeShipping: boolean) => {
+export const UseSumTotal = (itemData: Product[], includeShipping: boolean) => {
   const { shipper } = useCart();
   let sum = 0;
   for (let i = 0; i < itemData.length; i++) {
-    sum += itemData[i].price * itemData[i].quantity;
+    sum += itemData[i].price * itemData[i].quantity!;
   }
 
   if (includeShipping) {
@@ -41,16 +41,16 @@ export const UseSumTotal = (itemData: ItemData[], includeShipping: boolean) => {
   return sum;
 };
 
-export const calculateVat = (itemData: ItemData[]) => {
+export const calculateVat = (itemData: Product[]) => {
   const vatRate = 0.25;
   let sum = 0;
   sum = Math.round(UseSumTotal(itemData, false) * vatRate);
   return sum;
 };
 
-export const sumProductPrice = (product: ItemData) => {
+export const sumProductPrice = (product: Product) => {
   let sum = 0;
-  sum += product.price * product.quantity;
+  sum += product.price * product.quantity!;
   return sum;
 };
 
@@ -59,7 +59,7 @@ export const numWithSpaces = (num: number) => {
 };
 
 export const sumDeliveryCost = (
-  itemData: ItemData[],
+  itemData: Product[],
   provider: DeliveryOption
 ) => {
   let sum = 0;

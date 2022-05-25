@@ -39,7 +39,8 @@ const OrderConfirmation = () => {
               background: "#F3F2F0",
               textAlign: "center",
             }}
-            key={orderDetail.orderNo}
+            // key={orderDetail.orderNo}
+            key={orderDetail.shipmentOption.cost} // CHANGE!!!
           >
             <Typography
               sx={{
@@ -55,7 +56,7 @@ const OrderConfirmation = () => {
               sx={{ fontFamily: "Prata", mt: "1rem" }}
               variant="inherit"
             >
-              Order#: {orderDetail.orderNo}
+              {/* Order#: {orderDetail.orderNo} */}
             </Typography>
             <Typography
               sx={{ fontFamily: "Prata", mt: "1rem" }}
@@ -102,7 +103,7 @@ const OrderConfirmation = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {orderDetail.boughtItems.map((product) => (
+                    {orderDetail.products.map((product) => (
                       <TableRow key={product.id}>
                         <TableCell
                           size="small"
@@ -116,7 +117,7 @@ const OrderConfirmation = () => {
                           }}
                         >
                           <img
-                            src={product.image}
+                            src={`http://localhost:3001${product.imageUrl}`}
                             alt={product.title}
                             height="60px"
                           />
@@ -170,8 +171,8 @@ const OrderConfirmation = () => {
                         colSpan={1}
                       >
                         {numWithSpaces(
-                          UseSumTotal(orderDetail.boughtItems, false) -
-                            calculateVat(orderDetail.boughtItems)
+                          UseSumTotal(orderDetail.products, false) -
+                            calculateVat(orderDetail.products)
                         )}
                         &nbsp;SEK
                       </TableCell>
@@ -197,7 +198,7 @@ const OrderConfirmation = () => {
                         }}
                         colSpan={1}
                       >
-                        {numWithSpaces(calculateVat(orderDetail.boughtItems))}
+                        {numWithSpaces(calculateVat(orderDetail.products))}
                         &nbsp;SEK
                       </TableCell>
                     </TableRow>
@@ -248,9 +249,7 @@ const OrderConfirmation = () => {
                         }}
                         colSpan={1}
                       >
-                        {numWithSpaces(
-                          UseSumTotal(orderDetail.boughtItems, true)
-                        )}
+                        {numWithSpaces(UseSumTotal(orderDetail.products, true))}
                         &nbsp;SEK
                       </TableCell>
                     </TableRow>
@@ -296,7 +295,8 @@ const OrderConfirmation = () => {
                         }}
                         colSpan={3}
                       >
-                        {orderDetail.customer.name}
+                        Millie Cheung
+                        {/* {orderDetail.customer.name}  */}
                       </TableCell>
                     </TableRow>
                     <TableRow>
@@ -317,7 +317,8 @@ const OrderConfirmation = () => {
                         }}
                         colSpan={3}
                       >
-                        {orderDetail.customer.address}
+                        Storgatan 1A
+                        {/* {orderDetail.deliveryAddressStreet} */}
                       </TableCell>
                     </TableRow>
                     <TableRow>
@@ -338,7 +339,8 @@ const OrderConfirmation = () => {
                         }}
                         colSpan={3}
                       >
-                        {orderDetail.customer.email}
+                        milliecheung@outlook.com
+                        {/* {orderDetail.customer.email} */}
                       </TableCell>
                     </TableRow>
                     <TableRow>
@@ -359,7 +361,8 @@ const OrderConfirmation = () => {
                         }}
                         colSpan={3}
                       >
-                        {orderDetail.customer.phoneNumber}
+                        0732453666
+                        {/* {orderDetail.customer.phoneNumber} */}
                       </TableCell>
                     </TableRow>
                     <TableRow>

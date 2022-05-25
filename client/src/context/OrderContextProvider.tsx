@@ -1,25 +1,25 @@
 import { createContext, FC, useContext, useState } from "react";
-import { DeliveryOption } from "../Types";
-import { ItemData, useCart } from "./CartContextProvider";
+import { FormValues } from "../components/cart-checkout/CheckoutFormContainer";
+import { Address, DeliveryOption, Product } from "../Types";
+import { useCart } from "./CartContextProvider";
 
 interface OrderData {
-  orderNo: string;
-  boughtItems: ItemData[];
+  // orderNo: string;
+  deliveryAddress: Address;
+  products: Product[];
   shipmentOption: DeliveryOption;
   paymentMethod: String;
-  customer: Customer;
+  // customer: Customer;
 }
 
-export interface Customer {
-  name: string;
-  email: string;
-  address: string;
-  phoneNumber: number | "";
-}
+// export interface Customer {
+//   name: string;
+//   email: string;
+// }
 
 interface OrderContextValue {
   order: OrderData[];
-  createOrder: (customerValues: Customer) => void;
+  createOrder: (formValues: FormValues) => void;
   generateOrderNum: () => string;
 }
 
@@ -34,21 +34,26 @@ const OrderProvider: FC = (props) => {
   const [order, setOrder] = useState<OrderData[]>([]);
 
   /** push in everything related to the order to the order state */
-  const createOrder = (customerValues: Customer) => {
+  const createOrder = (formValues: FormValues) => {
     const boughtItems = [...cart];
-    const customer: Customer = {
-      name: customerValues.name,
-      email: customerValues.email,
-      address: customerValues.address,
-      phoneNumber: customerValues.phoneNumber,
+    const deliveryAddress = {
+      street: formValues.addressStreet,
+      zipCode: formValues.addressZipCode,
+      city: formValues.addressCity,
     };
+    // const customer: Customer = {
+    //   name: customerValues.name,
+    //   email: customerValues.email,
+    // };
     let updatedOrder: OrderData = {
-      customer: customer,
-      boughtItems: boughtItems,
+      deliveryAddress: deliveryAddress,
+      // customer: ,
+      products: boughtItems,
       shipmentOption: shipper,
       paymentMethod: paymentMethod,
-      orderNo: generateOrderNum(),
+      // orderNo: generateOrderNum(),
     };
+    console.log(updatedOrder);
     setOrder([updatedOrder]);
   };
   // console.log(order);

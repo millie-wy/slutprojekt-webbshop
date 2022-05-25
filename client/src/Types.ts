@@ -3,11 +3,11 @@ export interface Product {
   description: string;
   category: string[];
   price: number;
-  quantity: number;
-  image: string; // string for now...
+  quantity?: number;
+  stock?: number;
+  imageUrl: string;
   id: string;
 }
-
 export interface User {
   firstname: string;
   lastname: string;
@@ -26,4 +26,10 @@ export interface DeliveryOption {
   logoId?: string;
   id: string;
   logoUrl?: string;
+}
+
+export interface Address {
+  street: string;
+  zipCode: number | string;
+  city: string;
 }
