@@ -1,5 +1,5 @@
 import { ItemData, useCart } from "./context/CartContextProvider";
-import { ShippingProvider } from "./ShippingProviderData";
+import { DeliveryOption } from "./Types";
 
 // make data fetching request
 export const makeRequest = async (
@@ -60,7 +60,7 @@ export const numWithSpaces = (num: number) => {
 
 export const sumDeliveryCost = (
   itemData: ItemData[],
-  provider: ShippingProvider
+  provider: DeliveryOption
 ) => {
   let sum = 0;
   sum = UseSumTotal(itemData, true) + provider.cost;

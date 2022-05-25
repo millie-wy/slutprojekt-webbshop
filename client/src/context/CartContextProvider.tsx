@@ -2,7 +2,6 @@ import { createContext, FC, useContext, useState } from "react";
 import { useLocalStorageState } from "../components/hooks/useLocalStorageState";
 import { makeRequest } from "../Helper";
 import { ProductData } from "../ProductData";
-import { ShippingProvider } from "../ShippingProviderData";
 import { DeliveryOption } from "../Types";
 
 export interface ItemData extends ProductData {
@@ -10,7 +9,7 @@ export interface ItemData extends ProductData {
 }
 interface CartContextValue {
   cart: ItemData[];
-  shipper: ShippingProvider;
+  shipper: DeliveryOption;
   paymentMethod: String;
   isSwish?: Boolean;
   isCreditCard?: Boolean;
@@ -23,7 +22,7 @@ interface CartContextValue {
   onReduceQuantity: (product: ItemData) => void;
   removeFromCart: (product: ItemData) => void;
   emptyCart: () => void;
-  selectShippment: (provider: ShippingProvider) => void;
+  selectShippment: (provider: DeliveryOption) => void;
   selectPaymentMethod: (method: String) => void;
   getDeliveryOptions: () => void;
   deliveryOptions: DeliveryOption[];
@@ -32,9 +31,10 @@ interface CartContextValue {
 export const CartContext = createContext<CartContextValue>({
   cart: [],
   shipper: {
-    providerName: "",
+    provider: "",
     cost: 0,
-    deliveryTime: "",
+    estTime: "",
+    id: "",
   },
   paymentMethod: "",
   selectSwish: () => {},
@@ -53,10 +53,11 @@ export const CartContext = createContext<CartContextValue>({
 
 const CartProvider: FC = (props) => {
   const [cart, setCart] = useLocalStorageState<ItemData[]>([], "cc-cart");
-  const [shipper, setShipper] = useState<ShippingProvider>({
-    providerName: "Postnord",
+  const [shipper, setShipper] = useState<DeliveryOption>({
+    provider: "Postnord",
     cost: 495,
-    deliveryTime: "3-5 Weekdays",
+    estTime: "3-5 Weekdays",
+    id: "628dd9f1585ecc5e46b07fd3",
   });
   const [paymentMethod, setPaymentMethod] = useState<String>("");
   const [isCreditCard, setIsCreditCard] = useState<Boolean>(true);
@@ -111,7 +112,7 @@ const CartProvider: FC = (props) => {
   };
 
   /** set state when a shipper is selected */
-  const selectShippment = (provider: ShippingProvider) => {
+  const selectShippment = (provider: DeliveryOption) => {
     setShipper(provider);
   };
 

@@ -1,11 +1,11 @@
 import { createContext, FC, useContext, useState } from "react";
-import { ShippingProvider } from "../ShippingProviderData";
+import { DeliveryOption } from "../Types";
 import { ItemData, useCart } from "./CartContextProvider";
 
 interface OrderData {
   orderNo: string;
   boughtItems: ItemData[];
-  shipmentOption: ShippingProvider;
+  shipmentOption: DeliveryOption;
   paymentMethod: String;
   customer: Customer;
 }
