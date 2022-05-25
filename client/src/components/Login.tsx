@@ -3,6 +3,7 @@ import { makeStyles } from "@mui/styles";
 import { useFormik } from "formik";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
+import { useUser } from "../context/UserContextProvider";
 
 
 
@@ -21,13 +22,13 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const validationSchema = yup.object({
-    email: yup.number().required("Email is required"),
+    email: yup.string().email().required("Email is required"),
     password: yup.string().required( "Password is required"),
   });
-  
+
 
 function Login() {
-
+  const { handleSignIn } = useUser();
     const classes = useStyles()
     const formik = useFormik({
         initialValues: {
@@ -35,11 +36,15 @@ function Login() {
           password: '',
         },
         validationSchema: validationSchema,
+        validateOnMount: true,
         onSubmit: (values) => {
-          alert(JSON.stringify(values, null, 2));
+          console.log("click")
+          handleSignIn(values);
+          console.log(values)
         },
       });
 
+  
     return (
         <Container>
             <Box sx={boxStyle1}>
@@ -69,6 +74,10 @@ function Login() {
                 label="Email address"
                 name="email"
                 value={formik.values.email}
+                error={
+                  formik.touched.email && Boolean(formik.errors.email)
+                }
+                helperText={formik.touched.email && formik.errors.email}
                 onChange={formik.handleChange}>
                 </TextField>
 
@@ -80,6 +89,10 @@ function Login() {
                 label="Password"
                 name="password"
                 value={formik.values.password}
+                error={
+                  formik.touched.password && Boolean(formik.errors.password)
+                }
+                helperText={formik.touched.password && formik.errors.password}
                 onChange={formik.handleChange}
                 >
                     

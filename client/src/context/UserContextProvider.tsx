@@ -1,14 +1,17 @@
 import { createContext, FC, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { makeRequest } from "../Helper";
-import { User } from "../Types";
+import { User, UserSignIn } from "../Types";
 
 interface UserContextValue {
   handleSignUp: (user: User) => void;
+  // handleSignIn: (email, password) => void;
+  handleSignIn: (UserSignIn: UserSignIn) => void;
 }
 
 export const UserContext = createContext<UserContextValue>({
   handleSignUp: () => {},
+  handleSignIn: () => {}
 });
 
 const UserProvider: FC = (props) => {
@@ -24,10 +27,30 @@ const UserProvider: FC = (props) => {
     }, 1000);
   };
 
+  const handleSignIn = async (user: UserSignIn) => {
+    const { email, password } = user; 
+    let signInUser: UserSignIn = { email, password }
+    await makeRequest ("/api/user/login", "POST", signInUser);
+    setTimeout(() => {
+      navigate("/"); 
+    }, 1000);
+  };
+
+  
+
+  /* const handleSignIn = async (email, password) => {
+    const user = { email, password };
+    await makeRequest("/api/user", "POST", user); 
+    setTimeout(() => {
+      navigate("/");
+    }, 1000);
+  } */
+
   return (
     <UserContext.Provider
       value={{
         handleSignUp,
+        handleSignIn
       }}
     >
       {props.children}
