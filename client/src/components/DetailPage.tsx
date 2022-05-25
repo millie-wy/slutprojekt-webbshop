@@ -1,7 +1,7 @@
 import { Box, CircularProgress, Container, Typography } from "@mui/material";
+import type { Product } from "@server/shared/client.types"; 
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Product } from "../../../server/resources/product"; //ADDED FOR NOW
 import detailInfo from "../assets/images/detailinfo.png";
 import { makeRequest, numWithSpaces } from "../Helper";
 import AddToCartButton from "./shared/AddToCartButton";
@@ -54,7 +54,7 @@ function DetailPage() {
           marginTop: "2rem",
           marginBottom: "2rem",
         }}
-        src={product!.image}
+        src={`http://localhost:3001${product!.imageUrl}`}
       ></Container>
       <Container
         style={{

@@ -55,7 +55,7 @@ function ProductCard() {
                 component="img"
                 height="250"
                 style={imgStyle}
-                src={product.image}
+                src={`http://localhost:3001${product!.imageUrl}`}
                 title={product.title}
                 id={product._id}
               ></CardMedia>
