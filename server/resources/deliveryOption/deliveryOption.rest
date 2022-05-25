@@ -1,1 +1,13 @@
 GET http://localhost:3001/api/deliveryOption
+
+###
+
+POST http://localhost:3001/api/deliveryOption
+Content-Type: application/json
+
+  {
+    "provider": "DHL",
+    "cost": 345,
+    "estTime": "5-7 Weekdays",
+    "logoId": "628dedd7dcd87920d4496636"
+  }

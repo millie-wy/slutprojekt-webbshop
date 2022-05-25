@@ -19,3 +19,11 @@ export interface UserSignIn {
   email: string;
   password: string;
 }
+export interface DeliveryOption {
+  provider: string;
+  cost: number;
+  estTime: string;
+  logoId?: string;
+  id: string;
+  logoUrl?: string;
+}
