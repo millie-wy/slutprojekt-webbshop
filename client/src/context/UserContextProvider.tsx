@@ -1,16 +1,18 @@
 import { createContext, FC, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { makeRequest } from "../Helper";
-import { User, UserSignIn } from "../Types";
+import { User, UserSignIn, UserSignOut } from "../Types";
 
 interface UserContextValue {
   handleSignUp: (user: User) => void;
   handleSignIn: (UserSignIn: UserSignIn) => void;
+  handleSignOut: (userSignOut: UserSignOut) => void;
 }
 
 export const UserContext = createContext<UserContextValue>({
   handleSignUp: () => {},
-  handleSignIn: () => {}
+  handleSignIn: () => {},
+  handleSignOut: () => {}
 });
 
 const UserProvider: FC = (props) => {
@@ -34,13 +36,21 @@ const UserProvider: FC = (props) => {
     }, 1000);
   };
 
+  const handleSignOut = async () => {
+    await makeRequest ("/api/user/logout", "DELETE"); 
+    setTimeout(() => {
+      navigate("/");
+    }, 1000)
+  }
+
 
 
   return (
     <UserContext.Provider
       value={{
         handleSignUp,
-        handleSignIn
+        handleSignIn,
+        handleSignOut
       }}
     >
       {props.children}

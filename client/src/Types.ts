@@ -19,6 +19,10 @@ export interface UserSignIn {
   email: string;
   password: string;
 }
+export interface UserSignOut {
+  email: string;
+  password: string;
+}
 export interface DeliveryOption {
   provider: string;
   cost: number;
