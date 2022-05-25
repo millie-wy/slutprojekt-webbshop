@@ -1,4 +1,4 @@
-GET http://localhost:3001/api/media/628cd3faa5b161191922ff0f
+GET http://localhost:3001/api/media/628dedf2dcd87920d4496638
 
 ###
 
@@ -6,12 +6,16 @@ POST http://localhost:3001/api/media
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="media"; filename="dhl.webp"
+Content-Disposition: form-data; name="media"; filename="postnord.webp"
 Content-Type:  image/jpeg
 
-< ./dhl.webp
+< ./postnord.webp
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 ###
 
 DELETE http://localhost:3001/api/media/628cd0fd7331c95ca8674db5
+
+
+// 628dedd7dcd87920d4496636  DHL
+// 628dedf2dcd87920d4496638 postnord

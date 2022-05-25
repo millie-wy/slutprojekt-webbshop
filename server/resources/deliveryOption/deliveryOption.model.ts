@@ -17,7 +17,7 @@ export const deliveryOptionSchema = new mongoose.Schema<DeliveryOption>(
   { strict: "throw", toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
-deliveryOptionSchema.virtual("imageUrl").get(function () {
+deliveryOptionSchema.virtual("logoUrl").get(function () {
   return "/api/media/" + this.logoId;
 });
 

@@ -3,13 +3,13 @@
     "provider": "Postnord",
     "cost": 495,
     "estTime": "3-5 Weekdays",
-    "logoId": "628dd70e222eb2b1515dd7a7"
+    "logoId": "628dedf2dcd87920d4496638"
   },
   {
     "provider": "DHL",
     "cost": 345,
     "estTime": "5-7 Weekdays",
-    "logoId": "628dd8da1ad91b8aee6c73d2"
+    "logoId": "628dedd7dcd87920d4496636"
   },
   {
     "provider": "Pick up at terminal",
