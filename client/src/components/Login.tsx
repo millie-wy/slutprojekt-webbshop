@@ -3,6 +3,7 @@ import { makeStyles } from "@mui/styles";
 import { useFormik } from "formik";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
+import { useUser } from "../context/UserContextProvider";
 
 
 
@@ -27,7 +28,7 @@ const validationSchema = yup.object({
   
 
 function Login() {
-
+  const { handleSignIn } = useUser();
     const classes = useStyles()
     const formik = useFormik({
         initialValues: {
@@ -36,7 +37,8 @@ function Login() {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-          alert(JSON.stringify(values, null, 2));
+          handleSignIn(values);
+          console.log(values)
         },
       });
 
