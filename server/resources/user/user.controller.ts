@@ -51,8 +51,8 @@ export const signIn = async (req: Request, res: Response) => {
   const matchPw = await bcrypt.compare(req.body.password, user.password!);
   if (!matchPw) throw Error(ErrorCodes.unauthorizedPassword);
 
-  req.session!.user = { _id: user.id, isAdmin: user.isAdmin };
-  delete user.password;
+  (user as any).password = undefined;
+  req.session!.user = user;
   return res.status(200).json(user);
 };
 

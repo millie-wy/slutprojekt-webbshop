@@ -1,9 +1,9 @@
 import { Box, CircularProgress, Container, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Product } from "../../../server/resources/product"; //ADDED FOR NOW
 import detailInfo from "../assets/images/detailinfo.png";
 import { makeRequest, numWithSpaces } from "../Helper";
-import { Product } from "../Types";
 import AddToCartButton from "./shared/AddToCartButton";
 
 function DetailPage() {

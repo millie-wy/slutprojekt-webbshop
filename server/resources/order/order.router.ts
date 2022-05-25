@@ -1,4 +1,5 @@
 import express from "express";
+import { auth } from "../../middleware";
 import { addOrder, getAllOrders, updateOrder } from "./order.controller";
 import { adminOnly, auth } from "../../middleware";
 
