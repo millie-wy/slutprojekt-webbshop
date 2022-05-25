@@ -2,13 +2,13 @@ import bcrypt from "bcrypt";
 import mongoose from "mongoose";
 
 export interface User {
-  firstname: string;
-  lastname: string;
-  /* Virtual */ fullname: string;
+  firstname?: string;
+  lastname?: string;
+  /* Virtual */ fullname?: string;
   email: string;
-  password?: string;
-  isAdmin: boolean;
-  createdAt: Date;
+  password: string;
+  isAdmin?: boolean;
+  createdAt?: Date;
 }
 
 // combines user and a xxx?

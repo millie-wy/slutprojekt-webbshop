@@ -49,17 +49,24 @@ interface Product {
 
 // export {} //för att slippa errorför nu
 
+/*
 export interface User {
   firstname: string;
   lastname: string;
   email: string;
   password: string;
 }
+*/
 
+
+/*
 export interface UserSignIn {
   email: string;
   password: string;
 }
+*/
+
+
 export interface UserSignOut {
   email: string;
   password: string;

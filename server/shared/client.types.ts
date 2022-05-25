@@ -16,7 +16,7 @@ export type Order = Omit<ServerOrder, "customer"> & {
 export type Product = ServerProduct & { _id: string };
 
 /** Client type of a user object */
-export type User = ServerUser & { _id: string };
+export type User = ServerUser & { _id?: string };
 
 /** Client type of a delivery option object */
 export type DeliveryOption = ServerDeliveryOption & { _id?: string };

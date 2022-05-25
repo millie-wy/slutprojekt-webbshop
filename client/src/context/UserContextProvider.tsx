@@ -1,12 +1,12 @@
+import type { User } from "@server/shared/client.types";
 import { createContext, FC, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { makeRequest } from "../Helper";
-import { User, UserSignIn, UserSignOut } from "../Types";
 
 interface UserContextValue {
   handleSignUp: (user: User) => void;
-  handleSignIn: (UserSignIn: UserSignIn) => void;
-  handleSignOut: (userSignOut: UserSignOut) => void;
+  handleSignIn: (UserSignIn: User) => void;
+  handleSignOut: (userSignOut: User) => void;
 }
 
 export const UserContext = createContext<UserContextValue>({
@@ -27,9 +27,9 @@ const UserProvider: FC = (props) => {
     }, 1000);
   };
 
-  const handleSignIn = async (user: UserSignIn) => {
+  const handleSignIn = async (user: User) => {
     const { email, password } = user; 
-    let signInUser: UserSignIn = { email, password }
+    let signInUser: User = { email, password }
     await makeRequest ("/api/user/login", "POST", signInUser);
     setTimeout(() => {
       navigate("/"); 
