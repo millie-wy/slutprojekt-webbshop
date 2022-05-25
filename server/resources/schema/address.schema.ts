@@ -12,5 +12,5 @@ export const addressSchema = new mongoose.Schema(
     zipCode: { type: Number, required: true, min: 10000, max: 99999 },
     city: { type: String, required: true, maxlength: 30 },
   },
-  { strict: "throw" }
+  { strict: "throw", _id: false }
 );

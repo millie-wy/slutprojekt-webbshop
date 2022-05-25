@@ -1,22 +1,25 @@
-import mongoose from "mongoose";
+import mongoose, { Schema, Types } from "mongoose";
 
 export interface Product {
   title: string;
   description: string;
   category: string[];
   price: number;
+  stock: number;
   quantity: number;
-  image: string; // string for now...
+  imageId: Types.ObjectId;
+  /* Virtual */ imageUrl: string;
 }
 
-const productSchema = new mongoose.Schema(
+export const productSchema = new mongoose.Schema<Product>(
   {
     title: { type: String, required: true, unique: true },
     description: { type: String, required: true },
     category: { type: [String], required: true },
     price: { type: Number, required: true },
+    stock: { type: Number, required: true },
     quantity: { type: Number, required: true },
-    image: { type: String, required: true }, // for now
+    imageId: { type: Schema.Types.ObjectId, required: true },
   },
   {
     timestamps: true,
@@ -24,7 +27,10 @@ const productSchema = new mongoose.Schema(
     toObject: { virtuals: true },
     strict: "throw",
   }
-  // whether the the virtual values will also be saved in db
 );
 
-export const ProductModel = mongoose.model<Product>("product", productSchema);
+productSchema.virtual("imageUrl").get(function () {
+  return "/api/media/" + this.imageId;
+});
+
+export const ProductModel = mongoose.model("product", productSchema);
