@@ -7,6 +7,7 @@ export interface Product {
   price: number;
   quantity: number;
   image: string; // string for now...
+  id: string;
 }
 
 const productSchema = new mongoose.Schema(

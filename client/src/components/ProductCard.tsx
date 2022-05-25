@@ -10,7 +10,7 @@ import {
   Theme,
   Typography,
 } from "@mui/material";
-import { CSSProperties, useEffect } from "react";
+import { CSSProperties, FC, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useProduct } from "../context/ProductContext";
 import { numWithSpaces } from "../Helper";
@@ -48,8 +48,8 @@ function ProductCard() {
       }}
     >
       {filteredProducts.map((product) => (
-        <Card sx={cardStyle} key={product.id}>
-          <Link to={`/detail/${product.id}`} style={linkStyle}>
+        <Card sx={cardStyle} key={product._id}>
+          <Link to={`/detail/${product._id}`} style={linkStyle}>
             <CardActionArea>
               <CardMedia
                 component="img"
@@ -57,7 +57,7 @@ function ProductCard() {
                 style={imgStyle}
                 src={product.image}
                 title={product.title}
-                id={product.id}
+                id={product._id}
               ></CardMedia>
             </CardActionArea>
             <Typography
