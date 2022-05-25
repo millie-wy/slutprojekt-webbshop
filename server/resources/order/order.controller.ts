@@ -15,7 +15,10 @@ export const getAllOrders = async (req: Request, res: Response) => {
 
 // create a new order
 export const addOrder = async (req: Request<{}, {}, Order>, res: Response) => {
-  const order = await OrderModel.create(req.body);
+  const order = await OrderModel.create({
+    ...req.body,
+    customer: req.session?.user,
+  });
   // const errors = order.validateSync();
   res.status(200).json(order);
 };
