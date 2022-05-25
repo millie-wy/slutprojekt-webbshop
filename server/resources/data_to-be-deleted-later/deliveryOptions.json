@@ -3,18 +3,17 @@
     "provider": "Postnord",
     "cost": 495,
     "estTime": "3-5 Weekdays",
-    "logo": "https://raw.githubusercontent.com/millie-wy/Webshop_comme-ci-comme--a/master/src/assets/images/PostnordLogo.webp"
+    "logoId": "628dd70e222eb2b1515dd7a7"
   },
   {
     "provider": "DHL",
     "cost": 345,
     "estTime": "5-7 Weekdays",
-    "logo": "https://raw.githubusercontent.com/millie-wy/Webshop_comme-ci-comme--a/master/src/assets/images/DhlLogo.png"
+    "logoId": "628dd8da1ad91b8aee6c73d2"
   },
   {
     "provider": "Pick up at terminal",
     "cost": 0,
-    "estTime": "2-4 Weekdays",
-    "logo": ""
+    "estTime": "2-4 Weekdays"
   }
 ]
