@@ -11,16 +11,20 @@ const PaymentCreditCard = () => {
     <Box
       sx={{
         display: "flex",
-        m: "2rem",
+        margin: "auto",
+        mt: { xs: 0, sm: "2rem" },
+        mb: "2rem",
         flexDirection: "column",
         justifyContent: "center",
+        width: { xs: 1, sm: "80%", md: "70%" },
       }}
     >
       <Box
         sx={{
-          m: ".5rem",
+          my: ".5rem",
           display: "flex",
           justifyContent: "center",
+          width: 1,
           alignItems: {
             xs: "center",
             sm: "flex-start",
@@ -46,21 +50,15 @@ const PaymentCreditCard = () => {
           }}
         />
         <TextField
-          style={{
-            backgroundColor: "white",
-            width: "220px",
-            height: "40px",
-          }}
           sx={{
-            mb: {
-              xs: ".5rem",
-              sm: "1.5rem",
-              md: "1.5rem",
-              lg: "1.5rem",
-            },
+            backgroundColor: "white",
+            width: 1,
+            height: "40px",
+            mb: "1.5rem",
             mt: {
               xs: "1rem",
             },
+            maxWidth: "400px",
           }}
           id="cardNumber"
           name="cardNumber"
@@ -78,12 +76,11 @@ const PaymentCreditCard = () => {
         sx={{
           display: "flex",
           justifyContent: "center",
-          alignItems: "center",
-          ml: {
-            xs: "0rem",
-            sm: "2rem",
-            md: "2rem",
-            lg: "2rem",
+          alignItems: {
+            xs: "left",
+            sm: "center",
+            md: "center",
+            lg: "center",
           },
           flexDirection: {
             xs: "column",
@@ -91,14 +88,15 @@ const PaymentCreditCard = () => {
             md: "row",
             lg: "row",
           },
+          columnGap: "1rem",
         }}
       >
         <TextField
           style={{
             backgroundColor: "white",
-            width: "80px",
+            width: "20%",
+            minWidth: "80px",
             height: "40px",
-            marginLeft: "1rem",
           }}
           sx={{
             ml: {
@@ -107,6 +105,7 @@ const PaymentCreditCard = () => {
               md: "2rem",
               lg: "2rem",
             },
+            mb: "1rem",
           }}
           id="cardExpiry"
           name="cardExpiry"
@@ -121,9 +120,9 @@ const PaymentCreditCard = () => {
         <TextField
           style={{
             backgroundColor: "white",
-            width: "75px",
+            width: "20%",
+            minWidth: "80px",
             height: "40px",
-            marginLeft: "1rem",
           }}
           sx={{
             mt: {
@@ -132,6 +131,7 @@ const PaymentCreditCard = () => {
               md: "0rem",
               lg: "0rem",
             },
+            mb: "1rem",
           }}
           id="cardCVC"
           name="cardCVC"

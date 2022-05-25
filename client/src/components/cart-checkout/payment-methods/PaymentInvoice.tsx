@@ -11,21 +11,24 @@ const PaymentInvoice = () => {
     <Box
       sx={{
         display: "flex",
-        m: "2rem",
-        flexDirection: "row",
+        margin: "auto",
+        my: { xs: "1rem", sm: "2rem" },
+        flexDirection: "column",
         justifyContent: "center",
+        width: { xs: 1, sm: "80%", md: "70%" },
+        maxWidth: "400px",
       }}
     >
       <img
         src={invoiceLogo}
         alt="invoice"
-        height="25px"
-        style={{ marginTop: ".5rem", marginRight: "1rem" }}
+        width="40px"
+        style={{ margin: "1rem auto" }}
       />
       <TextField
-        style={{
+        sx={{
           backgroundColor: "white",
-          width: "220px",
+          width: 1,
           height: "40px",
         }}
         id="invoice"
