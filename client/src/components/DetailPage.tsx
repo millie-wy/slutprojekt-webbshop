@@ -1,7 +1,7 @@
 import { Box, CircularProgress, Container, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Product } from "../../../server/resources/product"; //ADDED FOR NOW
+import type { Product } from "@server/shared/client.types";
 import detailInfo from "../assets/images/detailinfo.png";
 import { makeRequest, numWithSpaces } from "../Helper";
 import AddToCartButton from "./shared/AddToCartButton";

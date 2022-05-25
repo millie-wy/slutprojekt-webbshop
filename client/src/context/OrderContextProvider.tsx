@@ -1,7 +1,8 @@
 import { createContext, FC, useContext, useState } from "react";
 import { FormValues } from "../components/cart-checkout/CheckoutFormContainer";
-import { Address, DeliveryOption, Product } from "../Types";
+import { Address, DeliveryOption } from "../Types";
 import { useCart } from "./CartContextProvider";
+import type { Product } from "@server/shared/client.types";
 
 interface OrderData {
   // orderNo: string;

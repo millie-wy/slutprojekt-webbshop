@@ -1,5 +1,6 @@
 import { useCart } from "./context/CartContextProvider";
-import { DeliveryOption, Product } from "./Types";
+import { DeliveryOption } from "./Types";
+import type { Product } from "@server/shared/client.types";
 
 // make data fetching request
 export const makeRequest = async (
