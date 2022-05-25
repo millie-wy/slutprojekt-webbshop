@@ -3,6 +3,7 @@ import {
   AppBar,
   Badge,
   Button,
+  Drawer,
   IconButton,
   Menu,
   MenuItem,
@@ -10,11 +11,14 @@ import {
   Typography,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import { styled, } from "@mui/system";
 import { Box } from "@mui/system";
+import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import cartIcon from "../assets/icons/icon-shopping-cart.webp";
 import userIcon from "../assets/icons/icon-user.webp";
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import logo from "../assets/images/logo.svg";
 import { useCart } from "../context/CartContextProvider";
 import { sumQuantity } from "../Helper";
@@ -26,6 +30,8 @@ interface Page {
 
 function Header() {
   const { cart } = useCart();
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [open, setOpen] = useState(false);
   const [anchorMenu, setAnchorMenu] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // we dont need to use this if there is a state that we can check if the user is logged in
   const { ccLogo, icon, iconsContainer, quantityIcon } = useStyles();
@@ -64,6 +70,18 @@ function Header() {
     setAnchorMenu(false);
   };
 
+  const handleOpen = () => {
+    if (open) {
+        setOpen(false);
+        return;
+    } else {
+        setOpen(true);
+    }
+};
+const handleClose = () => {
+    setOpen(false);
+};
+
   const icons = () => {
     return (
       <div className={iconsContainer} style={{ gap: ".5rem" }}>
@@ -89,6 +107,21 @@ function Header() {
             </Typography>
           </Link>
         ) : (
+
+          <Box>
+          <Typography 
+          sx={{ cursor: 'pointer' }}
+          onClick={handleOpen}
+          >
+           <img className={icon} src={userIcon} />
+          </Typography>
+          <Drawer 
+          sx={{ '& .MuiDrawer-paper': { backgroundColor: '#6C665F', marginTop: '5rem', marginRight: '5rem', width: '8rem', height: '7rem',},}}
+        anchor='right'
+        open={open}
+        onClose={handleClose}
+          >
+          <Box sx={{ display: 'flex', flexDirection: 'column', }}>
           <Link
             to="/login"
             style={{
@@ -99,16 +132,42 @@ function Header() {
               placeContent: "center",
               placeItems: "center",
             }}
-          >
-            <img className={icon} src={userIcon} alt="login" />
+          > 
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
             <Typography
               fontFamily="Prata"
               variant="body2"
-              sx={{ textTransform: "capitalize" }}
+              sx={{ textTransform: "capitalize", textAlign: 'center', marginTop: '1rem', marginBottom: '1.2rem' }}
             >
-              Login
+              User
+            </Typography>
+            </Box>
+          </Link>
+          <Link
+            to="/admin"
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              textDecoration: "none",
+              color: "white",
+              placeContent: "center",
+              placeItems: "center",
+            }}
+          >
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}></Box>
+            
+            <Typography
+              fontFamily="Prata"
+              variant="body2"
+              sx={{ textTransform: "capitalize", textAlign: 'center' }}
+            >
+              Admin
             </Typography>
           </Link>
+          </Box>
+
+          </Drawer>
+          </Box> 
         )}
 
         <Link className={quantityIcon} to="/checkoutpage">
@@ -280,7 +339,11 @@ function Header() {
     </AppBar>
   );
 }
-
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  padding: theme.spacing(0, 1),
+  justifyContent: 'flex-start',
+}));
 const useStyles = makeStyles(() => ({
   ccLogo: {
     width: "80px",
