@@ -5,7 +5,7 @@ export interface Product {
   description: string;
   category: string[];
   price: number;
-  stock: number;
+  stock?: number;
   quantity: number;
   imageId: Types.ObjectId;
   /* Virtual */ imageUrl: string;
@@ -17,8 +17,8 @@ export const productSchema = new mongoose.Schema<Product>(
     description: { type: String, required: true },
     category: { type: [String], required: true },
     price: { type: Number, required: true },
-    stock: { type: Number, required: true },
-    quantity: { type: Number, required: true },
+    stock: { type: Number },
+    quantity: { type: Number },
     imageId: { type: Schema.Types.ObjectId, required: true },
   },
   {

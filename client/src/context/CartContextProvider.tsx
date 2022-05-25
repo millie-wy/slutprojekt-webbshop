@@ -1,14 +1,10 @@
+import type { DeliveryOption, Product } from "@server/shared/client.types";
 import { createContext, FC, useContext, useState } from "react";
 import { useLocalStorageState } from "../components/hooks/useLocalStorageState";
 import { makeRequest } from "../Helper";
-import { ProductData } from "../ProductData";
-import { DeliveryOption } from "../Types";
 
-export interface ItemData extends ProductData {
-  quantity: number;
-}
 interface CartContextValue {
-  cart: ItemData[];
+  cart: Product[];
   shipper: DeliveryOption;
   paymentMethod: String;
   isSwish?: Boolean;
@@ -17,10 +13,10 @@ interface CartContextValue {
   selectSwish: () => void;
   selectCreditCard: () => void;
   selectInvoice: () => void;
-  addToCart: (product: ProductData) => void;
-  onAddQuantity: (product: ItemData) => void;
-  onReduceQuantity: (product: ItemData) => void;
-  removeFromCart: (product: ItemData) => void;
+  addToCart: (product: Product) => void;
+  onAddQuantity: (product: Product) => void;
+  onReduceQuantity: (product: Product) => void;
+  removeFromCart: (product: Product) => void;
   emptyCart: () => void;
   selectShippment: (provider: DeliveryOption) => void;
   selectPaymentMethod: (method: String) => void;
@@ -34,7 +30,6 @@ export const CartContext = createContext<CartContextValue>({
     provider: "",
     cost: 0,
     estTime: "",
-    id: "",
   },
   paymentMethod: "",
   selectSwish: () => {},
@@ -52,12 +47,11 @@ export const CartContext = createContext<CartContextValue>({
 });
 
 const CartProvider: FC = (props) => {
-  const [cart, setCart] = useLocalStorageState<ItemData[]>([], "cc-cart");
+  const [cart, setCart] = useLocalStorageState<Product[]>([], "cc-cart");
   const [shipper, setShipper] = useState<DeliveryOption>({
     provider: "Postnord",
     cost: 495,
     estTime: "3-5 Weekdays",
-    id: "628dd9f1585ecc5e46b07fd3",
   });
   const [paymentMethod, setPaymentMethod] = useState<String>("");
   const [isCreditCard, setIsCreditCard] = useState<Boolean>(true);
@@ -66,42 +60,42 @@ const CartProvider: FC = (props) => {
   const [deliveryOptions, setDeliveryOptions] = useState<DeliveryOption[]>([]);
 
   /** add items to cart: if the item does not exist in the cart, add; otherwise increase quantity by 1 */
-  const addToCart = async (product: ProductData) => {
-    if (cart.some((item) => item.id === product.id)) {
+  const addToCart = async (product: Product) => {
+    if (cart.some((item) => item._id === product._id)) {
       const updatedCart = cart.map((item) => {
-        if (product.id !== item.id) return item;
-        return { ...item, quantity: item.quantity + 1 };
+        if (product._id !== item._id) return item;
+        return { ...item, quantity: item.quantity! + 1 };
       });
       setCart(updatedCart);
     } else {
-      const cartItem: ItemData = { ...product, quantity: 1 };
+      const cartItem: Product = { ...product, quantity: 1 };
       setCart([...cart, cartItem]);
     }
   };
 
   /** add item quantity by 1 in shopping cart */
-  const onAddQuantity = (product: ItemData) => {
+  const onAddQuantity = (product: Product) => {
     const updatedQuantity = cart.map((item) => {
-      if (product.id !== item.id) return item;
-      return { ...item, quantity: item.quantity + 1 };
+      if (product._id !== item._id) return item;
+      return { ...item, quantity: item.quantity! + 1 };
     });
     setCart(updatedQuantity);
   };
 
   /** reduce item quantity by 1 in shopping cart */
-  const onReduceQuantity = (product: ItemData) => {
+  const onReduceQuantity = (product: Product) => {
     const updatedQuantity = cart.map((item) => {
-      if (product.id === item.id && item.quantity > 1)
-        return { ...item, quantity: item.quantity - 1 };
+      if (product._id === item._id && item.quantity! > 1)
+        return { ...item, quantity: item.quantity! - 1 };
       return item;
     });
     setCart(updatedQuantity);
   };
 
   /** remove item from from the cart */
-  const removeFromCart = (product: ItemData) => {
-    if (cart.find((item) => item.id === product.id)) {
-      const updatedCart = cart.filter((item) => item.id !== product.id);
+  const removeFromCart = (product: Product) => {
+    if (cart.find((item) => item._id === product._id)) {
+      const updatedCart = cart.filter((item) => item._id !== product._id);
       setCart(updatedCart);
     }
   };

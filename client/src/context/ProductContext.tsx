@@ -1,6 +1,6 @@
 import { ChangeEvent, createContext, FC, useContext, useState } from "react";
 import { makeRequest } from "../Helper";
-import type { Product } from "@server/shared/client.types"; 
+import type { Product } from "@server/shared/client.types";
 interface ProductContextValue {
   products: Product[];
   fetchAllProducts: () => void;
@@ -8,7 +8,7 @@ interface ProductContextValue {
   handleCategoryChange: (e) => void;
   filteredProducts: Product[];
 }
-  
+
 export const ProductContext = createContext<ProductContextValue>({
   fetchAllProducts: () => {},
   isLoading: true,

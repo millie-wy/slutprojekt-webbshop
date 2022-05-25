@@ -1,3 +1,13 @@
+interface Product {
+  title: string;
+  description: string;
+  category: string[];
+  price: number;
+  quantity?: number;
+  stock?: number;
+  imageUrl: string;
+  id: string;
+}
 // import mongoose, { Types, orderSchema } from "mongoose";
 // export interface Product {
 //   title: string;
@@ -68,4 +78,10 @@ export interface DeliveryOption {
   logoId?: string;
   id: string;
   logoUrl?: string;
+}
+
+export interface Address {
+  street: string;
+  zipCode: number | string;
+  city: string;
 }
