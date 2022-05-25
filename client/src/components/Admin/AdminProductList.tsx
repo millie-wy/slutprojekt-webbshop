@@ -52,6 +52,7 @@ function AdminProductList(props: Props) {
           {props.product.title}
         </TableCell>
         <TableCell>{props.product.id}</TableCell>
+        <TableCell>Category</TableCell> {/* HERE GOES THE CATEGORY DATA */}
         <TableCell>{numWithSpaces(props.product.price)} SEK</TableCell>
         <TableCell>2</TableCell> {/* HERE GOES THE STOCK DATA */}
       </TableRow>
@@ -83,6 +84,9 @@ function AdminProductList(props: Props) {
                     </TableCell>
                     <TableCell align="center" style={{ color: "#6C665F" }}>
                       Title
+                    </TableCell>
+                    <TableCell align="center" style={{ color: "#6C665F" }}>
+                      Category
                     </TableCell>
                     <TableCell align="center" style={{ color: "#6C665F" }}>
                       Price
