@@ -1,9 +1,9 @@
 import express from "express";
-import { adminOnly, auth } from "../../middleware";
+import { adminOnly, auth, selfOrAdmin } from "../../middleware";
 import {
   addUser,
   getAllUsers,
-  getCookieSession,
+  getLoggedInUser,
   signIn,
   signOut,
   updateUser,
@@ -11,11 +11,11 @@ import {
 
 export const userRouter = express
   .Router()
-  .get("/", auth, getAllUsers)
+  .get("/", auth, adminOnly, getAllUsers)
   .post("/", addUser)
-  .put("/:id", updateUser)
+  .put("/:id", auth, selfOrAdmin, updateUser)
 
   // below are for sign in/out
   .post("/login", signIn)
   .delete("/logout", signOut)
-  .get("/login", getCookieSession);
+  .get("/login", getLoggedInUser);

@@ -15,15 +15,16 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import AdminProvider from "./context/AdminPageContext";
 import AdminOrderProvider from "./context/AdminOrderContext";
+import UserProvider from "./context/UserContextProvider";
 
 function App() {
   return (
     <BrowserRouter>
       <ProductProvider>
         <AdminProvider>
-          <AdminOrderProvider>
-            <CartProvider>
-              <OrderProvider>
+          <CartProvider>
+            <OrderProvider>
+              <UserProvider>
                 <Routes>
                   <Route path="/" element={<Layout />}>
                     <Route index element={<StartPage />} />
@@ -49,7 +50,6 @@ function App() {
                       path="/confirmation"
                       element={<OrderConfirmation />}
                     />
-                    {/* added a quick fix in AdminPage component for now */}
                     <Route path="/admin" element={<AdminPage />} />
                     <Route path="/checkoutpage" element={<CheckoutPage />} />
                     <Route path="/login" element={<Login />} />
@@ -58,9 +58,9 @@ function App() {
                     <Route path="*" element={<NotFound />} />
                   </Route>
                 </Routes>
-              </OrderProvider>
-            </CartProvider>
-          </AdminOrderProvider>
+              </UserProvider>
+            </OrderProvider>
+          </CartProvider>
         </AdminProvider>
       </ProductProvider>
     </BrowserRouter>

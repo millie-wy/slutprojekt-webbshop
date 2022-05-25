@@ -1,7 +1,7 @@
 import { Address } from "cluster";
 import mongoose, { Schema, Types } from "mongoose";
-import { DeliveryOption } from "../deliveryOption";
-import { Product } from "../product";
+import { DeliveryOption, deliveryOptionSchema } from "../deliveryOption";
+import { Product, productSchema } from "../product";
 import { addressSchema } from "../schema/address.schema";
 
 export interface Order {
@@ -13,24 +13,18 @@ export interface Order {
   isShipped?: boolean;
   paymentMethod: string;
   createdAt: Date;
+  updatedAt: Date;
 }
 
-const orderSchema = new mongoose.Schema(
+const orderSchema = new mongoose.Schema<Order>(
   {
     customer: { type: Schema.Types.ObjectId, ref: "user", required: true },
-    deliveryAddress: {
-      type: addressSchema,
-      required: true,
-    },
-    deliveryOption: {
-      type: Schema.Types.ObjectId,
-      ref: "deliveryOption",
-      required: true,
-    },
     phoneNumber: { type: Number, required: true },
-    products: [{ type: Schema.Types.ObjectId, ref: "product", required: true }],
     isShipped: { type: Boolean, default: false },
     paymentMethod: { type: String, required: true },
+    products: { type: [productSchema], required: true }, // should be another schema with qty required
+    deliveryAddress: { type: addressSchema, required: true },
+    deliveryOption: { type: deliveryOptionSchema, required: true },
   },
   {
     timestamps: true,
@@ -40,4 +34,4 @@ const orderSchema = new mongoose.Schema(
   }
 );
 
-export const OrderModel = mongoose.model<Order>("order", orderSchema);
+export const OrderModel = mongoose.model("order", orderSchema);

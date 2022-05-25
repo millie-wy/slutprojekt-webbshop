@@ -1,11 +1,11 @@
 import { ItemData, useCart } from "./context/CartContextProvider";
-import { ShippingProvider } from "./ShippingProviderData";
+import { DeliveryOption } from "./Types";
 
 // make data fetching request
 export const makeRequest = async (
   url: string,
   method: string,
-  body?: BodyInit
+  body?: object
 ) => {
   let response = await fetch(url, {
     method,
@@ -14,7 +14,10 @@ export const makeRequest = async (
       "Content-Type": "application/json",
     },
   });
-  return await response.json();
+  if (response.ok) {
+    return await response.json();
+  }
+  return alert(await response.json());
 };
 
 export const sumQuantity = (itemData: ItemData[]) => {
@@ -57,7 +60,7 @@ export const numWithSpaces = (num: number) => {
 
 export const sumDeliveryCost = (
   itemData: ItemData[],
-  provider: ShippingProvider
+  provider: DeliveryOption
 ) => {
   let sum = 0;
   sum = UseSumTotal(itemData, true) + provider.cost;

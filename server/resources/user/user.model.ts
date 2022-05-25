@@ -6,7 +6,7 @@ export interface User {
   lastname: string;
   /* Virtual */ fullname: string;
   email: string;
-  password: string;
+  password?: string;
   isAdmin: boolean;
   createdAt: Date;
 }
@@ -14,7 +14,7 @@ export interface User {
 // combines user and a xxx?
 // export type UserDocument = User & Document;
 
-const userSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema<User>(
   {
     firstname: { type: String, required: true },
     lastname: { type: String, required: true },
@@ -44,4 +44,4 @@ export async function encryptPassword(this: User, next: Function) {
   }
 }
 
-export const UserModel = mongoose.model<User>("user", userSchema);
+export const UserModel = mongoose.model("user", userSchema);

@@ -4,20 +4,24 @@ export interface DeliveryOption {
   provider: string;
   cost: number;
   estTime: string;
-  logo: string;
+  logoId: string;
 }
 
-const deliveryOptionSchema = new mongoose.Schema(
+export const deliveryOptionSchema = new mongoose.Schema<DeliveryOption>(
   {
-    provider: { type: String, required: true },
+    provider: { type: String, required: true, unique: true },
     cost: { type: Number, required: true },
     estTime: { type: String, required: true },
-    logo: { type: String, required: false },
+    logoId: { type: String, required: false },
   },
-  { strict: "throw" }
+  { strict: "throw", toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
-export const DeliveryOptionModel = mongoose.model<DeliveryOption>(
+deliveryOptionSchema.virtual("logoUrl").get(function () {
+  return "/api/media/" + this.logoId;
+});
+
+export const DeliveryOptionModel = mongoose.model(
   "deliveryOption",
   deliveryOptionSchema
 );

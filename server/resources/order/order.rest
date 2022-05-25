@@ -6,15 +6,29 @@ POST http://localhost:3001/api/order
 Content-Type: application/json
 
 {
-  "deliveryAddress": {
-    "street": "ABC Street",
-    "zipCode": "12345",
-    "city": "City"
-  },
-  "deliveryOption": "628742cf55d8b506e565d82e",
-  "phoneNumber": 1234567,
-  "products": ["6284f14355d8b506e5ba2ea2", "6284f14355d8b506e5ba2ea3"],
-  "paymentMethod": "Swish"
+    "customer": "6287c7be2ad733d0fc76376b",
+    "products": [
+    {
+        "_id": "6287cae855d8b506e5930390",
+        "image": "https://assets.ellosgroup.com/i/ellos/b?$eg$&$em$&$ep$&$ed$&n=ell_1032228-02_Fm_M0013527&mw=1500&fmt=webp",
+        "title": "Jolly",
+        "description": "Stool with comfortable, shaped seat. Made of solid wood, in the Toon Wood type. Height 61 cm. Seat 40x32 cm. Seat height: 61 cm Width at the bottom 47 cm. Mounted.",
+        "price": 1599,
+        "category": ["Chairs & Stools"],
+        "quantity": 1
+    }],
+    "deliveryAddress": {
+        "street": "abc street", 
+        "zipCode": "12345",
+        "city": "Hong Kong Island"
+    }, 
+    "deliveryOption": {
+        "_id": "628742cf55d8b506e565d82e",
+        "provider": "Postnord",
+        "cost": 495,
+        "estTime": "3-5 Weekdays",
+        "logo": "https://raw.githubusercontent.com/millie-wy/Webshop_comme-ci-comme--a/master/src/assets/images/PostnordLogo.webp"
+    }
 }
 
 ###

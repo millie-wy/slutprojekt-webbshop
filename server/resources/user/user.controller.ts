@@ -1,34 +1,27 @@
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
-import { castErrorDB } from "../../errorRequestHandler";
+import { ErrorCodes } from "../../errorRequestHandler";
 import { User, UserModel } from "./user.model";
 require("express-async-errors");
 
+// get all users from the user collection
 export const getAllUsers = async (req: Request, res: Response) => {
   const users = await UserModel.find({}).select("+password");
-  if (!users) throw Error("not found");
+  if (!users) throw Error(ErrorCodes.notFound);
   res.status(200).json(users);
-  // TODO: who is allowed to use this endpoint?
 };
 
 // create new user
 export const addUser = async (req: Request<{}, {}, User>, res: Response) => {
-  // TODO: how do we handle errors in async middlewares?
-  try {
-    const user = new UserModel({
-      firstname: req.body.firstname,
-      lastname: req.body.lastname,
-      email: req.body.email,
-      password: req.body.password,
-    });
-    user.isAdmin;
-    await user.save();
-    return res.json("New user created");
-    // const errors = user.validateSync();
-  } catch (err: any) {
-    if (err.code == 11000) throw Error("unauthorized_email");
-    throw Error("other");
-  }
+  const user = new UserModel({
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
+    email: req.body.email,
+    password: req.body.password,
+  });
+  user.isAdmin;
+  await user.save();
+  return res.json("New user created");
 };
 
 // update user
@@ -38,8 +31,6 @@ export const updateUser = async (
 ) => {
   let { firstname, lastname, email, password, isAdmin } = req.body;
   let user = await UserModel.findById(req.params.id);
-  console.log(user);
-  castErrorDB; // this line is not working
 
   if (firstname) user!.firstname = firstname;
   if (lastname) user!.lastname = lastname;
@@ -55,10 +46,10 @@ export const signIn = async (req: Request, res: Response) => {
   const user = await UserModel.findOne({ email: req.body.email }).select(
     "+password"
   );
-  if (!user) throw Error("unauthorized_email");
+  if (!user) throw Error(ErrorCodes.unauthorizedEmail);
 
-  const matchPw = await bcrypt.compare(req.body.password, user.password);
-  if (!matchPw) throw Error("unauthorized_password");
+  const matchPw = await bcrypt.compare(req.body.password, user.password!);
+  if (!matchPw) throw Error(ErrorCodes.unauthorizedPassword);
 
   (user as any).password = undefined;
   req.session!.user = user;
@@ -67,16 +58,18 @@ export const signIn = async (req: Request, res: Response) => {
 
 // sign out
 export const signOut = async (req: Request<{ id: string }>, res: Response) => {
-  if (!req.session?.user) throw Error("unauthorized_login");
+  if (!req.session?.user) throw Error(ErrorCodes.unauthorizedLogin);
   req.session = null;
-  res.status(200).json("You are logged out.");
+  res.status(204).json(null);
 };
 
 // return the information stored in the cookie - for testing
-export const getCookieSession = async (
+export const getLoggedInUser = async (
   req: Request<{ id: string }>,
   res: Response
 ) => {
-  if (!req.session?.user) throw Error("unauthorized_login");
-  res.status(200).json(req.session);
+
+ if (!req.session?.user) throw Error(ErrorCodes.unauthorizedLogin);
+  const user = await UserModel.findOne({ _id: req.session.user._id });
+  res.status(200).json(user);
 };

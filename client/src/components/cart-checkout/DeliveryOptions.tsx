@@ -6,16 +6,19 @@ import {
   RadioGroup,
   Typography,
 } from "@mui/material";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useCart } from "../../context/CartContextProvider";
-import { shippingProvider } from "../../ShippingProviderData";
 
 const DeliveryOptions = () => {
-  const { selectShippment } = useCart();
+  const { selectShippment, deliveryOptions, getDeliveryOptions } = useCart();
   const [deliveryMethod, setDeliveryMethod] = useState("");
   const handleRadioChange = (event: FormEvent<HTMLInputElement>) => {
     setDeliveryMethod(event.currentTarget.value);
   };
+
+  useEffect(() => {
+    getDeliveryOptions();
+  }, []);
 
   return (
     <Container
@@ -50,12 +53,12 @@ const DeliveryOptions = () => {
           onChange={handleRadioChange}
           value={deliveryMethod}
         >
-          {shippingProvider.map((provider) => {
+          {deliveryOptions.map((provider) => {
             return provider.cost !== 0 ? (
               <FormControlLabel
                 control={<Radio required={true} />}
-                value={provider.providerName}
-                key={provider.providerName}
+                value={provider.provider}
+                key={provider.id}
                 onClick={() => selectShippment(provider)}
                 label={
                   <Box
@@ -68,15 +71,15 @@ const DeliveryOptions = () => {
                     }}
                   >
                     <img
-                      src={provider.logoImage}
-                      alt={provider.providerName}
+                      src={`http://localhost:3001${provider.logoUrl}`}
+                      alt={provider.provider}
                       height="18px"
                     />
                     <Typography variant="body2" sx={{ marginX: "1rem" }}>
                       {provider.cost} SEK
                     </Typography>
                     <Typography variant="overline" color="#6C665F">
-                      ({provider.deliveryTime})
+                      ({provider.estTime})
                     </Typography>
                   </Box>
                 }
@@ -84,8 +87,8 @@ const DeliveryOptions = () => {
             ) : (
               <FormControlLabel
                 control={<Radio required={true} />}
-                value={provider.providerName}
-                key={provider.providerName}
+                value={provider.provider}
+                key={provider.provider}
                 onClick={() => selectShippment(provider)}
                 label={
                   <Box
@@ -98,13 +101,13 @@ const DeliveryOptions = () => {
                     }}
                   >
                     <Typography variant="body2" style={{ fontWeight: "bold" }}>
-                      {provider.providerName}
+                      {provider.provider}
                     </Typography>
                     <Typography variant="body2" sx={{ marginX: "1rem" }}>
                       FREE
                     </Typography>
                     <Typography variant="overline" color="#6C665F">
-                      ({provider.deliveryTime})
+                      ({provider.estTime})
                     </Typography>
                   </Box>
                 }
