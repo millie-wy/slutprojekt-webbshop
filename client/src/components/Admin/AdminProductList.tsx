@@ -52,10 +52,10 @@ function AdminProductList(props: Props) {
           {props.product.title}
         </TableCell>
         <TableCell>{props.product.id}</TableCell>
+        <TableCell>Category</TableCell> {/* HERE GOES THE CATEGORY DATA */}
         <TableCell>{numWithSpaces(props.product.price)} SEK</TableCell>
-        <TableCell>2</TableCell> {/* HERE GOES THE STOCK DATA */}
+        <TableCell>2</TableCell>
       </TableRow>
-      {/* All info om produkten som är klickad*/}
       <TableRow>
         <TableCell
           style={{
@@ -83,6 +83,9 @@ function AdminProductList(props: Props) {
                     </TableCell>
                     <TableCell align="center" style={{ color: "#6C665F" }}>
                       Title
+                    </TableCell>
+                    <TableCell align="center" style={{ color: "#6C665F" }}>
+                      Category
                     </TableCell>
                     <TableCell align="center" style={{ color: "#6C665F" }}>
                       Price
@@ -181,8 +184,8 @@ function AdminProductList(props: Props) {
                               setPrice(Number(event.target.value));
                             }
                           }}
-                          inputProps={{ style: { fontSize: ".9rem" } }}
-                          InputLabelProps={{ style: { fontSize: ".9rem" } }}
+                          inputProps={{style:{ fontSize: ".9rem" }}}
+                          InputLabelProps={{style:{ fontSize: ".9rem" }}}
                         />
                       ) : (
                         numWithSpaces(props.product.price)
@@ -194,7 +197,7 @@ function AdminProductList(props: Props) {
                         {openRemove ? (
                           <RemoveProductConfirmation product={props.product} />
                         ) : undefined}
-                        <DeleteOutline style={{ color: "#ed6c02" }} />
+                        <DeleteOutline style={{color:"#ed6c02"}} />
                       </Button>
 
                       {!isEdit ? (

@@ -14,6 +14,7 @@ import OrderProvider from "./context/OrderContextProvider";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import AdminProvider from "./context/AdminPageContext";
+import AdminOrderProvider from "./context/AdminOrderContext";
 import UserProvider from "./context/UserContextProvider";
 
 function App() {

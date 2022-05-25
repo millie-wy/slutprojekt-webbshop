@@ -1,17 +1,18 @@
 import { createContext, FC, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { makeRequest } from "../Helper";
-import { User, UserSignIn } from "../Types";
+import { User, UserSignIn, UserSignOut } from "../Types";
 
 interface UserContextValue {
   handleSignUp: (user: User) => void;
-  // handleSignIn: (email, password) => void;
   handleSignIn: (UserSignIn: UserSignIn) => void;
+  handleSignOut: (userSignOut: UserSignOut) => void;
 }
 
 export const UserContext = createContext<UserContextValue>({
   handleSignUp: () => {},
-  handleSignIn: () => {}
+  handleSignIn: () => {},
+  handleSignOut: () => {}
 });
 
 const UserProvider: FC = (props) => {
@@ -22,7 +23,6 @@ const UserProvider: FC = (props) => {
     let newUser: User = { firstname, lastname, email, password };
     await makeRequest("/api/user", "POST", newUser);
     setTimeout(() => {
-      // this navigates the user even if invalid email is entered, adjust if you want
       navigate("/");
     }, 1000);
   };
@@ -36,21 +36,21 @@ const UserProvider: FC = (props) => {
     }, 1000);
   };
 
-  
-
-  /* const handleSignIn = async (email, password) => {
-    const user = { email, password };
-    await makeRequest("/api/user", "POST", user); 
+  const handleSignOut = async () => {
+    await makeRequest ("/api/user/logout", "DELETE"); 
     setTimeout(() => {
       navigate("/");
-    }, 1000);
-  } */
+    }, 1000)
+  }
+
+
 
   return (
     <UserContext.Provider
       value={{
         handleSignUp,
-        handleSignIn
+        handleSignIn,
+        handleSignOut
       }}
     >
       {props.children}
