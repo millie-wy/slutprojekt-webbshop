@@ -6,16 +6,20 @@ import {
   RadioGroup,
   Typography,
 } from "@mui/material";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useCart } from "../../context/CartContextProvider";
 import { shippingProvider } from "../../ShippingProviderData";
 
 const DeliveryOptions = () => {
-  const { selectShippment } = useCart();
+  const { selectShippment, deliveryOptions, getDeliveryOptions } = useCart();
   const [deliveryMethod, setDeliveryMethod] = useState("");
   const handleRadioChange = (event: FormEvent<HTMLInputElement>) => {
     setDeliveryMethod(event.currentTarget.value);
   };
+
+  useEffect(() => {
+    getDeliveryOptions();
+  }, []);
 
   return (
     <Container
@@ -50,12 +54,12 @@ const DeliveryOptions = () => {
           onChange={handleRadioChange}
           value={deliveryMethod}
         >
-          {shippingProvider.map((provider) => {
+          {deliveryOptions.map((provider) => {
             return provider.cost !== 0 ? (
               <FormControlLabel
                 control={<Radio required={true} />}
-                value={provider.providerName}
-                key={provider.providerName}
+                value={provider.provider}
+                key={provider.id}
                 onClick={() => selectShippment(provider)}
                 label={
                   <Box

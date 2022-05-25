@@ -1,7 +1,9 @@
 import { createContext, FC, useContext, useState } from "react";
 import { useLocalStorageState } from "../components/hooks/useLocalStorageState";
+import { makeRequest } from "../Helper";
 import { ProductData } from "../ProductData";
 import { ShippingProvider } from "../ShippingProviderData";
+import { DeliveryOption } from "../Types";
 
 export interface ItemData extends ProductData {
   quantity: number;
@@ -23,6 +25,8 @@ interface CartContextValue {
   emptyCart: () => void;
   selectShippment: (provider: ShippingProvider) => void;
   selectPaymentMethod: (method: String) => void;
+  getDeliveryOptions: () => void;
+  deliveryOptions: DeliveryOption[];
 }
 
 export const CartContext = createContext<CartContextValue>({
@@ -43,6 +47,8 @@ export const CartContext = createContext<CartContextValue>({
   emptyCart: () => {},
   selectShippment: () => {},
   selectPaymentMethod: () => "",
+  getDeliveryOptions: () => {},
+  deliveryOptions: [],
 });
 
 const CartProvider: FC = (props) => {
@@ -56,6 +62,7 @@ const CartProvider: FC = (props) => {
   const [isCreditCard, setIsCreditCard] = useState<Boolean>(true);
   const [isSwish, setIsSwish] = useState<Boolean>(false);
   const [isInvoice, setIsInvoice] = useState<Boolean>(false);
+  const [deliveryOptions, setDeliveryOptions] = useState<DeliveryOption[]>([]);
 
   /** add items to cart: if the item does not exist in the cart, add; otherwise increase quantity by 1 */
   const addToCart = async (product: ProductData) => {
@@ -133,6 +140,11 @@ const CartProvider: FC = (props) => {
     setIsInvoice(true);
   };
 
+  const getDeliveryOptions = async () => {
+    const response = await makeRequest("/api/deliveryOption", "GET");
+    setDeliveryOptions(response);
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -152,6 +164,8 @@ const CartProvider: FC = (props) => {
         emptyCart,
         selectShippment,
         selectPaymentMethod,
+        getDeliveryOptions,
+        deliveryOptions,
       }}
     >
       {props.children}

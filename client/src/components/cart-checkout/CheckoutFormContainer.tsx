@@ -23,9 +23,7 @@ function CheckoutFormContainer() {
   const navigate = useNavigate();
   const { emptyCart, isSwish, isCreditCard, isInvoice } = useCart();
   const { createOrder } = useOrder();
-
   const [isLoading, setIsLoading] = useState(false);
-  console.log(isLoading);
 
   const phoneRegExp = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
   const personalIdentityRegExp =
