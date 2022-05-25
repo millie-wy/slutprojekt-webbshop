@@ -10,4 +10,6 @@ export type Order = Omit<ServerOrder, "customer"> & {
 export type Product = ServerProduct & { _id: string };
 
 /** Client type of a user object */
-export type User = ServerUser & { _id: string };
+export type User = ServerUser & { _id?: string };
+
+/** Client type of user sign in */
