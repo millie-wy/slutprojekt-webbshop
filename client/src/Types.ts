@@ -15,6 +15,10 @@ export interface User {
   password: string;
 }
 
+export interface UserSignIn {
+  email: string;
+  password: string;
+}
 export interface DeliveryOption {
   provider: string;
   cost: number;
