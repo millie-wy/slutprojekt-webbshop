@@ -51,7 +51,7 @@ function ShoppingCart() {
           >
             <img
               style={{ width: 80 }}
-              src={product.image}
+              src={`http://localhost:3001${product.imageUrl}`}
               alt={product.title}
             />
             <Box

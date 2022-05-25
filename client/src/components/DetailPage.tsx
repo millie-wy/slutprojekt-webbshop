@@ -54,7 +54,7 @@ function DetailPage() {
           marginTop: "2rem",
           marginBottom: "2rem",
         }}
-        src={product!.image}
+        src={`http://localhost:3001${product!.imageUrl}`}
       ></Container>
       <Container
         style={{
