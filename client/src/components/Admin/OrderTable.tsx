@@ -17,9 +17,7 @@ function BasicTable() {
   useEffect(() => {
     fetchAllOrders();
   }, [fetchAllOrders])
-
   
-
   return (
     <TableContainer style={{ marginBottom: "3rem" }} component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -55,15 +53,17 @@ function BasicTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {orders.map((order, index) => (
+          {orders.map((order) => (
             <TableRow
-              key={index}
+              key={order._id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell component="th" scope="row">{order.customer.fullname}</TableCell>
+              <TableCell component="th" scope="row">
+                {order.customer.fullname}
+              </TableCell>
+              <TableCell align="right">{order.products}</TableCell>
               <TableCell align="right"></TableCell>
-              <TableCell align="right"></TableCell>
-              <TableCell align="right"></TableCell>
+              <TableCell align="right">{order.deliveryOption}</TableCell>
               <TableCell align="right">{order.createdAt}</TableCell>
             </TableRow>
           ))}

@@ -6,7 +6,6 @@ POST http://localhost:3001/api/order
 Content-Type: application/json
 
 {
-  "customer": "62862a31f7896b496c7b16bc",
   "deliveryAddress": {
     "street": "ABC Street",
     "zipCode": "12345",

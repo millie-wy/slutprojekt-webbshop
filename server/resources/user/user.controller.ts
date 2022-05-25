@@ -60,8 +60,9 @@ export const signIn = async (req: Request, res: Response) => {
   const matchPw = await bcrypt.compare(req.body.password, user.password);
   if (!matchPw) throw Error("unauthorized_password");
 
-  req.session!.user = { _id: user.id, isAdmin: user.isAdmin };
-  return res.status(200).json("You are now logged in.");
+  (user as any).password = undefined;
+  req.session!.user = user;
+  return res.status(200).json(user);
 };
 
 // sign out
