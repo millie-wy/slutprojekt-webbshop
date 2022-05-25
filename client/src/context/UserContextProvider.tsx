@@ -27,14 +27,16 @@ const UserProvider: FC = (props) => {
     }, 1000);
   };
 
-  const handleSignIn = async (userSignIn: UserSignIn) => {
-    const { email, password } = userSignIn; 
-    let signIn: UserSignIn = { email, password }
-    await makeRequest ("/api/user", "POST", signIn);
+  const handleSignIn = async (user: UserSignIn) => {
+    const { email, password } = user; 
+    let signInUser: UserSignIn = { email, password }
+    await makeRequest ("/api/user/login", "POST", signInUser);
     setTimeout(() => {
       navigate("/"); 
     }, 1000);
   };
+
+  
 
   /* const handleSignIn = async (email, password) => {
     const user = { email, password };

@@ -63,6 +63,7 @@ function Signup() {
     validateOnMount: true,
     onSubmit: (values) => {
       handleSignUp(values);
+      console.log(values)
     },
   });
 
