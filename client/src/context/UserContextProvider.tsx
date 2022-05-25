@@ -5,7 +5,6 @@ import { User, UserSignIn } from "../Types";
 
 interface UserContextValue {
   handleSignUp: (user: User) => void;
-  // handleSignIn: (email, password) => void;
   handleSignIn: (UserSignIn: UserSignIn) => void;
 }
 
@@ -22,7 +21,6 @@ const UserProvider: FC = (props) => {
     let newUser: User = { firstname, lastname, email, password };
     await makeRequest("/api/user", "POST", newUser);
     setTimeout(() => {
-      // this navigates the user even if invalid email is entered, adjust if you want
       navigate("/");
     }, 1000);
   };
@@ -36,15 +34,7 @@ const UserProvider: FC = (props) => {
     }, 1000);
   };
 
-  
 
-  /* const handleSignIn = async (email, password) => {
-    const user = { email, password };
-    await makeRequest("/api/user", "POST", user); 
-    setTimeout(() => {
-      navigate("/");
-    }, 1000);
-  } */
 
   return (
     <UserContext.Provider
