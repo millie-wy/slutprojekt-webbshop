@@ -1,26 +1,54 @@
-import { createContext, FC, useContext, useState } from "react";
+import type { Order } from "@server/shared/client.types";
+import {
+  createContext,
+  Dispatch,
+  FC,
+  SetStateAction,
+  useContext,
+  useState,
+} from "react";
 import { FormValues } from "../components/cart-checkout/CheckoutFormContainer";
-import { useCart } from "./CartContextProvider";
-import type {
-  Product,
-  DeliveryOption,
-  Address,
-  Order,
-} from "@server/shared/client.types";
 import { makeRequest } from "../Helper";
+import { useCart } from "./CartContextProvider";
 
 interface OrderContextValue {
+  orderIsLoading: boolean;
+  setOrderIsLoading: Dispatch<SetStateAction<boolean>>;
   processOrder: (formValues: FormValues) => void;
-  generateOrderNum: () => string;
+  setOrder: Dispatch<SetStateAction<Order | undefined>>;
+  order: Order | undefined;
 }
 
 export const OrderContext = createContext<OrderContextValue>({
+  orderIsLoading: false,
+  setOrderIsLoading: () => {},
   processOrder: () => {},
-  generateOrderNum: () => "",
+  setOrder: () => {},
+  order: {
+    customer: {
+      email: "",
+      password: "",
+    },
+    deliveryAddress: {
+      street: "",
+      zipCode: 0,
+      city: "",
+    },
+    deliveryOption: {
+      provider: "",
+      cost: 0,
+      estTime: "",
+    },
+    paymentMethod: "",
+    phoneNumber: 0,
+    products: [],
+  },
 });
 
 const OrderProvider: FC = (props) => {
+  const [orderIsLoading, setOrderIsLoading] = useState<boolean>(true);
   const { cart, shipper, paymentMethod } = useCart();
+  const [order, setOrder] = useState<Order | undefined>();
 
   /** process formValues and shape the order object */
   const processOrder = (formValues: FormValues) => {
@@ -43,25 +71,18 @@ const OrderProvider: FC = (props) => {
   /** send order object to server in order to create order */
   const sendOrderToServer = async (order: Order) => {
     const response = await makeRequest("/api/order", "POST", order);
-    console.log(response);
-  };
-  /** generate an unique order numder */
-  const generateOrderNum = () => {
-    const yy: string = new Date().getFullYear().toString().substr(-2);
-    const mm: number = new Date().getMonth() + 1;
-    const dd: number = new Date().getDate();
-    const formattedDate =
-      yy + (mm > 9 ? "" : "0") + mm + (dd > 9 ? "" : "0") + dd;
-    const randomNum: number = Math.floor(Math.random() * 100000);
-    const orderNum: string = formattedDate + "-" + randomNum;
-    return orderNum;
+    setOrder(response);
+    setOrderIsLoading(false);
   };
 
   return (
     <OrderContext.Provider
       value={{
+        orderIsLoading,
+        setOrderIsLoading,
         processOrder,
-        generateOrderNum,
+        setOrder,
+        order,
       }}
     >
       {props.children}

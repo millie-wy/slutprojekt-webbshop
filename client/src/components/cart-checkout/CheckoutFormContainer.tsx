@@ -2,7 +2,6 @@ import { LoadingButton } from "@mui/lab";
 import { Box } from "@mui/material";
 import valid from "card-validator";
 import { Form, Formik } from "formik";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useCart } from "../../context/CartContextProvider";
@@ -30,8 +29,7 @@ export interface FormValues {
 function CheckoutFormContainer() {
   const navigate = useNavigate();
   const { emptyCart, isSwish, isCreditCard, isInvoice } = useCart();
-  const { processOrder } = useOrder();
-  const [isLoading, setIsLoading] = useState(false);
+  const { processOrder, orderIsLoading, setOrderIsLoading } = useOrder();
 
   const phoneRegExp = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
   const personalIdentityRegExp =
@@ -130,7 +128,7 @@ function CheckoutFormContainer() {
       validationSchema={ValidationSchema}
       onSubmit={(values: FormValues) => {
         let promise = new Promise((resolve) => {
-          setIsLoading(true);
+          setOrderIsLoading(true);
           setTimeout(() => {
             processOrder(values);
             resolve(values);
@@ -138,7 +136,6 @@ function CheckoutFormContainer() {
         });
         promise
           .then(() => {
-            setIsLoading(false);
             navigate("/confirmation");
             emptyCart();
           })
@@ -156,8 +153,8 @@ function CheckoutFormContainer() {
           <LoadingButton
             size="large"
             variant="contained"
-            loading={isLoading}
-            disabled={isLoading}
+            loading={orderIsLoading}
+            disabled={orderIsLoading}
             loadingIndicator="Confirming..."
             style={{
               textAlign: "center",
