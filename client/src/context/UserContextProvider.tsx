@@ -4,12 +4,17 @@ import { useNavigate } from "react-router-dom";
 import { makeRequest } from "../Helper";
 
 interface UserContextValue {
+  currentUser: User | undefined;
   handleSignUp: (user: User) => void;
   handleSignIn: (UserSignIn: User) => void;
   handleSignOut: (userSignOut: User) => void;
 }
 
 export const UserContext = createContext<UserContextValue>({
+  currentUser: {
+    email: "",
+    password: "",
+  },
   handleSignUp: () => {},
   handleSignIn: () => {},
   handleSignOut: () => {},
@@ -17,7 +22,11 @@ export const UserContext = createContext<UserContextValue>({
 
 const UserProvider: FC = (props) => {
   const navigate = useNavigate();
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState<User | undefined>();
+
+  useEffect(() => {
+    getCurrentUser();
+  });
 
   const handleSignUp = async (user: User) => {
     const { firstname, lastname, email, password } = user;
@@ -49,12 +58,10 @@ const UserProvider: FC = (props) => {
     setCurrentUser(response);
   };
 
-  useEffect(() => {
-    getCurrentUser();
-  }, []);
   return (
     <UserContext.Provider
       value={{
+        currentUser,
         handleSignUp,
         handleSignIn,
         handleSignOut,
