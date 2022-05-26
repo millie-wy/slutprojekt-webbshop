@@ -5,24 +5,12 @@ import type {
   Product,
   DeliveryOption,
   Address,
+  Order,
 } from "@server/shared/client.types";
-
-interface OrderData {
-  // orderNo: string;
-  deliveryAddress: Address;
-  products: Product[];
-  shipmentOption: DeliveryOption;
-  paymentMethod: String;
-  // customer: Customer;
-}
-
-// export interface Customer {
-//   name: string;
-//   email: string;
-// }
+import { makeRequest } from "../Helper";
 
 interface OrderContextValue {
-  order: OrderData[];
+  order: Order[];
   createOrder: (formValues: FormValues) => void;
   generateOrderNum: () => string;
 }
@@ -35,33 +23,32 @@ export const OrderContext = createContext<OrderContextValue>({
 
 const OrderProvider: FC = (props) => {
   const { cart, shipper, paymentMethod } = useCart();
-  const [order, setOrder] = useState<OrderData[]>([]);
+  const [order, setOrder] = useState<Order[]>([]);
 
   /** push in everything related to the order to the order state */
   const createOrder = (formValues: FormValues) => {
     const boughtItems = [...cart];
     const deliveryAddress = {
-      street: formValues.addressStreet,
-      zipCode: Number(formValues.addressZipCode),
-      city: formValues.addressCity,
+      street: formValues.deliveryAddress.street,
+      zipCode: Number(formValues.deliveryAddress.zipCode),
+      city: formValues.deliveryAddress.city,
     };
-    // const customer: Customer = {
-    //   name: customerValues.name,
-    //   email: customerValues.email,
-    // };
-    let updatedOrder: OrderData = {
+    let updatedOrder: Order = {
       deliveryAddress: deliveryAddress,
-      // customer: ,
       products: boughtItems,
-      shipmentOption: shipper,
+      deliveryOption: shipper,
       paymentMethod: paymentMethod,
-      // orderNo: generateOrderNum(),
+      phoneNumber: Number(formValues.phoneNumber),
     };
     console.log(updatedOrder);
-    setOrder([updatedOrder]);
+    sendOrderToServer(updatedOrder);
   };
   // console.log(order);
 
+  const sendOrderToServer = async (order: Order) => {
+    const response = await makeRequest("/api/order", "POST", order);
+    console.log(response);
+  };
   /** generate an unique order numder */
   const generateOrderNum = () => {
     const yy: string = new Date().getFullYear().toString().substr(-2);

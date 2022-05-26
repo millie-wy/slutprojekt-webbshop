@@ -54,7 +54,6 @@ function CheckoutFormContainer() {
   };
 
   const ValidationSchema = yup.object().shape({
-    name: yup.string().min(2).required("Required"),
     deliveryAddress: yup.object().shape({
       street: yup.string().min(3).required("Required"),
       zipCode: yup.string().min(5).max(6).required("Required"),
@@ -130,23 +129,22 @@ function CheckoutFormContainer() {
       initialValues={InitialValue}
       validationSchema={ValidationSchema}
       onSubmit={(values: FormValues) => {
-        console.log(values);
-        //   let promise = new Promise((resolve) => {
-        //     setIsLoading(true);
-        //     setTimeout(() => {
-        //       createOrder(values);
-        //       resolve(values);
-        //     }, 2000);
-        //   });
-        //   promise
-        //     .then(() => {
-        //       setIsLoading(false);
-        //       navigate("/confirmation");
-        //       emptyCart();
-        //     })
-        //     .catch((error: Error) => {
-        //       alert(error.message);
-        //     });
+        let promise = new Promise((resolve) => {
+          setIsLoading(true);
+          setTimeout(() => {
+            createOrder(values);
+            resolve(values);
+          }, 2000);
+        });
+        promise
+          .then(() => {
+            setIsLoading(false);
+            // navigate("/confirmation");
+            // emptyCart();
+          })
+          .catch((error: Error) => {
+            alert(error.message);
+          });
       }}
     >
       <Form>

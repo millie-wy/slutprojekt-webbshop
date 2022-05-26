@@ -1,5 +1,5 @@
 import type { User } from "@server/shared/client.types";
-import { createContext, FC, useContext } from "react";
+import { createContext, FC, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { makeRequest } from "../Helper";
 
@@ -12,11 +12,12 @@ interface UserContextValue {
 export const UserContext = createContext<UserContextValue>({
   handleSignUp: () => {},
   handleSignIn: () => {},
-  handleSignOut: () => {}
+  handleSignOut: () => {},
 });
 
 const UserProvider: FC = (props) => {
   const navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useState({});
 
   const handleSignUp = async (user: User) => {
     const { firstname, lastname, email, password } = user;
@@ -28,29 +29,35 @@ const UserProvider: FC = (props) => {
   };
 
   const handleSignIn = async (user: User) => {
-    const { email, password } = user; 
-    let signInUser: User = { email, password }
-    await makeRequest ("/api/user/login", "POST", signInUser);
+    const { email, password } = user;
+    let signInUser: User = { email, password };
+    await makeRequest("/api/user/login", "POST", signInUser);
     setTimeout(() => {
-      navigate("/"); 
+      navigate("/");
     }, 1000);
   };
 
   const handleSignOut = async () => {
-    await makeRequest ("/api/user/logout", "DELETE"); 
+    await makeRequest("/api/user/logout", "DELETE");
     setTimeout(() => {
       navigate("/");
-    }, 1000)
-  }
+    }, 1000);
+  };
 
+  const getCurrentUser = async () => {
+    const response = await makeRequest("/api/user/login", "GET");
+    setCurrentUser(response);
+  };
 
-
+  useEffect(() => {
+    getCurrentUser();
+  }, []);
   return (
     <UserContext.Provider
       value={{
         handleSignUp,
         handleSignIn,
-        handleSignOut
+        handleSignOut,
       }}
     >
       {props.children}

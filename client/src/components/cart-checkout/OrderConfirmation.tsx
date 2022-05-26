@@ -39,8 +39,7 @@ const OrderConfirmation = () => {
               background: "#F3F2F0",
               textAlign: "center",
             }}
-            // key={orderDetail.orderNo}
-            key={orderDetail.shipmentOption.cost} // CHANGE!!!
+            key={orderDetail._id}
           >
             <Typography
               sx={{
@@ -104,7 +103,8 @@ const OrderConfirmation = () => {
                   </TableHead>
                   <TableBody>
                     {orderDetail.products.map((product) => (
-                      <TableRow key={product._id}>
+                      <TableRow key={product.title}>
+                        {/* // the above line should be id */}
                         <TableCell
                           size="small"
                           component="th"
@@ -145,6 +145,7 @@ const OrderConfirmation = () => {
                           }}
                         >
                           {numWithSpaces(sumProductPrice(product))} SEK
+                          {/* FIX LATER! */}
                         </TableCell>
                       </TableRow>
                     ))}
@@ -170,10 +171,11 @@ const OrderConfirmation = () => {
                         }}
                         colSpan={1}
                       >
-                        {numWithSpaces(
+                        {/* {numWithSpaces(
                           UseSumTotal(orderDetail.products, false) -
                             calculateVat(orderDetail.products)
-                        )}
+                        )} */}
+                        {/* FIX LATER! */}
                         &nbsp;SEK
                       </TableCell>
                     </TableRow>
@@ -198,7 +200,8 @@ const OrderConfirmation = () => {
                         }}
                         colSpan={1}
                       >
-                        {numWithSpaces(calculateVat(orderDetail.products))}
+                        {/* {numWithSpaces(calculateVat(orderDetail.products))} */}
+                        {/* FIX LATER! */}
                         &nbsp;SEK
                       </TableCell>
                     </TableRow>
@@ -223,7 +226,7 @@ const OrderConfirmation = () => {
                         }}
                         colSpan={1}
                       >
-                        {numWithSpaces(orderDetail.shipmentOption.cost)} SEK
+                        {numWithSpaces(orderDetail.deliveryOption.cost)} SEK
                       </TableCell>
                     </TableRow>
                     <TableRow>
@@ -249,7 +252,8 @@ const OrderConfirmation = () => {
                         }}
                         colSpan={1}
                       >
-                        {numWithSpaces(UseSumTotal(orderDetail.products, true))}
+                        {/* {numWithSpaces(UseSumTotal(orderDetail.products, true))} */}
+                        {/* FIX LATER! */}
                         &nbsp;SEK
                       </TableCell>
                     </TableRow>
@@ -272,8 +276,8 @@ const OrderConfirmation = () => {
                         }}
                         colSpan={3}
                       >
-                        {orderDetail.shipmentOption.provider}&nbsp;(
-                        {orderDetail.shipmentOption.estTime})
+                        {orderDetail.deliveryOption.provider}&nbsp;(
+                        {orderDetail.deliveryOption.estTime})
                       </TableCell>
                     </TableRow>
                     <TableRow>

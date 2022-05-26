@@ -1,19 +1,18 @@
-import { Address } from "cluster";
 import mongoose, { Schema, Types } from "mongoose";
 import { DeliveryOption, deliveryOptionSchema } from "../deliveryOption";
 import { Product, productSchema } from "../product";
-import { addressSchema } from "../schema/address.schema";
+import { Address, addressSchema } from "../schema/address.schema";
 
 export interface Order {
-  customer: Types.ObjectId;
+  customer?: Types.ObjectId;
   deliveryAddress: Address;
   deliveryOption: DeliveryOption;
   phoneNumber: number;
   products: Product[];
   isShipped?: boolean;
   paymentMethod: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 const orderSchema = new mongoose.Schema<Order>(

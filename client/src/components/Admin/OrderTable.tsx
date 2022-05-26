@@ -10,14 +10,13 @@ import { useEffect } from "react";
 import { useAdminOrder } from "../../context/AdminOrderContext";
 
 function BasicTable() {
-
- const { fetchAllOrders, orders } = useAdminOrder();
- console.log(orders);
+  const { fetchAllOrders, orders } = useAdminOrder();
+  console.log(orders);
 
   useEffect(() => {
     fetchAllOrders();
-  }, [fetchAllOrders])
-  
+  }, [fetchAllOrders]);
+
   return (
     <TableContainer style={{ marginBottom: "3rem" }} component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -59,7 +58,7 @@ function BasicTable() {
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {order.customer.fullname}
+                {order.customer!.fullname}
               </TableCell>
               <TableCell align="right">{order.products}</TableCell>
               <TableCell align="right"></TableCell>
