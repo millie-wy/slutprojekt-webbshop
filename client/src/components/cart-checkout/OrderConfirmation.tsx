@@ -21,7 +21,7 @@ import {
 import HomeButton from "../shared/HomeButton";
 
 const OrderConfirmation = () => {
-  const { order, orderIsLoading } = useOrder();
+  const { orderIsLoading, order } = useOrder();
   const { currentUser } = useUser();
 
   return orderIsLoading ? (
@@ -112,7 +112,7 @@ const OrderConfirmation = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {order?.products.map((product) => (
+                {order!.products.map((product) => (
                   <TableRow key={product.title}>
                     {/* // the above line should be id */}
                     <TableCell
@@ -371,7 +371,7 @@ const OrderConfirmation = () => {
                     }}
                     colSpan={3}
                   >
-                    {order?.phoneNumber}
+                    {order!.phoneNumber}
                   </TableCell>
                 </TableRow>
                 <TableRow>
