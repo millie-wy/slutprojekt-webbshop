@@ -30,7 +30,7 @@ export interface FormValues {
 function CheckoutFormContainer() {
   const navigate = useNavigate();
   const { emptyCart, isSwish, isCreditCard, isInvoice } = useCart();
-  const { createOrder } = useOrder();
+  const { processOrder } = useOrder();
   const [isLoading, setIsLoading] = useState(false);
 
   const phoneRegExp = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
@@ -132,15 +132,15 @@ function CheckoutFormContainer() {
         let promise = new Promise((resolve) => {
           setIsLoading(true);
           setTimeout(() => {
-            createOrder(values);
+            processOrder(values);
             resolve(values);
           }, 2000);
         });
         promise
           .then(() => {
             setIsLoading(false);
-            // navigate("/confirmation");
-            // emptyCart();
+            navigate("/confirmation");
+            emptyCart();
           })
           .catch((error: Error) => {
             alert(error.message);
