@@ -1,15 +1,16 @@
 import { NextFunction, Request, Response } from "express";
+import { ErrorCodes } from "./errorRequestHandler";
 import { UserModel } from "./resources";
 
 // stop users that are not logged in
 export const auth = (req: Request, res: Response, next: NextFunction) => {
-  if (!req.session?.user) throw Error("unauthorized_login");
+  if (!req.session?.user) throw Error(ErrorCodes.unauthorizedLogin);
   next();
 };
 
 // stop users that are not admin
 export const adminOnly = (req: Request, res: Response, next: NextFunction) => {
-  if (!req.session?.user.isAdmin) throw Error("access denied");
+  if (!req.session?.user.isAdmin) throw Error(ErrorCodes.unauthorizedEmail);
   next();
 };
 
@@ -23,7 +24,7 @@ export const selfOrAdmin = async (
   const admin = req.session?.user.isAdmin;
   const permittedUser = user && user.id === req.session?.user.id;
 
-  if (!admin || !permittedUser) throw Error("access denied");
+  if (!admin || !permittedUser) throw Error(ErrorCodes.accessDenied);
   next();
 };
 
