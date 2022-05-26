@@ -5,63 +5,46 @@ import type {
   Product,
   DeliveryOption,
   Address,
+  Order,
 } from "@server/shared/client.types";
-
-interface OrderData {
-  // orderNo: string;
-  deliveryAddress: Address;
-  products: Product[];
-  shipmentOption: DeliveryOption;
-  paymentMethod: String;
-  // customer: Customer;
-}
-
-// export interface Customer {
-//   name: string;
-//   email: string;
-// }
+import { makeRequest } from "../Helper";
 
 interface OrderContextValue {
-  order: OrderData[];
-  createOrder: (formValues: FormValues) => void;
+  processOrder: (formValues: FormValues) => void;
   generateOrderNum: () => string;
 }
 
 export const OrderContext = createContext<OrderContextValue>({
-  order: [],
-  createOrder: () => {},
+  processOrder: () => {},
   generateOrderNum: () => "",
 });
 
 const OrderProvider: FC = (props) => {
   const { cart, shipper, paymentMethod } = useCart();
-  const [order, setOrder] = useState<OrderData[]>([]);
 
-  /** push in everything related to the order to the order state */
-  const createOrder = (formValues: FormValues) => {
+  /** process formValues and shape the order object */
+  const processOrder = (formValues: FormValues) => {
     const boughtItems = [...cart];
     const deliveryAddress = {
-      street: formValues.addressStreet,
-      zipCode: Number(formValues.addressZipCode),
-      city: formValues.addressCity,
+      street: formValues.deliveryAddress.street,
+      zipCode: Number(formValues.deliveryAddress.zipCode),
+      city: formValues.deliveryAddress.city,
     };
-    // const customer: Customer = {
-    //   name: customerValues.name,
-    //   email: customerValues.email,
-    // };
-    let updatedOrder: OrderData = {
+    let updatedOrder: Order = {
       deliveryAddress: deliveryAddress,
-      // customer: ,
       products: boughtItems,
-      shipmentOption: shipper,
+      deliveryOption: shipper,
       paymentMethod: paymentMethod,
-      // orderNo: generateOrderNum(),
+      phoneNumber: Number(formValues.phoneNumber),
     };
-    console.log(updatedOrder);
-    setOrder([updatedOrder]);
+    sendOrderToServer(updatedOrder);
   };
-  // console.log(order);
 
+  /** send order object to server in order to create order */
+  const sendOrderToServer = async (order: Order) => {
+    const response = await makeRequest("/api/order", "POST", order);
+    console.log(response);
+  };
   /** generate an unique order numder */
   const generateOrderNum = () => {
     const yy: string = new Date().getFullYear().toString().substr(-2);
@@ -77,8 +60,7 @@ const OrderProvider: FC = (props) => {
   return (
     <OrderContext.Provider
       value={{
-        order,
-        createOrder,
+        processOrder,
         generateOrderNum,
       }}
     >

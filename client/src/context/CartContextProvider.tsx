@@ -6,7 +6,7 @@ import { makeRequest } from "../Helper";
 interface CartContextValue {
   cart: Product[];
   shipper: DeliveryOption;
-  paymentMethod: String;
+  paymentMethod: string;
   isSwish?: Boolean;
   isCreditCard?: Boolean;
   isInvoice?: Boolean;
@@ -19,7 +19,7 @@ interface CartContextValue {
   removeFromCart: (product: Product) => void;
   emptyCart: () => void;
   selectShippment: (provider: DeliveryOption) => void;
-  selectPaymentMethod: (method: String) => void;
+  selectPaymentMethod: (method: string) => void;
   getDeliveryOptions: () => void;
   deliveryOptions: DeliveryOption[];
 }
@@ -53,7 +53,7 @@ const CartProvider: FC = (props) => {
     cost: 495,
     estTime: "3-5 Weekdays",
   });
-  const [paymentMethod, setPaymentMethod] = useState<String>("");
+  const [paymentMethod, setPaymentMethod] = useState<string>("");
   const [isCreditCard, setIsCreditCard] = useState<Boolean>(true);
   const [isSwish, setIsSwish] = useState<Boolean>(false);
   const [isInvoice, setIsInvoice] = useState<Boolean>(false);
@@ -111,7 +111,7 @@ const CartProvider: FC = (props) => {
   };
 
   /** set state when a payment method is selected */
-  const selectPaymentMethod = (method: String) => {
+  const selectPaymentMethod = (method: string) => {
     setPaymentMethod(method);
   };
 

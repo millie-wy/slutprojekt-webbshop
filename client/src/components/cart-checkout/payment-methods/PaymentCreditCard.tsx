@@ -60,16 +60,19 @@ const PaymentCreditCard = () => {
             },
             maxWidth: "400px",
           }}
-          id="cardNumber"
-          name="cardNumber"
+          id="creditCard.cardNumber"
+          name="creditCard.cardNumber"
           label="Card Number"
           type="text"
           size="small"
-          value={values.cardNumber}
+          value={values.creditCard.cardNumber}
           onChange={handleChange}
           placeholder="XXXX-XXXX-XXXX-XXXX"
-          error={touched.cardNumber && Boolean(errors.cardNumber)}
-          helperText={errors.cardNumber}
+          error={
+            touched.creditCard?.cardNumber &&
+            Boolean(errors.creditCard?.cardNumber)
+          }
+          helperText={errors.creditCard?.cardNumber}
         />
       </Box>
       <Box
@@ -107,15 +110,18 @@ const PaymentCreditCard = () => {
             },
             mb: "1rem",
           }}
-          id="cardExpiry"
-          name="cardExpiry"
+          id="creditCard.cardExpiry"
+          name="creditCard.cardExpiry"
           label="MMYY"
           type="text"
           size="small"
-          value={values.cardExpiry}
+          value={values.creditCard.cardExpiry}
           onChange={handleChange}
-          error={touched.cardExpiry && Boolean(errors.cardExpiry)}
-          helperText={errors.cardExpiry}
+          error={
+            touched.creditCard?.cardExpiry &&
+            Boolean(errors.creditCard?.cardExpiry)
+          }
+          helperText={errors.creditCard?.cardExpiry}
         />
         <TextField
           style={{
@@ -133,15 +139,17 @@ const PaymentCreditCard = () => {
             },
             mb: "1rem",
           }}
-          id="cardCVC"
-          name="cardCVC"
+          id="creditCard.cardCVC"
+          name="creditCard.cardCVC"
           label="CVC"
           type="text"
           size="small"
-          value={values.cardCVC}
+          value={values.creditCard.cardCVC}
           onChange={handleChange}
-          error={touched.cardCVC && Boolean(errors.cardCVC)}
-          helperText={errors.cardCVC}
+          error={
+            touched.creditCard?.cardCVC && Boolean(errors.creditCard?.cardCVC)
+          }
+          helperText={errors.creditCard?.cardCVC}
         />
       </Box>
     </Box>
