@@ -19,7 +19,7 @@ interface CartContextValue {
   removeFromCart: (product: Product) => void;
   emptyCart: () => void;
   selectShippment: (provider: DeliveryOption) => void;
-  selectPaymentMethod: (method: string) => void;
+  setPaymentMethod: (method: string) => void;
   getDeliveryOptions: () => void;
   deliveryOptions: DeliveryOption[];
 }
@@ -41,7 +41,7 @@ export const CartContext = createContext<CartContextValue>({
   removeFromCart: () => {},
   emptyCart: () => {},
   selectShippment: () => {},
-  selectPaymentMethod: () => "",
+  setPaymentMethod: () => "",
   getDeliveryOptions: () => {},
   deliveryOptions: [],
 });
@@ -159,7 +159,7 @@ const CartProvider: FC = (props) => {
         removeFromCart,
         emptyCart,
         selectShippment,
-        selectPaymentMethod,
+        setPaymentMethod,
         getDeliveryOptions,
         deliveryOptions,
       }}
