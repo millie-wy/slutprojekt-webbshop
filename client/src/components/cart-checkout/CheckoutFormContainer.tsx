@@ -13,26 +13,19 @@ import PaymentMethod from "./PaymentMethod";
 import PriceOverview from "./PriceOverview";
 export interface FormValues {
   phoneNumber: number | "";
-  addressStreet: string | "";
-  addressZipCode: number | "";
-  addressCity: string | "";
-  cardNumber: number | "";
-  cardExpiry: number | "";
-  cardCVC: number | "";
+  deliveryAddress: {
+    street: string | "";
+    zipCode: number | "";
+    city: string | "";
+  };
+  creditCard: {
+    cardNumber: number | "";
+    cardExpiry: number | "";
+    cardCVC: number | "";
+  };
   swish: number | "";
   invoice: number | "";
 }
-
-// export interface Order {
-//   customer: Types.ObjectId;
-//   deliveryAddress: Address;
-//   deliveryOption: DeliveryOption;
-//   phoneNumber: number;
-//   products: Product[];
-//   isShipped?: boolean;
-//   paymentMethod: string;
-//   createdAt: Date;
-//   updatedAt: Date;
 
 function CheckoutFormContainer() {
   const navigate = useNavigate();
@@ -45,88 +38,91 @@ function CheckoutFormContainer() {
     /^(19|20)?(\d{6}([-+]|\s)\d{4}|(?!19|20)\d{10})$/;
 
   const InitialValue: FormValues = {
-    // name: "",
-    // email: "",
-    addressStreet: "",
-    addressZipCode: "",
-    addressCity: "",
+    deliveryAddress: {
+      street: "",
+      zipCode: "",
+      city: "",
+    },
     phoneNumber: "",
-    cardNumber: "",
-    cardExpiry: "",
-    cardCVC: "",
+    creditCard: {
+      cardNumber: "",
+      cardExpiry: "",
+      cardCVC: "",
+    },
     swish: "",
     invoice: "",
   };
 
   const ValidationSchema = yup.object().shape({
     name: yup.string().min(2).required("Required"),
-    addressStreet: yup.string().min(3).required("Required"),
-    addressZipCode: yup.string().min(5).max(6).required("Required"),
-    addressCity: yup.string().required("Required"),
-    // email: yup.string().email("Invalid email").required("Required"),
+    deliveryAddress: yup.object().shape({
+      street: yup.string().min(3).required("Required"),
+      zipCode: yup.string().min(5).max(6).required("Required"),
+      city: yup.string().required("Required"),
+    }),
     phoneNumber: yup
       .string()
       .required("Required")
       .matches(phoneRegExp, "Invalid phone number"),
 
-    cardNumber: yup.lazy(() => {
-      if (isCreditCard) {
-        return yup
-          .string()
-          .required("Required")
-          .test(
-            "test-number",
-            "Invalid card number",
-            (value) => valid.number(value).isValid
-          );
-      }
-      return yup.string();
+    creditCard: yup.object().shape({
+      cardNumber: yup.lazy(() =>
+        isCreditCard
+          ? yup
+              .string()
+              .required("Required")
+              .test(
+                "test-number",
+                "Invalid card number",
+                (value) => valid.number(value).isValid
+              )
+          : yup.string()
+      ),
+      cardExpiry: yup.lazy(() =>
+        isCreditCard
+          ? yup
+              .string()
+              .required("Required")
+              .max(4, "Invalid length")
+              .test(
+                "test-number",
+                "Invalid",
+                (value) => valid.expirationDate(value).isValid
+              )
+          : yup.string()
+      ),
+      cardCVC: yup.lazy(() =>
+        isCreditCard
+          ? yup
+              .string()
+              .required("Required")
+              .max(4, "Invalid length")
+              .test(
+                "test-number",
+                "Invalid",
+                (value) => valid.cvv(value).isValid
+              )
+          : yup.string()
+      ),
     }),
 
-    cardExpiry: yup.lazy(() => {
-      if (isCreditCard) {
-        return yup
-          .string()
-          .required("Required")
-          .test(
-            "test-number",
-            "Invalid",
-            (value) => valid.expirationDate(value).isValid
-          );
-      }
-      return yup.string();
-    }),
+    swish: yup.lazy(() =>
+      isSwish
+        ? yup
+            .string()
+            .matches(phoneRegExp, "Invalid phone number")
+            .required("Required")
+        : yup.string()
+    ),
 
-    cardCVC: yup.lazy(() => {
-      if (isCreditCard) {
-        return yup
-          .string()
-          .required("Required")
-          .test("test-number", "Invalid", (value) => valid.cvv(value).isValid);
-      }
-
-      return yup.string();
-    }),
-
-    swish: yup.lazy(() => {
-      if (isSwish) {
-        return yup
-          .string()
-          .matches(phoneRegExp, "Invalid phone number")
-          .required("Required");
-      }
-      return yup.string();
-    }),
-
-    invoice: yup.lazy(() => {
-      if (isInvoice) {
-        return yup
-          .string()
-          .required("Required")
-          .matches(personalIdentityRegExp, "Invalid personal identity number");
-      }
-      return yup.string();
-    }),
+    invoice: yup.lazy(() =>
+      isInvoice
+        ? yup
+            .string()
+            .required("Required")
+            .matches(personalIdentityRegExp, "Invalid personal identity number")
+        : yup.string()
+    ),
   });
 
   return (
@@ -134,22 +130,23 @@ function CheckoutFormContainer() {
       initialValues={InitialValue}
       validationSchema={ValidationSchema}
       onSubmit={(values: FormValues) => {
-        let promise = new Promise((resolve) => {
-          setIsLoading(true);
-          setTimeout(() => {
-            createOrder(values);
-            resolve(values);
-          }, 2000);
-        });
-        promise
-          .then(() => {
-            setIsLoading(false);
-            navigate("/confirmation");
-            emptyCart();
-          })
-          .catch((error: Error) => {
-            alert(error.message);
-          });
+        console.log(values);
+        //   let promise = new Promise((resolve) => {
+        //     setIsLoading(true);
+        //     setTimeout(() => {
+        //       createOrder(values);
+        //       resolve(values);
+        //     }, 2000);
+        //   });
+        //   promise
+        //     .then(() => {
+        //       setIsLoading(false);
+        //       navigate("/confirmation");
+        //       emptyCart();
+        //     })
+        //     .catch((error: Error) => {
+        //       alert(error.message);
+        //     });
       }}
     >
       <Form>

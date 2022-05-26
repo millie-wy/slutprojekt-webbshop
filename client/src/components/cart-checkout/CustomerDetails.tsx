@@ -74,15 +74,18 @@ const CustomerDetails = () => {
               height: "55px",
               marginBottom: "1rem",
             }}
-            id="addressStreet"
-            name="addressStreet"
+            id="deliveryAddress.street"
+            name="deliveryAddress.street"
             label="Street"
             type="text"
             margin="normal"
-            value={values.addressStreet}
+            value={values.deliveryAddress.street}
             onChange={handleChange}
-            error={touched.addressStreet && Boolean(errors.addressStreet)}
-            helperText={errors.addressStreet}
+            error={
+              touched.deliveryAddress?.street &&
+              Boolean(errors.deliveryAddress?.street)
+            }
+            helperText={errors.deliveryAddress?.street}
           />
           <TextField
             style={{
@@ -90,15 +93,18 @@ const CustomerDetails = () => {
               height: "55px",
               marginBottom: "1rem",
             }}
-            id="addressZipCode"
-            name="addressZipCode"
+            id="deliveryAddress.zipCode"
+            name="deliveryAddress.zipCode"
             label="Zip Code"
             type="text"
             margin="normal"
-            value={values.addressZipCode}
+            value={values.deliveryAddress.zipCode}
             onChange={handleChange}
-            error={touched.addressZipCode && Boolean(errors.addressZipCode)}
-            helperText={errors.addressZipCode}
+            error={
+              touched.deliveryAddress?.street &&
+              Boolean(errors.deliveryAddress?.street)
+            }
+            helperText={errors.deliveryAddress?.street}
           />
           <TextField
             style={{
@@ -106,15 +112,18 @@ const CustomerDetails = () => {
               height: "55px",
               marginBottom: "1rem",
             }}
-            id="addressCity"
-            name="addressCity"
+            id="deliveryAddress.city"
+            name="deliveryAddress.city"
             label="City"
             type="text"
             margin="normal"
-            value={values.addressCity}
+            value={values.deliveryAddress.city}
             onChange={handleChange}
-            error={touched.addressCity && Boolean(errors.addressCity)}
-            helperText={errors.addressCity}
+            error={
+              touched.deliveryAddress?.city &&
+              Boolean(errors.deliveryAddress?.city)
+            }
+            helperText={errors.deliveryAddress?.city}
           />
           {/* <TextField
             style={{
