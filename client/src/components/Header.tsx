@@ -22,7 +22,7 @@ import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import logo from "../assets/images/logo.svg";
 import { useCart } from "../context/CartContextProvider";
 import { sumQuantity } from "../Helper";
-import { UserContext } from "../context/UserContextProvider";
+import { UserContext, useUser } from "../context/UserContextProvider";
 
 interface Page {
   label: string;
@@ -36,7 +36,8 @@ function Header() {
   const [anchorMenu, setAnchorMenu] = useState(false);
   const { ccLogo, icon, iconsContainer, quantityIcon } = useStyles();
 
-  let context = useContext(UserContext);
+  // let context = useContext(UserContext);
+  const { currentUser } = useUser();
 
   const menuLeft: Page[] = [
     {
@@ -87,28 +88,7 @@ function Header() {
   const icons = () => {
     return (
       <div className={iconsContainer} style={{ gap: ".5rem" }}>
-        {context.currentUser ? (
-          <Link
-            to="/logout" // to be adjusted, dont know what the link is for now
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              textDecoration: "none",
-              color: "white",
-              placeContent: "center",
-              placeItems: "center",
-            }}
-          >
-            <img className={icon} src={userIcon} alt="logout" />
-            <Typography
-              fontFamily="Prata"
-              variant="body2"
-              sx={{ textTransform: "capitalize" }}
-            >
-              Logout
-            </Typography>
-          </Link>
-        ) : (
+        {!currentUser ? (
           <Box>
             <Typography sx={{ cursor: "pointer" }} onClick={handleOpen}>
               <img className={icon} src={userIcon} />
@@ -161,7 +141,7 @@ function Header() {
                   </Box>
                 </Link>
                 <Link
-                  to="/admin"
+                  to="/login"
                   style={{
                     display: "flex",
                     flexDirection: "row",
@@ -190,6 +170,182 @@ function Header() {
               </Box>
             </Drawer>
           </Box>
+        ) : currentUser?.isAdmin ? (
+          <Box>
+            <Typography sx={{ cursor: "pointer" }} onClick={handleOpen}>
+              <img className={icon} src={userIcon} />
+            </Typography>
+            <Drawer
+              sx={{
+                "& .MuiDrawer-paper": {
+                  backgroundColor: "#6C665F",
+                  marginTop: "5rem",
+                  marginRight: "5rem",
+                  width: "8rem",
+                  height: "7rem",
+                },
+              }}
+              anchor="right"
+              open={open}
+              onClose={handleClose}
+            >
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <Link
+                  to="/admin"
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    textDecoration: "none",
+                    color: "white",
+                    placeContent: "center",
+                    placeItems: "center",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Typography
+                      fontFamily="Prata"
+                      variant="body2"
+                      sx={{
+                        textTransform: "capitalize",
+                        textAlign: "center",
+                        marginTop: "1rem",
+                        color: "white",
+                      }}
+                    >
+                      Products
+                    </Typography>
+                  </Box>
+                </Link>
+              </Box>
+              <Link
+                to="/admin"
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  textDecoration: "none",
+                  color: "white",
+                  placeContent: "center",
+                  placeItems: "center",
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography
+                    fontFamily="Prata"
+                    variant="body2"
+                    sx={{
+                      textTransform: "capitalize",
+                      textAlign: "center",
+                      marginTop: "1rem",
+                      color: "white",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Orders
+                  </Typography>
+                </Box>
+              </Link>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Typography
+                  fontFamily="Prata"
+                  variant="body2"
+                  sx={{
+                    textTransform: "capitalize",
+                    textAlign: "center",
+                    marginTop: "1rem",
+                    color: "white",
+                    cursor: "pointer",
+                  }}
+                >
+                  Logout
+                </Typography>
+              </Box>
+            </Drawer>
+          </Box>
+        ) : (
+          <Link
+            to="/logout" // to be adjusted, dont know what the link is for now
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              textDecoration: "none",
+              color: "white",
+              placeContent: "center",
+              placeItems: "center",
+            }}
+          >
+            <Typography sx={{ cursor: "pointer" }} onClick={handleOpen}>
+              <img className={icon} src={userIcon} alt="logout" />
+            </Typography>
+            <Drawer
+              sx={{
+                "& .MuiDrawer-paper": {
+                  backgroundColor: "#6C665F",
+                  marginTop: "5rem",
+                  marginRight: "5rem",
+                  width: "8rem",
+                  height: "7rem",
+                },
+              }}
+              anchor="right"
+              open={open}
+              onClose={handleClose}
+            >
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography
+                    fontFamily="Prata"
+                    variant="body2"
+                    sx={{
+                      textTransform: "capitalize",
+                      textAlign: "center",
+                      marginTop: "1rem",
+                      marginBottom: "1.2rem",
+                      color: "white",
+                      cursor: "pointer",
+                    }}
+                  >
+                    My orders
+                  </Typography>
+                </Box>
+                <Typography
+                  fontFamily="Prata"
+                  variant="body2"
+                  sx={{
+                    textTransform: "capitalize",
+                    textAlign: "center",
+                    color: "white",
+                    cursor: "pointer",
+                  }}
+                >
+                  Logout
+                </Typography>
+              </Box>
+            </Drawer>
+          </Link>
         )}
 
         <Link className={quantityIcon} to="/checkoutpage">
