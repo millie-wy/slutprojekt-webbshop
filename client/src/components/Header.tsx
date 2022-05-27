@@ -13,15 +13,15 @@ import {
 import { makeStyles } from "@mui/styles";
 import { styled, } from "@mui/system";
 import { Box } from "@mui/system";
-import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import cartIcon from "../assets/icons/icon-shopping-cart.webp";
 import userIcon from "../assets/icons/icon-user.webp";
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import logo from "../assets/images/logo.svg";
 import { useCart } from "../context/CartContextProvider";
 import { sumQuantity } from "../Helper";
+import { useUser } from "../context/UserContextProvider";
+
 
 interface Page {
   label: string;
@@ -30,8 +30,9 @@ interface Page {
 
 function Header() {
   const { cart } = useCart();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  
   const [open, setOpen] = useState(false);
+  const { handleSignOut } = useUser();
   const [anchorMenu, setAnchorMenu] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // we dont need to use this if there is a state that we can check if the user is logged in
   const { ccLogo, icon, iconsContainer, quantityIcon } = useStyles();
@@ -82,7 +83,10 @@ const handleClose = () => {
     setOpen(false);
 };
 
+
   const icons = () => {
+
+
     return (
       <div className={iconsContainer} style={{ gap: ".5rem" }}>
         {isLoggedIn ? (
@@ -116,7 +120,7 @@ const handleClose = () => {
            <img className={icon} src={userIcon} />
           </Typography>
           <Drawer 
-          sx={{ '& .MuiDrawer-paper': { backgroundColor: '#6C665F', marginTop: '5rem', marginRight: '5rem', width: '8rem', height: '7rem',},}}
+          sx={{ '& .MuiDrawer-paper': { backgroundColor: '#6C665F', marginTop: '5rem', marginRight: '5rem', width: '8rem', height: '9rem',},}}
         anchor='right'
         open={open}
         onClose={handleClose}
@@ -137,7 +141,9 @@ const handleClose = () => {
             <Typography
               fontFamily="Prata"
               variant="body2"
-              sx={{ textTransform: "capitalize", textAlign: 'center', marginTop: '1rem', marginBottom: '1.2rem' }}
+              sx={{ textTransform: "capitalize", textAlign: 'center', marginTop: '1rem', marginBottom: '1.2rem', '&:hover': {
+                color: 'black',
+            }, }}
             >
               User
             </Typography>
@@ -159,11 +165,26 @@ const handleClose = () => {
             <Typography
               fontFamily="Prata"
               variant="body2"
-              sx={{ textTransform: "capitalize", textAlign: 'center' }}
+              sx={{ textTransform: "capitalize", textAlign: 'center', marginBottom: '1.2rem', '&:hover': {
+                color: 'black',
+            }, }}
             >
               Admin
             </Typography>
           </Link>
+        
+            
+            
+          <Typography
+              fontFamily="Prata"
+              variant="body2"
+              sx={{ textTransform: "capitalize", textAlign: 'center', color: '#fff', cursor: 'pointer', '&:hover': {
+                color: 'black',
+            },  }}
+            
+            >
+              Logout
+            </Typography> 
           </Box>
 
           </Drawer>
