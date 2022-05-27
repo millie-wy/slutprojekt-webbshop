@@ -13,7 +13,7 @@ export interface Product {
 
 export const productSchema = new mongoose.Schema<Product>(
   {
-    title: { type: String, required: true, unique: true },
+    title: { type: String, required: true },
     description: { type: String, required: true },
     category: { type: [String], required: true },
     price: { type: Number, required: true },

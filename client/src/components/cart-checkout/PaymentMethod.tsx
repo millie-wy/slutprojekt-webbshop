@@ -2,7 +2,7 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import { Box, Container, Typography } from "@mui/material";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import invoiceLogo from "../../assets/images/invoiceLogo.png";
 import SwishLogo from "../../assets/images/SwishLogo.svg";
 import { useCart } from "../../context/CartContextProvider";
@@ -11,20 +11,24 @@ import PaymentInvoice from "./payment-methods/PaymentInvoice";
 import PaymentSwish from "./payment-methods/PaymentSwish";
 
 const PaymentMethod = () => {
-  const [selectPayment, setSelectPayment] = useState("credit card");
+  const [selectedPayment, setSelectedPayment] = useState("credit card");
   const {
     paymentMethod,
-    selectPaymentMethod,
+    setPaymentMethod,
     selectSwish,
     selectCreditCard,
     selectInvoice,
   } = useCart();
 
+  useEffect(() => {
+    setPaymentMethod("Credit Card");
+  }, []);
+
   /** handle selected of payment method */
   const handleToggle = (event, newSelection: string | null) => {
     if (newSelection !== null) {
-      setSelectPayment(newSelection);
-      selectPaymentMethod(event.currentTarget.name);
+      setSelectedPayment(newSelection);
+      setPaymentMethod(event.currentTarget.name);
     }
   };
 
@@ -56,7 +60,7 @@ const PaymentMethod = () => {
         }}
       >
         <ToggleButtonGroup
-          value={selectPayment}
+          value={selectedPayment}
           exclusive
           onChange={handleToggle}
           aria-label="payment method"

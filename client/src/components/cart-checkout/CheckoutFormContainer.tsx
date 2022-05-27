@@ -2,8 +2,6 @@ import { LoadingButton } from "@mui/lab";
 import { Box } from "@mui/material";
 import valid from "card-validator";
 import { Form, Formik } from "formik";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useCart } from "../../context/CartContextProvider";
 import { useOrder } from "../../context/OrderContextProvider";
@@ -28,10 +26,8 @@ export interface FormValues {
 }
 
 function CheckoutFormContainer() {
-  const navigate = useNavigate();
-  const { emptyCart, isSwish, isCreditCard, isInvoice } = useCart();
-  const { processOrder } = useOrder();
-  const [isLoading, setIsLoading] = useState(false);
+  const { isSwish, isCreditCard, isInvoice } = useCart();
+  const { processOrder, orderIsLoading, setOrderIsLoading } = useOrder();
 
   const phoneRegExp = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
   const personalIdentityRegExp =
@@ -129,22 +125,10 @@ function CheckoutFormContainer() {
       initialValues={InitialValue}
       validationSchema={ValidationSchema}
       onSubmit={(values: FormValues) => {
-        let promise = new Promise((resolve) => {
-          setIsLoading(true);
-          setTimeout(() => {
-            processOrder(values);
-            resolve(values);
-          }, 2000);
-        });
-        promise
-          .then(() => {
-            setIsLoading(false);
-            navigate("/confirmation");
-            emptyCart();
-          })
-          .catch((error: Error) => {
-            alert(error.message);
-          });
+        setOrderIsLoading(true);
+        setTimeout(() => {
+          processOrder(values);
+        }, 2000);
       }}
     >
       <Form>
@@ -156,8 +140,8 @@ function CheckoutFormContainer() {
           <LoadingButton
             size="large"
             variant="contained"
-            loading={isLoading}
-            disabled={isLoading}
+            loading={orderIsLoading}
+            disabled={orderIsLoading}
             loadingIndicator="Confirming..."
             style={{
               textAlign: "center",

@@ -19,7 +19,7 @@ interface CartContextValue {
   removeFromCart: (product: Product) => void;
   emptyCart: () => void;
   selectShippment: (provider: DeliveryOption) => void;
-  selectPaymentMethod: (method: string) => void;
+  setPaymentMethod: (method: string) => void;
   getDeliveryOptions: () => void;
   deliveryOptions: DeliveryOption[];
 }
@@ -41,7 +41,7 @@ export const CartContext = createContext<CartContextValue>({
   removeFromCart: () => {},
   emptyCart: () => {},
   selectShippment: () => {},
-  selectPaymentMethod: () => "",
+  setPaymentMethod: () => "",
   getDeliveryOptions: () => {},
   deliveryOptions: [],
 });
@@ -53,7 +53,7 @@ const CartProvider: FC = (props) => {
     cost: 495,
     estTime: "3-5 Weekdays",
   });
-  const [paymentMethod, setPaymentMethod] = useState<string>("");
+  const [paymentMethod, setPaymentMethod] = useState<string>("Credit Card");
   const [isCreditCard, setIsCreditCard] = useState<Boolean>(true);
   const [isSwish, setIsSwish] = useState<Boolean>(false);
   const [isInvoice, setIsInvoice] = useState<Boolean>(false);
@@ -135,6 +135,7 @@ const CartProvider: FC = (props) => {
     setIsInvoice(true);
   };
 
+  /** get all delivery options from the delivery options collection in db */
   const getDeliveryOptions = async () => {
     const response = await makeRequest("/api/deliveryOption", "GET");
     setDeliveryOptions(response);
@@ -158,7 +159,7 @@ const CartProvider: FC = (props) => {
         removeFromCart,
         emptyCart,
         selectShippment,
-        selectPaymentMethod,
+        setPaymentMethod,
         getDeliveryOptions,
         deliveryOptions,
       }}

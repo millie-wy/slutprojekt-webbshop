@@ -10,7 +10,7 @@ export interface DeliveryOption {
 
 export const deliveryOptionSchema = new mongoose.Schema<DeliveryOption>(
   {
-    provider: { type: String, required: true, unique: true },
+    provider: { type: String, required: true },
     cost: { type: Number, required: true },
     estTime: { type: String, required: true },
     logoId: { type: String, required: false },

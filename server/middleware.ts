@@ -10,7 +10,7 @@ export const auth = (req: Request, res: Response, next: NextFunction) => {
 
 // stop users that are not admin
 export const adminOnly = (req: Request, res: Response, next: NextFunction) => {
-  if (!req.session?.user.isAdmin) throw Error(ErrorCodes.unauthorizedEmail);
+  if (!req.session?.user.isAdmin) throw Error(ErrorCodes.accessDenied);
   next();
 };
 
