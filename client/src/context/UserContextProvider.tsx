@@ -7,7 +7,7 @@ interface UserContextValue {
   currentUser: User | undefined;
   handleSignUp: (user: User) => void;
   handleSignIn: (UserSignIn: User) => void;
-  handleSignOut: (userSignOut: User) => void;
+  handleSignOut: () => void;
 }
 
 export const UserContext = createContext<UserContextValue>({

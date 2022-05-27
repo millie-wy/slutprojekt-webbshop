@@ -140,7 +140,7 @@ function Signup() {
             ></TextField>
 
             <Link
-              to="/login"
+              to="/checkoutpage"
               style={{
                 textDecoration: "none",
                 color: "black",
