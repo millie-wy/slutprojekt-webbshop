@@ -18,11 +18,10 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import cartIcon from "../assets/icons/icon-shopping-cart.webp";
 import userIcon from "../assets/icons/icon-user.webp";
-import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import logo from "../assets/images/logo.svg";
 import { useCart } from "../context/CartContextProvider";
 import { sumQuantity } from "../Helper";
-import { UserContext } from "../context/UserContextProvider";
+import { UserContext, useUser } from "../context/UserContextProvider";
 
 interface Page {
   label: string;
@@ -31,7 +30,7 @@ interface Page {
 
 function Header() {
   const { cart } = useCart();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const { handleSignOut, currentUser } = useUser();
   const [open, setOpen] = useState(false);
   const [anchorMenu, setAnchorMenu] = useState(false);
   const { ccLogo, icon, iconsContainer, quantityIcon } = useStyles();
@@ -87,9 +86,9 @@ function Header() {
   const icons = () => {
     return (
       <div className={iconsContainer} style={{ gap: ".5rem" }}>
-        {context.currentUser ? (
+        {currentUser ? (
           <Link
-            to="/logout" // to be adjusted, dont know what the link is for now
+            to="/" // to be adjusted, dont know what the link is for now
             style={{
               display: "flex",
               flexDirection: "row",
@@ -104,6 +103,7 @@ function Header() {
               fontFamily="Prata"
               variant="body2"
               sx={{ textTransform: "capitalize" }}
+              onClick={handleSignOut}
             >
               Logout
             </Typography>
