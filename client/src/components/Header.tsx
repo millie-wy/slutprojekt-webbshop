@@ -18,7 +18,6 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import cartIcon from "../assets/icons/icon-shopping-cart.webp";
 import userIcon from "../assets/icons/icon-user.webp";
-import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import logo from "../assets/images/logo.svg";
 import { useCart } from "../context/CartContextProvider";
 import { sumQuantity } from "../Helper";
@@ -31,7 +30,7 @@ interface Page {
 
 function Header() {
   const { cart } = useCart();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const { handleSignOut, currentUser } = useUser();
   const [open, setOpen] = useState(false);
   const [anchorMenu, setAnchorMenu] = useState(false);
   const { ccLogo, icon, iconsContainer, quantityIcon } = useStyles();
