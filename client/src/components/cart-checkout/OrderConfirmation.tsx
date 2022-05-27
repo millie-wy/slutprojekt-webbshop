@@ -24,7 +24,7 @@ const OrderConfirmation = () => {
   const { orderIsLoading, order } = useOrder();
   const { currentUser } = useUser();
 
-  return orderIsLoading ? (
+  return orderIsLoading && !order ? (
     <Container sx={{ height: "calc(100vh - 8rem)", mt: "2rem" }}>
       <Box
         sx={{
