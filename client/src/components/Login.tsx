@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
 import { useUser } from "../context/UserContextProvider";
+import LoginForm from "./LoginForm";
 
 
 
@@ -60,51 +61,7 @@ function Login() {
                 <Typography sx={header2}>Sign up</Typography>
                 </Link>
             </Box>
-            <form onSubmit={formik.handleSubmit}>
-            <Paper sx={paperStyle}>
-                <Typography sx={header3}>Login</Typography>
-
-                <Box sx={boxStyle2}>
-            
-                <TextField 
-                sx={{marginTop:'3rem'}}
-                className={classes.textFieldStyle}
-                required
-                type="email"
-                label="Email address"
-                name="email"
-                value={formik.values.email}
-                error={
-                  formik.touched.email && Boolean(formik.errors.email)
-                }
-                helperText={formik.touched.email && formik.errors.email}
-                onChange={formik.handleChange}>
-                </TextField>
-
-                <TextField 
-                className={classes.textFieldStyle}
-                sx={{marginTop: '3rem'}}
-                required
-                type="password"
-                label="Password"
-                name="password"
-                value={formik.values.password}
-                error={
-                  formik.touched.password && Boolean(formik.errors.password)
-                }
-                helperText={formik.touched.password && formik.errors.password}
-                onChange={formik.handleChange}
-                >
-                    
-                </TextField>
-                <Link to="/signup" style={{textDecoration:'none', color: 'black', marginTop: '1rem', fontSize: '13px'}}>
-                No account? Sign up here
-                </Link>
-                <Button sx={buttonStyle} type="submit">Login</Button>
-                </Box>
-
-            </Paper>
-            </form>
+            <LoginForm/>
         </Container>
     );
 }
