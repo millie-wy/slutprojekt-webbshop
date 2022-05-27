@@ -30,6 +30,8 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     res.status(403).json("You are not permitted.");
   } else if (err.message === ErrorCodes.notFound) {
     res.status(404).json("Resource(s) not found.");
+  } else if (err.message === ErrorCodes.notEnoughStock) {
+    res.status(404).json("Not enough stock for order.");
   } else if (err.message === ErrorCodes.unsupportedImgFormat) {
     res.status(415).json("Unsupported image format");
   } else {
@@ -47,6 +49,7 @@ export const ErrorCodes = {
   unauthorizedProduct: "unauthorizedProduct",
   accessDenied: "accessDenied",
   notFound: "notFound",
+  notEnoughStock: "notEnoughStock",
   unsupportedImgFormat: "unsupportedImgFormat",
   other: "other",
 } as const;

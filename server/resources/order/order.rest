@@ -6,15 +6,24 @@ POST http://localhost:3001/api/order
 Content-Type: application/json
 
 {
-    "products": [
+    "products": [  
     {
-        "_id": "6287cae855d8b506e5930390",
+        "_id": "628cccd0b280ba36dec2817a",
         "imageId": "628cc62ae5cd4173f113dfd1",
         "title": "Jolly",
         "description": "Stool with comfortable, shaped seat. Made of solid wood, in the Toon Wood type. Height 61 cm. Seat 40x32 cm. Seat height: 61 cm Width at the bottom 47 cm. Mounted.",
         "price": 1599,
         "category": ["Chairs & Stools"],
-        "quantity": 1
+        "quantity": 9
+    },
+    {
+        "_id": "628cccf2b280ba36dec2817c",
+        "imageId": "628cc456e5cd4173f113dfbc",
+        "title": "Chardonne",
+        "description": "Armchair with pine and plywood frame with nozag suspension and foam filling. Brushed metal legs. Dimensions: Width 89 cm, height 77 cm, depth 83 cm. Seat height 43 cm, seat depth 62 cm, seat width 54 cm.",
+        "price": 3919,
+        "category": ["Sofas & Armchairs"],
+        "quantity": 15
     }],
     "deliveryAddress": {
         "street": "abc street", 
