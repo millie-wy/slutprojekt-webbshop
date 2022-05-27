@@ -1,31 +1,55 @@
-import { Box, Typography } from "@mui/material";
+import { Box, CircularProgress, Container, Typography } from "@mui/material";
+import type { Product } from "@server/shared/client.types";
+import { randomBytes } from "crypto";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useAdmin } from "../context/AdminPageContext";
+import { useOrder } from "../context/OrderContextProvider";
+import { useProduct } from "../context/ProductContext";
 import { numWithSpaces } from "../Helper";
 import { ProductData } from "../ProductData";
 
 const StartPage = () => {
-  const { products } = useAdmin();
-  const [randomProducts, setRandomProducts] = useState<ProductData[]>([]);
+  const { products, fetchAllProducts, isLoading } = useProduct();
+  const { setOrder } = useOrder();
+  const [randomProducts, setRandomProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    const getRandomProduct = () => {
-      let randoms: ProductData[] = [];
-      const numOfRandomProducts: number = 6;
+    fetchAllProducts();
+    setOrder(undefined); // empty "order" state when the user leaves the confirmation
+  }, []);
+
+  useEffect(() => {
+    getRandomProduct();
+  }, [products]);
+
+  const getRandomProduct = () => {
+    let randoms: Product[] = [];
+    const numOfRandomProducts: number = 6;
+    if (products.length > numOfRandomProducts) {
       while (randoms.length < numOfRandomProducts) {
-        let random: ProductData =
-          products[Math.floor(Math.random() * products.length)];
+        let random = products[Math.floor(Math.random() * products.length)];
         if (randoms.indexOf(random) === -1) {
           randoms.push(random);
         }
       }
       setRandomProducts(randoms);
-    };
-    getRandomProduct();
-  }, [products]);
+    }
+  };
 
-  return (
+  return isLoading ? (
+    <Container sx={{ height: "calc(100vh - 8rem)", mt: "2rem" }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100%",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    </Container>
+  ) : (
     <Box
       sx={{
         display: "flex",
@@ -52,12 +76,12 @@ const StartPage = () => {
               },
             }}
             alt={product.title}
-            src={product.image}
+            src={`http://localhost:3001${product.imageUrl}`}
           />
           <Box
             component={Link}
             {...{
-              to: `/detail/${product.id}`,
+              to: `/detail/${product._id}`,
             }}
             style={{
               position: "absolute",

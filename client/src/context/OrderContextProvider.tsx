@@ -1,76 +1,95 @@
-import { createContext, FC, useContext, useState } from "react";
-import { DeliveryOption } from "../Types";
-import { ItemData, useCart } from "./CartContextProvider";
-
-interface OrderData {
-  orderNo: string;
-  boughtItems: ItemData[];
-  shipmentOption: DeliveryOption;
-  paymentMethod: String;
-  customer: Customer;
-}
-
-export interface Customer {
-  name: string;
-  email: string;
-  address: string;
-  phoneNumber: number | "";
-}
+import type { Order } from "@server/shared/client.types";
+import {
+  createContext,
+  Dispatch,
+  FC,
+  SetStateAction,
+  useContext,
+  useState,
+} from "react";
+import { useNavigate } from "react-router-dom";
+import { FormValues } from "../components/cart-checkout/CheckoutFormContainer";
+import { makeRequest } from "../Helper";
+import { useCart } from "./CartContextProvider";
 
 interface OrderContextValue {
-  order: OrderData[];
-  createOrder: (customerValues: Customer) => void;
-  generateOrderNum: () => string;
+  orderIsLoading: boolean;
+  setOrderIsLoading: Dispatch<SetStateAction<boolean>>;
+  processOrder: (formValues: FormValues) => void;
+  setOrder: Dispatch<SetStateAction<Order | undefined>>;
+  order: Order | undefined;
 }
 
 export const OrderContext = createContext<OrderContextValue>({
-  order: [],
-  createOrder: () => {},
-  generateOrderNum: () => "",
+  orderIsLoading: false,
+  setOrderIsLoading: () => {},
+  processOrder: () => {},
+  setOrder: () => {},
+  order: {
+    customer: {
+      email: "",
+      password: "",
+    },
+    deliveryAddress: {
+      street: "",
+      zipCode: 0,
+      city: "",
+    },
+    deliveryOption: {
+      provider: "",
+      cost: 0,
+      estTime: "",
+    },
+    paymentMethod: "",
+    phoneNumber: 0,
+    products: [],
+  },
 });
 
 const OrderProvider: FC = (props) => {
+  const [orderIsLoading, setOrderIsLoading] = useState<boolean>(false);
   const { cart, shipper, paymentMethod } = useCart();
-  const [order, setOrder] = useState<OrderData[]>([]);
+  const [order, setOrder] = useState<Order | undefined>();
+  const navigate = useNavigate();
+  const { emptyCart, isSwish, isCreditCard, isInvoice } = useCart();
 
-  /** push in everything related to the order to the order state */
-  const createOrder = (customerValues: Customer) => {
+  /** process formValues and shape the order object */
+  const processOrder = async (formValues: FormValues) => {
     const boughtItems = [...cart];
-    const customer: Customer = {
-      name: customerValues.name,
-      email: customerValues.email,
-      address: customerValues.address,
-      phoneNumber: customerValues.phoneNumber,
+    const deliveryAddress = {
+      street: formValues.deliveryAddress.street,
+      zipCode: Number(formValues.deliveryAddress.zipCode),
+      city: formValues.deliveryAddress.city,
     };
-    let updatedOrder: OrderData = {
-      customer: customer,
-      boughtItems: boughtItems,
-      shipmentOption: shipper,
+    let updatedOrder: Order = {
+      deliveryAddress: deliveryAddress,
+      products: boughtItems,
+      deliveryOption: shipper,
       paymentMethod: paymentMethod,
-      orderNo: generateOrderNum(),
+      phoneNumber: Number(formValues.phoneNumber),
     };
-    setOrder([updatedOrder]);
+    await sendOrderToServer(updatedOrder);
   };
-  // console.log(order);
 
-  /** generate an unique order numder */
-  const generateOrderNum = () => {
-    const yy: string = new Date().getFullYear().toString().substr(-2);
-    const mm: number = new Date().getMonth() + 1;
-    const dd: number = new Date().getDate();
-    const formattedDate =
-      yy + (mm > 9 ? "" : "0") + mm + (dd > 9 ? "" : "0") + dd;
-    const randomNum: number = Math.floor(Math.random() * 100000);
-    const orderNum: string = formattedDate + "-" + randomNum;
-    return orderNum;
+  /** send order object to server in order to create order */
+  const sendOrderToServer = async (order: Order) => {
+    const response = await makeRequest("/api/order", "POST", order);
+    setOrder(response);
+    if (order) {
+      navigate("/confirmation");
+      setOrderIsLoading(false);
+      emptyCart();
+    }
   };
 
   return (
     <OrderContext.Provider
       value={{
+        orderIsLoading,
+        setOrderIsLoading,
+        processOrder,
+        setOrder,
         order,
-        createOrder,
-        generateOrderNum,
       }}
     >
       {props.children}

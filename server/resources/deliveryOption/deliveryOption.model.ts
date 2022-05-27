@@ -4,12 +4,13 @@ export interface DeliveryOption {
   provider: string;
   cost: number;
   estTime: string;
-  logoId: string;
+  logoId?: string;
+  /* Virtual */ logoUrl?: string;
 }
 
 export const deliveryOptionSchema = new mongoose.Schema<DeliveryOption>(
   {
-    provider: { type: String, required: true, unique: true },
+    provider: { type: String, required: true },
     cost: { type: Number, required: true },
     estTime: { type: String, required: true },
     logoId: { type: String, required: false },

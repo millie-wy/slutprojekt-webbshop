@@ -18,22 +18,26 @@ const PaymentSwish = () => {
     <Box
       sx={{
         display: "flex",
-        m: "2rem",
-        flexDirection: "row",
+        margin: "auto",
+        my: { xs: "1rem", sm: "2rem" },
+        flexDirection: "column",
         justifyContent: "center",
+        width: { xs: 1, sm: "80%", md: "70%" },
       }}
     >
       <img
         src={SwishLogo}
         alt="Swish"
         height="20px"
-        style={{ marginTop: ".5rem", marginRight: "1rem" }}
+        style={{ margin: "1rem auto" }}
       />
       <TextField
-        style={{
+        sx={{
+          margin: "auto",
           backgroundColor: "white",
-          width: "200px",
+          width: 1,
           height: "40px",
+          maxWidth: "400px",
         }}
         id="swish"
         name="swish"

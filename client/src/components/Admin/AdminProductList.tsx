@@ -52,10 +52,10 @@ function AdminProductList(props: Props) {
           {props.product.title}
         </TableCell>
         <TableCell>{props.product.id}</TableCell>
+        <TableCell>Category</TableCell> {/* HERE GOES THE CATEGORY DATA */}
         <TableCell>{numWithSpaces(props.product.price)} SEK</TableCell>
-        <TableCell>2</TableCell> {/* HERE GOES THE STOCK DATA */}
+        <TableCell>2</TableCell>
       </TableRow>
-      {/* All info om produkten som är klickad*/}
       <TableRow>
         <TableCell
           style={{
@@ -85,6 +85,9 @@ function AdminProductList(props: Props) {
                       Title
                     </TableCell>
                     <TableCell align="center" style={{ color: "#6C665F" }}>
+                      Category
+                    </TableCell>
+                    <TableCell align="center" style={{ color: "#6C665F" }}>
                       Price
                     </TableCell>
                     <TableCell align="center" style={{ color: "#6C665F" }}>
@@ -111,7 +114,9 @@ function AdminProductList(props: Props) {
                           style={{
                             display: "flex",
                             flexDirection: "column",
+                            justifyContent: "center",
                             alignItems: "center",
+                            position: "relative",
                           }}
                         >
                           <img
@@ -119,7 +124,31 @@ function AdminProductList(props: Props) {
                             alt={props.product.title}
                             style={{ maxHeight: "180px" }}
                           />
-                          <TextField
+                          <label
+                            htmlFor="uploadImg"
+                            style={{
+                              backgroundColor: "#ed6c02",
+                              color:'white',
+                              padding: '.1rem',
+                              paddingLeft:'.5rem',
+                              paddingRight:'.5rem',
+                              borderRadius:'4px',
+                              marginTop:'.4rem'
+                            }}
+                          >
+                            Choose File
+                          </label>
+                          <input
+                            id="uploadImg"
+                            type={"file"}
+                            accept="image/*"
+                            style={{
+                              opacity: 0,
+                              position: "absolute",
+                              zIndex: -1,
+                            }}
+                          ></input>
+                          {/* <TextField
                             required
                             multiline
                             label="Image URL"
@@ -127,7 +156,7 @@ function AdminProductList(props: Props) {
                             onChange={(event) => setImage(event.target.value)}
                             inputProps={{ style: { fontSize: ".9rem" } }}
                             InputLabelProps={{ style: { fontSize: ".9rem" } }}
-                          />
+                          /> */}
                         </Box>
                       ) : (
                         <img

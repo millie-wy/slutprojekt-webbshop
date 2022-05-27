@@ -21,26 +21,37 @@ const CustomerDetails = () => {
         }}
         variant="h5"
       >
-        3. Contact Details
+        3. Delivery Details
       </Typography>
       <Box
         sx={{
-          height: 470,
+          height: "fit-content",
           backgroundColor: "#F3F2F0",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
+          py: "2rem",
         }}
       >
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
-            width: { xs: "300px", sm: "450px", md: "600px", lg: "600px" },
+            width: { xs: "90%", sm: "80%", md: "70%" },
           }}
         >
-          <TextField
+          <Typography
+            sx={{
+              textTransform: "uppercase",
+              fontFamily: "Prata",
+              mb: "1rem",
+            }}
+            variant="h6"
+          >
+            Address
+          </Typography>
+          {/* <TextField
             style={{
               backgroundColor: "white",
               height: "55px",
@@ -55,6 +66,26 @@ const CustomerDetails = () => {
             onChange={handleChange}
             error={touched.name && Boolean(errors.name)}
             helperText={errors.name}
+          /> */}
+          <TextField
+            fullWidth
+            style={{
+              backgroundColor: "white",
+              height: "55px",
+              marginBottom: "1rem",
+            }}
+            id="deliveryAddress.street"
+            name="deliveryAddress.street"
+            label="Street"
+            type="text"
+            margin="normal"
+            value={values.deliveryAddress.street}
+            onChange={handleChange}
+            error={
+              touched.deliveryAddress?.street &&
+              Boolean(errors.deliveryAddress?.street)
+            }
+            helperText={errors.deliveryAddress?.street}
           />
           <TextField
             style={{
@@ -62,17 +93,39 @@ const CustomerDetails = () => {
               height: "55px",
               marginBottom: "1rem",
             }}
-            id="address"
-            name="address"
-            label="Delivery Address"
+            id="deliveryAddress.zipCode"
+            name="deliveryAddress.zipCode"
+            label="Zip Code"
             type="text"
             margin="normal"
-            value={values.address}
+            value={values.deliveryAddress.zipCode}
             onChange={handleChange}
-            error={touched.address && Boolean(errors.address)}
-            helperText={errors.address}
+            error={
+              touched.deliveryAddress?.street &&
+              Boolean(errors.deliveryAddress?.street)
+            }
+            helperText={errors.deliveryAddress?.street}
           />
           <TextField
+            style={{
+              backgroundColor: "white",
+              height: "55px",
+              marginBottom: "1rem",
+            }}
+            id="deliveryAddress.city"
+            name="deliveryAddress.city"
+            label="City"
+            type="text"
+            margin="normal"
+            value={values.deliveryAddress.city}
+            onChange={handleChange}
+            error={
+              touched.deliveryAddress?.city &&
+              Boolean(errors.deliveryAddress?.city)
+            }
+            helperText={errors.deliveryAddress?.city}
+          />
+          {/* <TextField
             style={{
               backgroundColor: "white",
               height: "55px",
@@ -85,9 +138,20 @@ const CustomerDetails = () => {
             margin="normal"
             value={values.email}
             onChange={handleChange}
-            error={touched.address && Boolean(errors.email)}
+            error={touched.email && Boolean(errors.email)}
             helperText={errors.email}
-          />
+          /> */}
+          <Typography
+            sx={{
+              textTransform: "uppercase",
+              fontFamily: "Prata",
+              mt: "2rem",
+              mb: "1rem",
+            }}
+            variant="h6"
+          >
+            Contact Number
+          </Typography>
           <TextField
             style={{
               backgroundColor: "white",

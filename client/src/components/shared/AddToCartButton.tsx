@@ -1,8 +1,7 @@
 import LoadingButton from "@mui/lab/LoadingButton";
+import type{ Product } from "@server/shared/client.types";
 import { CSSProperties, useState } from "react";
 import { useCart } from "../../context/CartContextProvider";
-import { Product } from "../../Types";
-
 interface Props {
   product: Product;
   size: string | any;

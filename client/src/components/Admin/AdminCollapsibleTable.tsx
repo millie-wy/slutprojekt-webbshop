@@ -32,6 +32,11 @@ function AdminCollapsibleTable() {
             </TableCell>
             <TableCell align="left">
               <Typography variant="subtitle1" fontWeight="bold" color="white">
+                Category
+              </Typography>
+            </TableCell>
+            <TableCell align="left">
+              <Typography variant="subtitle1" fontWeight="bold" color="white">
                 Price
               </Typography>
             </TableCell>
