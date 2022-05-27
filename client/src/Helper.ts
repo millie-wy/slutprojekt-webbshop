@@ -7,17 +7,21 @@ export const makeRequest = async (
   method: string,
   body?: object
 ) => {
-  let response = await fetch(url, {
-    method,
-    body: JSON.stringify(body),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  if (response.ok) {
-    return await response.json();
+  try {
+    let response = await fetch(url, {
+      method,
+      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (response.ok) {
+      return await response.json();
+    }
+    // return alert(await response.json());
+  } catch (err) {
+    console.log(err);
   }
-  return alert(await response.json());
 };
 
 export const sumQuantity = (itemData: Product[]) => {

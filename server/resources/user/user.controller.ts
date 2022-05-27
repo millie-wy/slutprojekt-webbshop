@@ -68,8 +68,7 @@ export const getLoggedInUser = async (
   req: Request<{ id: string }>,
   res: Response
 ) => {
-
- if (!req.session?.user) throw Error(ErrorCodes.unauthorizedLogin);
+  if (!req.session?.user) throw Error(ErrorCodes.unauthorizedLogin);
   const user = await UserModel.findOne({ _id: req.session.user._id });
   res.status(200).json(user);
 };
