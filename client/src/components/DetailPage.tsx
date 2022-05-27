@@ -1,10 +1,12 @@
 import { Box, CircularProgress, Container, Typography } from "@mui/material";
-import type { Product } from "@server/shared/client.types"; 
+import type { Product } from "@server/shared/client.types";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import detailInfo from "../assets/images/detailinfo.png";
 import { makeRequest, numWithSpaces } from "../Helper";
 import AddToCartButton from "./shared/AddToCartButton";
+import { Circle } from "@mui/icons-material/";
+import OutOfStockButton from "./shared/OutOfStockButton";
 
 function DetailPage() {
   const params = useParams<{ id: string }>();
@@ -92,16 +94,81 @@ function DetailPage() {
         >
           {numWithSpaces(product!.price)} SEK
         </Typography>
-        <AddToCartButton
-          product={product!}
-          size="large"
-          style={{
-            margin: "2rem",
-            maxWidth: "360px",
-            backgroundColor: "#CAC2B9",
-            letterSpacing: "3px",
-          }}
-        />
+        {!product!.stock ? (
+          <OutOfStockButton
+            size="large"
+            style={{
+              margin: "2rem 2rem 0.5rem 2rem",
+              maxWidth: "360px",
+              backgroundColor: "#CAC2B9",
+              letterSpacing: "3px",
+            }}
+          />
+        ) : (
+          <AddToCartButton
+            product={product!}
+            size="large"
+            style={{
+              margin: "2rem 2rem 0.5rem 2rem",
+              maxWidth: "360px",
+              backgroundColor: "#CAC2B9",
+              letterSpacing: "3px",
+            }}
+          />
+        )}
+        {!product!.stock ? (
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              placeItems: "center",
+              gap: ".3rem",
+              placeContent: "center",
+              mb: "2rem",
+            }}
+          >
+            <Circle style={{ fontSize: "10px", color: "red" }} />
+            <Typography fontSize="11px" color="#545454">
+              Out of stock
+            </Typography>
+          </Box>
+        ) : product!.stock < 5 ? (
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              placeItems: "center",
+              gap: ".3rem",
+              placeContent: "center",
+              mb: "2rem",
+            }}
+          >
+            <Circle style={{ fontSize: "10px", color: "orange" }} />
+            <Typography fontSize="11px" color="#545454">
+              Only{" "}
+              <span style={{ color: "orange", fontWeight: "600" }}>
+                {product!.stock} left{" "}
+              </span>
+              in stock
+            </Typography>
+          </Box>
+        ) : (
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              placeItems: "center",
+              gap: ".3rem",
+              placeContent: "center",
+              mb: "2rem",
+            }}
+          >
+            <Circle style={{ fontSize: "9px", color: "green" }} />
+            <Typography fontSize="11px" color="#545454">
+              In stock
+            </Typography>
+          </Box>
+        )}
         <img src={detailInfo} alt="product details" width="350px" />
       </Container>
     </Container>

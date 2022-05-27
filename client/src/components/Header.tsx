@@ -11,17 +11,15 @@ import {
   Typography,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { styled } from "@mui/system";
-import { Box } from "@mui/system";
-import React, { useContext } from "react";
-import { useState } from "react";
+import { Box, styled } from "@mui/system";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import cartIcon from "../assets/icons/icon-shopping-cart.webp";
 import userIcon from "../assets/icons/icon-user.webp";
 import logo from "../assets/images/logo.svg";
 import { useCart } from "../context/CartContextProvider";
+import { useUser } from "../context/UserContextProvider";
 import { sumQuantity } from "../Helper";
-import { UserContext, useUser } from "../context/UserContextProvider";
 
 interface Page {
   label: string;
@@ -34,9 +32,6 @@ function Header() {
   const [open, setOpen] = useState(false);
   const [anchorMenu, setAnchorMenu] = useState(false);
   const { ccLogo, icon, iconsContainer, quantityIcon } = useStyles();
-
-  // let context = useContext(UserContext);
-  const { currentUser } = useUser();
 
   const menuLeft: Page[] = [
     {
