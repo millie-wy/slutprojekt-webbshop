@@ -260,6 +260,7 @@ function Header() {
                 <Typography
                   fontFamily="Prata"
                   variant="body2"
+                  onClick={handleSignOut}
                   sx={{
                     textTransform: "capitalize",
                     textAlign: "center",
@@ -274,17 +275,7 @@ function Header() {
             </Drawer>
           </Box>
         ) : (
-          <Link
-            to="/logout" // to be adjusted, dont know what the link is for now
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              textDecoration: "none",
-              color: "white",
-              placeContent: "center",
-              placeItems: "center",
-            }}
-          >
+          <Box>
             <Typography sx={{ cursor: "pointer" }} onClick={handleOpen}>
               <img className={icon} src={userIcon} alt="logout" />
             </Typography>
@@ -328,6 +319,7 @@ function Header() {
                 <Typography
                   fontFamily="Prata"
                   variant="body2"
+                  onClick={handleSignOut}
                   sx={{
                     textTransform: "capitalize",
                     textAlign: "center",
@@ -339,7 +331,7 @@ function Header() {
                 </Typography>
               </Box>
             </Drawer>
-          </Link>
+          </Box>
         )}
 
         <Link className={quantityIcon} to="/checkoutpage">
