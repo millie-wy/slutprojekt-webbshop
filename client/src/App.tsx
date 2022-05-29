@@ -1,5 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import AdminOrderTable from "./components/Admin/adminOrders/AdminOrderTable";
 import AdminPage from "./components/Admin/AdminPage";
+import AdminProductsTable from "./components/Admin/adminProducts/AdminProductsTable";
 import CheckoutPage from "./components/cart-checkout/CheckoutPage";
 import OrderConfirmation from "./components/cart-checkout/OrderConfirmation";
 import DetailPage from "./components/DetailPage";
@@ -51,7 +53,15 @@ function App() {
                         path="/confirmation"
                         element={<OrderConfirmation />}
                       />
-                      <Route path="/admin" element={<AdminPage />} />
+                      {/* <Route path="/admin" element={<AdminPage />} /> */}
+                      <Route
+                        path="/admin-orders"
+                        element={<AdminOrderTable />}
+                      />
+                      <Route
+                        path="/admin-products"
+                        element={<AdminProductsTable />}
+                      />
                       <Route path="/checkoutpage" element={<CheckoutPage />} />
                       <Route path="/login" element={<Login />} />
                       <Route path="/signup" element={<Signup />} />
