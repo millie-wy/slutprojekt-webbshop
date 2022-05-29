@@ -1,7 +1,7 @@
 import type { Product } from "@server/shared/client.types";
 import { createContext, FC, useContext, useState } from "react";
 
-interface AdminContextValue {
+interface AdminProductContextValue {
   // products: Product[];
   isEdit: boolean;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
@@ -10,7 +10,7 @@ interface AdminContextValue {
   removeProduct: (product: Product) => void;
 }
 
-export const AdminContext = createContext<AdminContextValue>({
+export const AdminProductContext = createContext<AdminProductContextValue>({
   // products: [],
   isEdit: false,
   addProduct: () => {},
@@ -22,7 +22,7 @@ export const AdminContext = createContext<AdminContextValue>({
 // COMMENT BY MILLIE: this file has loads of error after updating the import (client.types), so most of the functions have been commented out
 // reminder: the full product list is in the "product" state under ProductContext so hopefully no need to fetch again here
 
-const AdminProvider: FC = (props) => {
+const AdminProductProvider: FC = (props) => {
   // COMMENT BY MILLIE: commented out the below state as the product data was the local data which does not exist anymore
   // const [products, setProducts] = useLocalStorageState(productData, "adminLS");
   const [isEdit, setEdit] = useState(false);
@@ -73,7 +73,7 @@ const AdminProvider: FC = (props) => {
   // };
 
   return (
-    <AdminContext.Provider
+    <AdminProductContext.Provider
       value={{
         // products,
         isEdit,
@@ -84,9 +84,9 @@ const AdminProvider: FC = (props) => {
       }}
     >
       {props.children}
-    </AdminContext.Provider>
+    </AdminProductContext.Provider>
   );
 };
 
-export default AdminProvider;
-export const useAdminProduct = () => useContext(AdminContext);
+export default AdminProductProvider;
+export const useAdminProduct = () => useContext(AdminProductContext);

@@ -17,7 +17,7 @@ import {
   TextField,
 } from "@mui/material";
 import { Fragment, useState } from "react";
-import { useAdminProduct } from "../../../context/AdminPageContext";
+import { useAdminProduct } from "../../../context/AdminProductContext";
 import { numWithSpaces } from "../../../Helper";
 import type { Product } from "@server/shared/client.types";
 import RemoveProductConfirmation from "./RemoveProductConfirmation";

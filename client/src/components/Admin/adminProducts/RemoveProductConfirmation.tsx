@@ -6,7 +6,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import type { Product } from "@server/shared/client.types";
 import { useState } from "react";
-import { useAdminProduct } from "../../../context/AdminPageContext";
+import { useAdminProduct } from "../../../context/AdminProductContext";
 
 interface Props {
   product: Product;

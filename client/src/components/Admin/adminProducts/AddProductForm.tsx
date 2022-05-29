@@ -3,7 +3,7 @@ import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
 import { useState } from "react";
 import * as yup from "yup";
-import { useAdminProduct } from "../../../context/AdminPageContext";
+import { useAdminProduct } from "../../../context/AdminProductContext";
 import NewProductConfirmation from "./NewProductConfirmation";
 
 export interface ProductValues {
