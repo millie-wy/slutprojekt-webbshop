@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import AdminOrderTable from "./components/Admin/adminOrders/AdminOrderTable";
-import AdminPage from "./components/Admin/AdminPage";
+import AdminOrderTable from "./components/Admin/adminOrders/AdminOrdersTable";
 import AdminProductsTable from "./components/Admin/adminProducts/AdminProductsTable";
 import CheckoutPage from "./components/cart-checkout/CheckoutPage";
 import OrderConfirmation from "./components/cart-checkout/OrderConfirmation";
@@ -53,7 +52,6 @@ function App() {
                         path="/confirmation"
                         element={<OrderConfirmation />}
                       />
-                      {/* <Route path="/admin" element={<AdminPage />} /> */}
                       <Route
                         path="/admin-orders"
                         element={<AdminOrderTable />}

@@ -2,7 +2,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { Box, Button, Container, Typography } from "@mui/material";
 import { useState } from "react";
 import AddProductForm from "./adminProducts/AddProductForm";
-import AdminOrderTable from "./adminOrders/AdminOrderTable";
+import AdminOrderTable from "./adminOrders/AdminOrdersTable";
 import Modal from "./adminProducts/AddProductFormModal";
 import AdminProductsTable from "./adminProducts/AdminProductsTable";
 
