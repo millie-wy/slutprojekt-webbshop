@@ -3,8 +3,7 @@ import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
 import { useState } from "react";
 import * as yup from "yup";
-import { useAdmin } from "../../context/AdminPageContext";
-import { generateId, ProductData } from "../../ProductData";
+import { useAdminProduct } from "../../../context/AdminPageContext";
 import NewProductConfirmation from "./NewProductConfirmation";
 
 export interface ProductValues {
@@ -29,7 +28,7 @@ const ProductValidationSchema = yup.object({
 });
 
 function AddProductForm() {
-  const { addProduct } = useAdmin();
+  const { addProduct } = useAdminProduct();
   const [confirmation, setConfirmation] = useState(false);
 
   const validateAndSaveNewProduct = (values: ProductValues) => {
@@ -38,15 +37,16 @@ function AddProductForm() {
      */
     let promise = new Promise((resolve) => {
       setTimeout(() => {
-        const newProduct: ProductData = {
-          id: generateId(),
-          title: values.title,
-          description: values.description,
-          price: values.price,
-          image: values.image,
-        };
-        addProduct(newProduct);
-        resolve(newProduct);
+        // COMMENT BY MILLIE: commented out this part because it had error after corrected the import of Product from client.types
+        // const newProduct: Product = {
+        //   id: generateId()
+        //   title: values.title,
+        //   description: values.description,
+        //   price: values.price,
+        //   image: values.image,
+        // };
+        // addProduct(newProduct);
+        // resolve(newProduct);
       }, 500);
     });
     promise.then(() => {

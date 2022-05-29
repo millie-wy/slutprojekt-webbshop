@@ -8,11 +8,11 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { useAdmin } from "../../context/AdminPageContext";
-import AdminProductList from "./AdminProductList";
+import { useProduct } from "../../../context/ProductContext";
+import AdminProductsItem from "./AdminProductsItem";
 
-function AdminCollapsibleTable() {
-  const { products } = useAdmin();
+function AdminProductsTable() {
+  const { products } = useProduct();
 
   return (
     <TableContainer component={Paper} sx={{ my: "1.5rem" }}>
@@ -25,11 +25,11 @@ function AdminCollapsibleTable() {
                 Title
               </Typography>
             </TableCell>
-            <TableCell align="left">
+            {/* <TableCell align="left">
               <Typography variant="subtitle1" fontWeight="bold" color="white">
                 ID
               </Typography>
-            </TableCell>
+            </TableCell> */}
             <TableCell align="left">
               <Typography variant="subtitle1" fontWeight="bold" color="white">
                 Category
@@ -49,7 +49,7 @@ function AdminCollapsibleTable() {
         </TableHead>
         <TableBody>
           {products.map((product) => {
-            return <AdminProductList key={product.id} product={product} />;
+            return <AdminProductsItem key={product._id} product={product} />;
           })}
         </TableBody>
       </Table>
@@ -57,4 +57,4 @@ function AdminCollapsibleTable() {
   );
 }
 
-export default AdminCollapsibleTable;
+export default AdminProductsTable;

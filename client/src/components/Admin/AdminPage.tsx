@@ -1,10 +1,10 @@
 import AddIcon from "@mui/icons-material/Add";
 import { Box, Button, Container, Typography } from "@mui/material";
 import { useState } from "react";
-import AddProductForm from "./AddProductForm";
-import AdminCollapsibleTable from "./AdminCollapsibleTable";
-import BasicTable from "./OrderTable";
-import Modal from "./Modal";
+import AddProductForm from "./adminProducts/AddProductForm";
+import AdminOrderTable from "./adminOrders/AdminOrderTable";
+import Modal from "./adminProducts/AddProductFormModal";
+import AdminProductsTable from "./adminProducts/AdminProductsTable";
 
 function AdminPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -48,7 +48,7 @@ function AdminPage() {
           rowGap: "3rem",
         }}
       >
-        <AdminCollapsibleTable />
+        <AdminProductsTable />
 
         <Typography
           sx={{ textTransform: "uppercase", fontFamily: "Prata", mt: "1rem" }}
@@ -56,7 +56,7 @@ function AdminPage() {
         >
           Orders
         </Typography>
-        <BasicTable />
+        <AdminOrderTable />
       </div>
     </Container>
   );

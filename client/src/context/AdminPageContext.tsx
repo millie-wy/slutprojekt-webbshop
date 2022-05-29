@@ -1,18 +1,17 @@
+import type { Product } from "@server/shared/client.types";
 import { createContext, FC, useContext, useState } from "react";
-import { useLocalStorageState } from "../components/hooks/useLocalStorageState";
-import { ProductData, productData } from "../ProductData";
 
 interface AdminContextValue {
-  products: ProductData[];
+  // products: Product[];
   isEdit: boolean;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
-  saveProduct: (product: ProductData) => void;
-  addProduct: (product: ProductData) => void;
-  removeProduct: (product: ProductData) => void;
+  saveProduct: (product: Product) => void;
+  addProduct: (product: Product) => void;
+  removeProduct: (product: Product) => void;
 }
 
 export const AdminContext = createContext<AdminContextValue>({
-  products: [],
+  // products: [],
   isEdit: false,
   addProduct: () => {},
   setEdit: () => {},
@@ -20,64 +19,63 @@ export const AdminContext = createContext<AdminContextValue>({
   removeProduct: () => {},
 });
 
+// COMMENT BY MILLIE: this file has loads of error after updating the import (client.types), so most of the functions have been commented out
+// reminder: the full product list is in the "product" state under ProductContext so hopefully no need to fetch again here
+
 const AdminProvider: FC = (props) => {
-  const [products, setProducts] = useLocalStorageState(productData, "adminLS");
+  // COMMENT BY MILLIE: commented out the below state as the product data was the local data which does not exist anymore
+  // const [products, setProducts] = useLocalStorageState(productData, "adminLS");
   const [isEdit, setEdit] = useState(false);
 
-  /**
-   * function that pushes new product to a new list and then updates LS
-   * @param newProduct
-   */
-  const addProduct = (newProduct: ProductData) => {
-    let newProductList = [...products];
-    newProductList.push(newProduct);
-    setProducts(newProductList);
+  // function that pushes new product to a new list and then updates LS
+
+  const addProduct = (newProduct: Product) => {
+    // COMMENT BY MILLIE: this part should be replaced with POST
+    // let newProductList = [...products];
+    // newProductList.push(newProduct);
+    // setProducts(newProductList);
   };
 
-  /**
-   * function that removes a product, makes a new list and updates LS
-   * @param productToBeRemoved
-   */
-  const removeProduct = (productToBeRemoved: ProductData) => {
-    const updatedProductList = products.filter(
-      (product) => productToBeRemoved.id !== product.id
-    );
-    setProducts(updatedProductList);
+  // function that removes a product, makes a new list and updates LS
+  const removeProduct = (productToBeRemoved: Product) => {
+    // COMMENT BY MILLIE: this part should be replaced with DELETE
+    // const updatedProductList = products.filter(
+    //   (product) => productToBeRemoved.id !== product.id
+    // );
+    // setProducts(updatedProductList);
   };
 
-  /**
-   * function that saves an edited product
-   * @param editedProduct
-   */
-  const saveProduct = (editedProduct: ProductData) => {
-    const productExists = products.find((item) => item.id === editedProduct.id);
-    if (productExists) {
-      setProducts(
-        products.map((item) =>
-          item.id === editedProduct.id ? { ...editedProduct } : item
-        )
-      );
-    } else {
-      setProducts([...products, editedProduct]);
-    }
-
-    /**
-     * makes a new list that contains the edited product, sets edit to false
-     */
-    const editedProductList = products.map((item) => {
-      if (editedProduct.id === item.id) {
-        return editedProduct;
-      }
-      return item;
-    });
-    setProducts(editedProductList);
-    setEdit(false);
+  // update a product
+  const saveProduct = (editedProduct: Product) => {
+    // COMMENT BY MILLIE: this part should be replaced with PUT
+    // const productExists = products.find((item) => item.id === editedProduct.id);
+    // if (productExists) {
+    //   setProducts(
+    //     products.map((item) =>
+    //       item.id === editedProduct.id ? { ...editedProduct } : item
+    //     )
+    //   );
+    // } else {
+    //   setProducts([...products, editedProduct]);
+    // }
   };
+
+  // makes a new list that contains the edited product, sets edit to false
+  // COMMENT BY MILLIE: dunno what this is but commented out to get rid of errors
+  //   const editedProductList = products.map((item) => {
+  //     if (editedProduct.id === item.id) {
+  //       return editedProduct;
+  //     }
+  //     return item;
+  //   });
+  //   setProducts(editedProductList);
+  //   setEdit(false);
+  // };
 
   return (
     <AdminContext.Provider
       value={{
-        products,
+        // products,
         isEdit,
         setEdit,
         addProduct,
@@ -91,4 +89,4 @@ const AdminProvider: FC = (props) => {
 };
 
 export default AdminProvider;
-export const useAdmin = () => useContext(AdminContext);
+export const useAdminProduct = () => useContext(AdminContext);

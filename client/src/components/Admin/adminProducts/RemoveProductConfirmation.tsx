@@ -4,13 +4,12 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import type { Product } from "@server/shared/client.types";
 import { useState } from "react";
-
-import { useAdmin } from "../../context/AdminPageContext";
-import { ProductData } from "../../ProductData";
+import { useAdminProduct } from "../../../context/AdminPageContext";
 
 interface Props {
-  product: ProductData;
+  product: Product;
 }
 
 function RemoveProductConfirmation(props: Props) {
@@ -20,7 +19,7 @@ function RemoveProductConfirmation(props: Props) {
     setRemove(false);
   };
 
-  const { removeProduct } = useAdmin();
+  const { removeProduct } = useAdminProduct();
 
   return (
     <div>

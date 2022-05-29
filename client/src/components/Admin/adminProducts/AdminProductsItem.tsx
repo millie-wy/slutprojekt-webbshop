@@ -17,20 +17,20 @@ import {
   TextField,
 } from "@mui/material";
 import { Fragment, useState } from "react";
-import { useAdmin } from "../../context/AdminPageContext";
-import { numWithSpaces } from "../../Helper";
-import { ProductData } from "../../ProductData";
+import { useAdminProduct } from "../../../context/AdminPageContext";
+import { numWithSpaces } from "../../../Helper";
+import type { Product } from "@server/shared/client.types";
 import RemoveProductConfirmation from "./RemoveProductConfirmation";
 
 interface Props {
-  product: ProductData;
+  product: Product;
 }
 
-function AdminProductList(props: Props) {
-  const { isEdit, setEdit, saveProduct } = useAdmin();
+function AdminProductsItem(props: Props) {
+  const { isEdit, setEdit, saveProduct } = useAdminProduct();
 
   const [open, setOpen] = useState(false);
-  const [image, setImage] = useState(props.product.image);
+  const [image, setImage] = useState(props.product.imageUrl);
   const [title, setTitle] = useState(props.product.title);
   const [description, setDescription] = useState(props.product.description);
   const [price, setPrice] = useState(props.product.price);
@@ -51,8 +51,9 @@ function AdminProductList(props: Props) {
         <TableCell component="th" scope="row">
           {props.product.title}
         </TableCell>
-        <TableCell>{props.product.id}</TableCell>
-        <TableCell>Category</TableCell> {/* HERE GOES THE CATEGORY DATA */}
+        {/* <TableCell>{props.product._id}</TableCell> */}
+        <TableCell>{props.product.category}</TableCell>{" "}
+        {/* HERE GOES THE CATEGORY DATA */}
         <TableCell>{numWithSpaces(props.product.price)} SEK</TableCell>
         <TableCell>2</TableCell>
       </TableRow>
@@ -120,7 +121,7 @@ function AdminProductList(props: Props) {
                           }}
                         >
                           <img
-                            src={props.product.image}
+                            src={`http://localhost:3001${props.product.imageUrl}`}
                             alt={props.product.title}
                             style={{ maxHeight: "180px" }}
                           />
@@ -128,12 +129,12 @@ function AdminProductList(props: Props) {
                             htmlFor="uploadImg"
                             style={{
                               backgroundColor: "#ed6c02",
-                              color:'white',
-                              padding: '.1rem',
-                              paddingLeft:'.5rem',
-                              paddingRight:'.5rem',
-                              borderRadius:'4px',
-                              marginTop:'.4rem'
+                              color: "white",
+                              padding: ".1rem",
+                              paddingLeft: ".5rem",
+                              paddingRight: ".5rem",
+                              borderRadius: "4px",
+                              marginTop: ".4rem",
                             }}
                           >
                             Choose File
@@ -160,14 +161,14 @@ function AdminProductList(props: Props) {
                         </Box>
                       ) : (
                         <img
-                          src={props.product.image}
+                          src={`http://localhost:3001${props.product.imageUrl}`}
                           alt={props.product.title}
                           style={{ maxHeight: "180px" }}
                         />
                       )}
                     </TableCell>
 
-                    <TableCell align="center">{props.product.id}</TableCell>
+                    <TableCell align="center">{props.product._id}</TableCell>
                     <TableCell align="center">
                       {isEdit ? (
                         <TextField
@@ -237,13 +238,13 @@ function AdminProductList(props: Props) {
                       ) : (
                         <Button
                           onClick={() => {
-                            saveProduct({
-                              id: props.product.id,
-                              title,
-                              image,
-                              description,
-                              price,
-                            });
+                            // saveProduct({
+                            //   id: props.product._id,
+                            //   title,
+                            //   image,
+                            //   description,
+                            //   price,
+                            // });
                           }}
                         >
                           <DoneIcon style={{ color: "#ed6c02" }} />
@@ -299,4 +300,4 @@ function AdminProductList(props: Props) {
     </Fragment>
   );
 }
-export default AdminProductList;
+export default AdminProductsItem;
