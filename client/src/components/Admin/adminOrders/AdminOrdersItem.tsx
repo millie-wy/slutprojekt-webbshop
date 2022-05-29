@@ -49,76 +49,106 @@ function AdminordersItem(props: Props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Table size="small" aria-label="order">
               <TableHead>
-                <TableRow
-                  sx={{ "& > *": { borderBottom: "unset", fontSize: "12px" } }}
-                >
-                  <TableCell style={{ color: "#6C665F" }}>Customer</TableCell>
-                  <TableCell align="left" style={{ color: "#6C665F" }}>
+                <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+                  <TableCell
+                    sx={{
+                      color: "#6C665F",
+                      fontSize: "12px",
+                      px: { md: "5rem" },
+                    }}
+                  >
+                    Customer
+                  </TableCell>
+                  <TableCell
+                    align="left"
+                    style={{ color: "#6C665F", fontSize: "12px" }}
+                  >
                     Total Amount
                   </TableCell>
-                  <TableCell align="left" style={{ color: "#6C665F" }}>
+                  <TableCell
+                    align="left"
+                    style={{ color: "#6C665F", fontSize: "12px" }}
+                  >
                     Shipped
                   </TableCell>
                 </TableRow>
               </TableHead>
 
               <TableBody>
-                <TableRow
-                  sx={{ "& > *": { borderBottom: "unset", fontSize: "12px" } }}
-                >
-                  <TableCell>{props.order.customer?.fullname}</TableCell>
-                  <TableCell align="left">
-                    {numWithSpaces(UseSumTotal(props.order.products, true))}
+                <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+                  <TableCell sx={{ fontSize: "12px", px: { md: "5rem" } }}>
+                    {props.order.customer?.fullname}
                   </TableCell>
-                  <TableCell align="left">
+                  <TableCell align="left" sx={{ fontSize: "12px" }}>
+                    {numWithSpaces(UseSumTotal(props.order.products, true))} SEK
+                  </TableCell>
+                  <TableCell align="left" sx={{ fontSize: "12px" }}>
                     {props.order.isShipped ? "Yes" : "No"}
                   </TableCell>
                 </TableRow>
               </TableBody>
 
               <TableHead>
-                <TableRow
-                  sx={{ "& > *": { borderBottom: "unset", fontSize: "12px" } }}
-                >
+                <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
                   <TableCell
                     align="left"
                     colSpan={2}
-                    style={{ color: "#6C665F" }}
+                    sx={{
+                      color: "#6C665F",
+                      fontSize: "12px",
+                      px: { md: "5rem" },
+                    }}
                   >
                     Delivery Address
                   </TableCell>
-                  <TableCell align="left" style={{ color: "#6C665F" }}>
+                  <TableCell
+                    align="left"
+                    style={{ color: "#6C665F", fontSize: "12px" }}
+                  >
                     Shipper
                   </TableCell>
                 </TableRow>
               </TableHead>
 
               <TableBody>
-                <TableRow
-                  sx={{ "& > *": { borderBottom: "unset", fontSize: "12px" } }}
-                >
-                  <TableCell align="left" colSpan={2}>
+                <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+                  <TableCell
+                    align="left"
+                    colSpan={2}
+                    sx={{ fontSize: "12px", px: { md: "5rem" } }}
+                  >
                     {props.order.deliveryAddress.street},{" "}
                     {props.order.deliveryAddress.zipCode},{" "}
                     {props.order.deliveryAddress.city}
                   </TableCell>
-                  <TableCell align="left">
+                  <TableCell align="left" sx={{ fontSize: "12px" }}>
                     {props.order.deliveryOption.provider}
                   </TableCell>
                 </TableRow>
               </TableBody>
 
               <TableHead>
-                <TableRow
-                  sx={{ "& > *": { borderBottom: "unset", fontSize: "12px" } }}
-                >
-                  <TableCell align="left" sx={{ color: "#6C665F" }}>
+                <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+                  <TableCell
+                    align="left"
+                    sx={{
+                      color: "#6C665F",
+                      fontSize: "12px",
+                      px: { md: "5rem" },
+                    }}
+                  >
                     Product
                   </TableCell>
-                  <TableCell align="left" sx={{ color: "#6C665F" }}>
+                  <TableCell
+                    align="left"
+                    sx={{ color: "#6C665F", fontSize: "12px" }}
+                  >
                     Quantity
                   </TableCell>
-                  <TableCell align="left" sx={{ color: "#6C665F" }}>
+                  <TableCell
+                    align="left"
+                    sx={{ color: "#6C665F", fontSize: "12px" }}
+                  >
                     Price
                   </TableCell>
                 </TableRow>
@@ -126,12 +156,7 @@ function AdminordersItem(props: Props) {
 
               <TableBody>
                 {props.order.products.map((product) => (
-                  <TableRow
-                    key={product._id}
-                    sx={{
-                      "& > *": { borderBottom: "unset", fontSize: "12px" },
-                    }}
-                  >
+                  <TableRow key={product._id}>
                     <TableCell
                       align="left"
                       sx={{
@@ -140,6 +165,7 @@ function AdminordersItem(props: Props) {
                         gap: "1rem",
                         fontSize: "12px",
                         border: "none",
+                        px: { md: "5rem" },
                       }}
                     >
                       <img
@@ -149,8 +175,10 @@ function AdminordersItem(props: Props) {
                       />
                       {product.title}
                     </TableCell>
-                    <TableCell align="left">{product.quantity}</TableCell>
-                    <TableCell align="left">
+                    <TableCell align="left" sx={{ fontSize: "12px" }}>
+                      {product.quantity}
+                    </TableCell>
+                    <TableCell align="left" sx={{ fontSize: "12px" }}>
                       {numWithSpaces(sumProductPrice(product))}
                     </TableCell>
                   </TableRow>

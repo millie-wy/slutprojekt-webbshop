@@ -49,7 +49,7 @@ function AdminOrderTable() {
         sx={{ textTransform: "uppercase", fontFamily: "Prata", my: "1rem" }}
         variant="h5"
       >
-        Admin
+        Admin {">"} Orders
       </Typography>
       <TableContainer style={{ marginBottom: "3rem" }} component={Paper}>
         <Table aria-label="admin-order">
@@ -76,21 +76,3 @@ function AdminOrderTable() {
 }
 
 export default AdminOrderTable;
-
-{
-  /* <TableCell style={{ fontWeight: "bold", color: "white" }}>
-                Customer
-              </TableCell>
-              <TableCell style={{ fontWeight: "bold", color: "white" }}>
-                Products
-              </TableCell>
-              <TableCell style={{ fontWeight: "bold", color: "white" }}>
-                Amount (Incl. shipping)
-              </TableCell>
-              <TableCell style={{ fontWeight: "bold", color: "white" }}>
-                Delivery Option
-              </TableCell>
-              <TableCell style={{ fontWeight: "bold", color: "white" }}>
-                Shipped
-              </TableCell> */
-}
