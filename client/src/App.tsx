@@ -12,11 +12,11 @@ import ProductPage from "./components/ProductPage";
 import EmptyPage from "./components/shared/EmptyPage";
 import Signup from "./components/Signup";
 import StartPage from "./components/StartPage";
-import AdminOrderProvider from "./context/AdminOrderContext";
-import AdminProductProvider from "./context/AdminProductContext";
+import AdminOrderProvider from "./context/AdminOrderContextProvider";
+import AdminProductProvider from "./context/AdminProductContextProvider";
 import CartProvider from "./context/CartContextProvider";
 import OrderProvider from "./context/OrderContextProvider";
-import ProductProvider from "./context/ProductContext";
+import ProductProvider from "./context/ProductContextProvider";
 import UserProvider from "./context/UserContextProvider";
 
 function App() {

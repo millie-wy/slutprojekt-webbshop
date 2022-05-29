@@ -8,7 +8,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { useProduct } from "../../../context/ProductContext";
+import { useProduct } from "../../../context/ProductContextProvider";
 import AdminProductsItem from "./AdminProductsItem";
 
 function AdminProductsTable() {

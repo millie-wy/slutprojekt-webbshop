@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { CSSProperties, FC, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useProduct } from "../context/ProductContext";
+import { useProduct } from "../context/ProductContextProvider";
 import { numWithSpaces } from "../Helper";
 import AddToCartButton from "./shared/AddToCartButton";
 import OutOfStockButton from "./shared/OutOfStockButton";

@@ -2,7 +2,7 @@ import { MenuItem, MenuList } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import { useState } from "react";
-import { useProduct } from "../context/ProductContext";
+import { useProduct } from "../context/ProductContextProvider";
 
 function ProductCategoryList() {
   const { handleCategoryChange } = useProduct();

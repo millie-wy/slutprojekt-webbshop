@@ -3,7 +3,7 @@ import type { Product } from "@server/shared/client.types";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useOrder } from "../context/OrderContextProvider";
-import { useProduct } from "../context/ProductContext";
+import { useProduct } from "../context/ProductContextProvider";
 import { numWithSpaces } from "../Helper";
 
 const StartPage = () => {
