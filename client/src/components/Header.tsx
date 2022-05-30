@@ -13,7 +13,6 @@ import {
 import { makeStyles } from "@mui/styles";
 import { styled } from "@mui/system";
 import { Box } from "@mui/system";
-import React, { useContext } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import cartIcon from "../assets/icons/icon-shopping-cart.webp";
@@ -21,7 +20,7 @@ import userIcon from "../assets/icons/icon-user.webp";
 import logo from "../assets/images/logo.svg";
 import { useCart } from "../context/CartContextProvider";
 import { sumQuantity } from "../Helper";
-import { UserContext, useUser } from "../context/UserContextProvider";
+import { useUser } from "../context/UserContextProvider";
 
 interface Page {
   label: string;
@@ -34,9 +33,6 @@ function Header() {
   const [open, setOpen] = useState(false);
   const [anchorMenu, setAnchorMenu] = useState(false);
   const { ccLogo, icon, iconsContainer, quantityIcon } = useStyles();
-
-  // let context = useContext(UserContext);
-  const { currentUser } = useUser();
 
   const menuLeft: Page[] = [
     {
@@ -265,6 +261,7 @@ function Header() {
                 <Typography
                   fontFamily="Prata"
                   variant="body2"
+                  onClick={handleSignOut}
                   sx={{
                     textTransform: "capitalize",
                     textAlign: "center",
@@ -279,17 +276,7 @@ function Header() {
             </Drawer>
           </Box>
         ) : (
-          <Link
-            to="/logout" // to be adjusted, dont know what the link is for now
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              textDecoration: "none",
-              color: "white",
-              placeContent: "center",
-              placeItems: "center",
-            }}
-          >
+          <Box>
             <Typography sx={{ cursor: "pointer" }} onClick={handleOpen}>
               <img className={icon} src={userIcon} alt="logout" />
             </Typography>
@@ -333,6 +320,7 @@ function Header() {
                 <Typography
                   fontFamily="Prata"
                   variant="body2"
+                  onClick={handleSignOut}
                   sx={{
                     textTransform: "capitalize",
                     textAlign: "center",
@@ -344,7 +332,7 @@ function Header() {
                 </Typography>
               </Box>
             </Drawer>
-          </Link>
+          </Box>
         )}
 
         <Link className={quantityIcon} to="/checkoutpage">
