@@ -5,23 +5,23 @@ import type { Product, DeliveryOption } from "@server/shared/client.types";
 export const makeRequest = async (
   url: string,
   method: string,
-  body?: object
+  body?: object,
+  headers?: RequestInit["headers"]
 ) => {
-  try {
-    let response = await fetch(url, {
-      method,
-      body: JSON.stringify(body),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (response.ok) {
-      return await response.json();
-    }
-    // return alert(await response.json());
-  } catch (err) {
-    console.log(err);
+  let response = await fetch(url, {
+    method,
+    body: JSON.stringify(body),
+    headers: {
+      "Content-Type": "application/json",
+      ...headers,
+    },
+  });
+
+  const result = await response.json();
+  if (response.ok) {
+    return result;
   }
+  throw new Error(result);
 };
 
 export const sumQuantity = (itemData: Product[]) => {

@@ -14,25 +14,25 @@ const StartPage = () => {
   useEffect(() => {
     fetchAllProducts();
     setOrder(undefined); // empty "order" state when the user leaves the confirmation
-  }, []);
+  }, [fetchAllProducts, setOrder]);
 
   useEffect(() => {
+    const getRandomProduct = () => {
+      let randoms: Product[] = [];
+      const numOfRandomProducts: number = 6;
+      if (products.length > numOfRandomProducts) {
+        while (randoms.length < numOfRandomProducts) {
+          let random = products[Math.floor(Math.random() * products.length)];
+          if (randoms.indexOf(random) === -1) {
+            randoms.push(random);
+          }
+        }
+        setRandomProducts(randoms);
+      }
+    };
+
     getRandomProduct();
   }, [products]);
-
-  const getRandomProduct = () => {
-    let randoms: Product[] = [];
-    const numOfRandomProducts: number = 6;
-    if (products.length > numOfRandomProducts) {
-      while (randoms.length < numOfRandomProducts) {
-        let random = products[Math.floor(Math.random() * products.length)];
-        if (randoms.indexOf(random) === -1) {
-          randoms.push(random);
-        }
-      }
-      setRandomProducts(randoms);
-    }
-  };
 
   return isLoading ? (
     <Container sx={{ height: "calc(100vh - 8rem)", mt: "2rem" }}>

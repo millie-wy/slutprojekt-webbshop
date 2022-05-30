@@ -1,6 +1,6 @@
 import CloseIcon from "@mui/icons-material/Close";
 import { Button } from "@mui/material";
-import React, { CSSProperties } from "react";
+import { CSSProperties } from "react";
 import ReactDOM from "react-dom";
 import AddProductForm from "./AddProductForm";
 
@@ -23,7 +23,6 @@ const overlayStyles: CSSProperties = {
   right: 0,
   bottom: 0,
   backgroundColor: "rgba(0, 0, 0, .8)",
-  zIndex: 1000,
 };
 
 export default function AdminProductsTable({ open, children, onClose }) {

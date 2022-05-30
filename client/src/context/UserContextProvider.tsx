@@ -5,7 +5,7 @@ import { makeRequest } from "../Helper";
 
 interface UserContextValue {
   currentUser: User | undefined;
-  handleSignUp: (user: User) => void;
+  handleSignUp: (user: User) => Promise<unknown>;
   handleSignIn: (UserSignIn: User) => void;
   handleSignOut: () => void;
 }
@@ -15,26 +15,31 @@ export const UserContext = createContext<UserContextValue>({
     email: "",
     password: "",
   },
-  handleSignUp: () => {},
+  handleSignUp: () => Promise.resolve(),
   handleSignIn: () => {},
   handleSignOut: () => {},
 });
 
 const UserProvider: FC = (props) => {
   const navigate = useNavigate();
+  // const [error, setError] = useState();
   const [currentUser, setCurrentUser] = useState<User | undefined>();
 
   useEffect(() => {
     getCurrentUser();
-  });
+  }, []);
 
   const handleSignUp = async (user: User) => {
-    const { firstname, lastname, email, password } = user;
-    let newUser: User = { firstname, lastname, email, password };
-    await makeRequest("/api/user", "POST", newUser);
-    setTimeout(() => {
-      navigate("/");
-    }, 1000);
+    try {
+      const { firstname, lastname, email, password } = user;
+      let newUser: User = { firstname, lastname, email, password };
+      await makeRequest("/api/user", "POST", newUser);
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+    } catch (error) {
+      return error;
+    }
   };
 
   const handleSignIn = async (user: User) => {

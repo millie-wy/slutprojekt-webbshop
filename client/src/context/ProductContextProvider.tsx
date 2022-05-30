@@ -1,4 +1,11 @@
-import { ChangeEvent, createContext, FC, useContext, useState } from "react";
+import {
+  ChangeEvent,
+  createContext,
+  FC,
+  useCallback,
+  useContext,
+  useState,
+} from "react";
 import { makeRequest } from "../Helper";
 import type { Product } from "@server/shared/client.types";
 interface ProductContextValue {
@@ -22,12 +29,12 @@ const ProductProvider: FC = (props) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
 
-  const fetchAllProducts = async () => {
+  const fetchAllProducts = useCallback(async () => {
     let response = await makeRequest("/api/product", "GET");
     setProducts(response);
     setFilteredProducts(response);
     setIsLoading(false);
-  };
+  }, []);
 
   const handleCategoryChange = (e: ChangeEvent<HTMLLIElement>) => {
     const target = e.target.innerText.trim();

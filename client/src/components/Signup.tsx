@@ -61,9 +61,12 @@ function Signup() {
     },
     validationSchema: validationSchema,
     validateOnMount: true,
-    onSubmit: (values) => {
-      handleSignUp(values);
-      console.log(values)
+    onSubmit: async (values) => {
+      console.log(values);
+      const error = await handleSignUp(values);
+      if (error) {
+        // TODO: tell the user whats wrong....
+      }
     },
   });
 

@@ -25,7 +25,7 @@ function AdminProductsTable() {
 
   useEffect(() => {
     fetchAllProducts();
-  }, [products]);
+  }, [fetchAllProducts]);
 
   return isLoading ? (
     <Container sx={{ height: "calc(100vh - 8rem)", mt: "2rem" }}>
@@ -70,11 +70,7 @@ function AdminProductsTable() {
           ADD
           <AddIcon />
         </Button>
-        <Modal
-          open={isOpen}
-          sx={{ background: "yellow" }}
-          onClose={() => setIsOpen(false)}
-        >
+        <Modal open={isOpen} onClose={() => setIsOpen(false)}>
           <AddProductForm />
         </Modal>
       </Box>
