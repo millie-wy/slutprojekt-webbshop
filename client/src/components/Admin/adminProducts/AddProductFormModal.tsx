@@ -1,19 +1,18 @@
 import CloseIcon from "@mui/icons-material/Close";
-import { Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { CSSProperties } from "react";
 import ReactDOM from "react-dom";
 import AddProductForm from "./AddProductForm";
 
 const modalStyles: CSSProperties = {
   position: "fixed",
-  top: "56%",
+  top: "7rem",
   left: "50%",
-  transform: "translate(-50%, -50%)",
-  backgroundColor: "#FFF",
-  padding: "50px",
-  zIndex: 1000,
-  width: "75vw",
-  height: "71vh",
+  transform: "translateX(-50%)",
+  background: "#FFF",
+  padding: "40px",
+  maxHeight: "70vh",
+  overflowY: "scroll",
 };
 
 const overlayStyles: CSSProperties = {
@@ -25,12 +24,11 @@ const overlayStyles: CSSProperties = {
   backgroundColor: "rgba(0, 0, 0, .8)",
 };
 
-export default function AdminProductsTable({ open, children, onClose }) {
+export default function AddProductFormModal({ open, onClose }) {
   if (!open) return null;
 
   return ReactDOM.createPortal(
     <>
-      <AddProductForm />
       <div style={overlayStyles} />
       <div style={modalStyles}>
         <Button
@@ -39,20 +37,20 @@ export default function AdminProductsTable({ open, children, onClose }) {
         >
           <CloseIcon style={{ color: "#333" }} />
         </Button>
-        <div>
-          <h3
-            style={{
-              left: "50%",
-              right: "50%",
+        <Box sx={{ overflow: "scroll" }}>
+          <Typography
+            fontFamily="Prata"
+            sx={{
               textAlign: "center",
-              fontFamily: "Prata",
               paddingBottom: "1rem",
+              fontSize: { xs: "16px", sm: "18px", md: "20px" },
+              fontWeight: 600,
             }}
           >
             ADD A NEW PRODUCT
-          </h3>
-        </div>
-        {children}
+          </Typography>
+          <AddProductForm />
+        </Box>
       </div>
     </>,
     document.getElementById("portal")!
