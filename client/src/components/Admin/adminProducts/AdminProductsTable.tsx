@@ -14,12 +14,14 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useAdminProduct } from "../../../context/AdminProductContextProvider";
 import { useProduct } from "../../../context/ProductContextProvider";
 import AddProductFormModal from "./AddProductFormModal";
 import AdminProductsItem from "./AdminProductsItem";
 
 function AdminProductsTable() {
   const { isLoading, products, fetchAllProducts } = useProduct();
+  const { setImageId } = useAdminProduct();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -69,7 +71,13 @@ function AdminProductsTable() {
           ADD
           <AddIcon />
         </Button>
-        <AddProductFormModal open={isOpen} onClose={() => setIsOpen(false)} />
+        <AddProductFormModal
+          open={isOpen}
+          onClose={() => {
+            setIsOpen(false);
+            setImageId("");
+          }}
+        />
       </Box>
 
       <TableContainer component={Paper} sx={{ my: "1.5rem" }}>

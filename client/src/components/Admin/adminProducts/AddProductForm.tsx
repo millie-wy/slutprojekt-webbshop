@@ -1,11 +1,13 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Container,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
+  Typography,
 } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
@@ -32,7 +34,7 @@ const ProductValidationSchema = yup.object({
 });
 
 function AddProductForm() {
-  const { addProduct, fileUpload } = useAdminProduct();
+  const { addProduct, fileUpload, isUploading, imageId } = useAdminProduct();
   const [confirmation, setConfirmation] = useState(false); // setConfirmation is not applied :)
 
   const { values, errors, touched, handleSubmit, handleChange } =
@@ -145,7 +147,6 @@ function AddProductForm() {
               required
               multiline
               rows={4}
-              maxRows={8}
               type="text"
               name="description"
               label="Description"
@@ -164,17 +165,31 @@ function AddProductForm() {
               htmlFor="uploadImg"
               style={{
                 width: "fit-content",
+                minWidth: "110px",
                 margin: "auto",
-                background: "#CAC2B9",
+                background: isUploading ? "#6C665F" : "#CAC2B9",
                 color: "white",
                 padding: ".5rem .9rem",
                 borderRadius: "4px",
+                textAlign: "center",
                 marginTop: ".5rem",
               }}
             >
-              Choose Image
+              {isUploading ? (
+                <Box sx={{ fontSize: "12px" }}>
+                  <CircularProgress
+                    color="inherit"
+                    size="12px"
+                    sx={{ textAlign: "center", mr: ".5rem" }}
+                  />
+                  Uploading...
+                </Box>
+              ) : (
+                "Choose Image"
+              )}
             </label>
             <input
+              disabled={isUploading}
               id="uploadImg"
               type={"file"}
               accept="image/*"
@@ -186,6 +201,9 @@ function AddProductForm() {
               onChange={fileUpload}
             />
           </Box>
+          <Typography variant="overline" color="grey">
+            {imageId && !isUploading ? "1 image uploaded" : ""}
+          </Typography>
         </Box>
         <Button
           onClick={NewProductConfirmation}
