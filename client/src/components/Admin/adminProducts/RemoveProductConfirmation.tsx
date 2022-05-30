@@ -13,18 +13,20 @@ interface Props {
 }
 
 function RemoveProductConfirmation(props: Props) {
-  const [remove, setRemove] = useState(true);
-
-  const handleClose = () => {
-    setRemove(false);
-  };
-
+  const [open, setOpen] = useState(true);
   const { removeProduct } = useAdminProduct();
+
+  const handleClose = () => setOpen(false);
+
+  const handleRemoveProduct = () => {
+    removeProduct(props.product);
+    handleClose();
+  };
 
   return (
     <div>
       <Dialog
-        open={remove}
+        open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
@@ -50,7 +52,7 @@ function RemoveProductConfirmation(props: Props) {
             style={{
               color: "#333",
             }}
-            onClick={() => removeProduct(props.product)}
+            onClick={handleRemoveProduct}
           >
             YES
           </Button>

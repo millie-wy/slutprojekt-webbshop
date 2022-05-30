@@ -195,7 +195,17 @@ function AdminProductsItem(props: Props) {
                         <EditIcon style={{ color: "#ed6c02" }} />
                       </Button>
                     ) : (
-                      <Button onClick={() => console.log("hi")}>
+                      <Button
+                        onClick={() => {
+                          // saveProduct({
+                          //   id: props.product._id,
+                          //   title,
+                          //   image,
+                          //   description,
+                          //   price,
+                          // });
+                        }}
+                      >
                         <DoneIcon style={{ color: "#ed6c02" }} />
                       </Button>
                     )}
