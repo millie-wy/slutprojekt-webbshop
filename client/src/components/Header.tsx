@@ -59,166 +59,37 @@ function Header() {
     },
   ];
 
-  const handleOpenMenu = () => {
-    setAnchorMenu(true);
-  };
-
-  const handleCloseMenu = () => {
-    setAnchorMenu(false);
-  };
-
-  const handleOpen = () => {
-    if (open) {
-      setOpen(false);
-      return;
-    } else {
-      setOpen(true);
-    }
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleOpenMenu = () => setAnchorMenu(true);
+  const handleCloseMenu = () => setAnchorMenu(false);
+  const handleOpen = () => (open ? setOpen(false) : setOpen(true));
+  const handleClose = () => setOpen(false);
 
   const icons = () => {
     return (
       <div className={iconsContainer} style={{ gap: ".5rem" }}>
-        {!currentUser ? (
-          <Box>
-            <Typography sx={{ cursor: "pointer" }} onClick={handleOpen}>
-              <img className={icon} src={userIcon} />
-            </Typography>
-            <Drawer
-              sx={{
-                "& .MuiDrawer-paper": {
-                  backgroundColor: "#6C665F",
-                  marginTop: "5rem",
-                  marginRight: "5rem",
-                  width: "8rem",
-                  height: "7rem",
-                },
-              }}
-              anchor="right"
-              open={open}
-              onClose={handleClose}
-            >
-              <Box sx={{ display: "flex", flexDirection: "column" }}>
-                <Link
-                  to="/login"
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    textDecoration: "none",
-                    color: "white",
-                    placeContent: "center",
-                    placeItems: "center",
-                  }}
-                >
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Typography
-                      fontFamily="Prata"
-                      variant="body2"
-                      sx={{
-                        textTransform: "capitalize",
-                        textAlign: "center",
-                        marginTop: "1rem",
-                        marginBottom: "1.2rem",
-                      }}
-                    >
-                      User
-                    </Typography>
-                  </Box>
-                </Link>
-                <Link
-                  to="/login"
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    textDecoration: "none",
-                    color: "white",
-                    placeContent: "center",
-                    placeItems: "center",
-                  }}
-                >
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  ></Box>
+        <Typography sx={{ cursor: "pointer" }} onClick={handleOpen}>
+          <img className={icon} src={userIcon} alt="userIcon" />
+        </Typography>
 
-                  <Typography
-                    fontFamily="Prata"
-                    variant="body2"
-                    sx={{ textTransform: "capitalize", textAlign: "center" }}
-                  >
-                    Admin
-                  </Typography>
-                </Link>
-              </Box>
-            </Drawer>
-          </Box>
-        ) : currentUser?.isAdmin ? (
-          <Box>
-            <Typography sx={{ cursor: "pointer" }} onClick={handleOpen}>
-              <img className={icon} src={userIcon} />
-            </Typography>
-            <Drawer
-              sx={{
-                "& .MuiDrawer-paper": {
-                  backgroundColor: "#6C665F",
-                  marginTop: "5rem",
-                  marginRight: "5rem",
-                  width: "8rem",
-                  height: "7rem",
-                },
-              }}
-              anchor="right"
-              open={open}
-              onClose={handleClose}
-            >
-              <Box sx={{ display: "flex", flexDirection: "column" }}>
-                <Link
-                  to="/admin"
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    textDecoration: "none",
-                    color: "white",
-                    placeContent: "center",
-                    placeItems: "center",
-                  }}
-                >
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Typography
-                      fontFamily="Prata"
-                      variant="body2"
-                      sx={{
-                        textTransform: "capitalize",
-                        textAlign: "center",
-                        marginTop: "1rem",
-                        color: "white",
-                      }}
-                    >
-                      Products
-                    </Typography>
-                  </Box>
-                </Link>
-              </Box>
+        {!currentUser ? (
+          <Drawer
+            sx={{
+              "& .MuiDrawer-paper": {
+                backgroundColor: "#6C665F",
+                marginTop: "5rem",
+                marginRight: "5rem",
+                width: "8rem",
+                height: "fit-content",
+                py: "1rem",
+              },
+            }}
+            anchor="right"
+            open={open}
+            onClose={handleClose}
+          >
+            <Box sx={{ display: "flex", flexDirection: "column" }}>
               <Link
-                to="/admin"
+                to="/login"
                 style={{
                   display: "flex",
                   flexDirection: "row",
@@ -228,28 +99,137 @@ function Header() {
                   placeItems: "center",
                 }}
               >
-                <Box
+                <Typography
+                  fontFamily="Prata"
+                  variant="body2"
                   sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
+                    textTransform: "capitalize",
+                    textAlign: "center",
+                    marginBottom: "1.2rem",
                   }}
                 >
-                  <Typography
-                    fontFamily="Prata"
-                    variant="body2"
-                    sx={{
-                      textTransform: "capitalize",
-                      textAlign: "center",
-                      marginTop: "1rem",
-                      color: "white",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Orders
-                  </Typography>
-                </Box>
+                  Sign In
+                </Typography>
               </Link>
+              <Link
+                to="/signup"
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  textDecoration: "none",
+                  color: "white",
+                  placeContent: "center",
+                  placeItems: "center",
+                }}
+              >
+                <Typography
+                  fontFamily="Prata"
+                  variant="body2"
+                  sx={{ textTransform: "capitalize", textAlign: "center" }}
+                >
+                  Sign Up
+                </Typography>
+              </Link>
+            </Box>
+          </Drawer>
+        ) : currentUser?.isAdmin ? (
+          <Drawer
+            sx={{
+              "& .MuiDrawer-paper": {
+                backgroundColor: "#6C665F",
+                marginTop: "5rem",
+                marginRight: "5rem",
+                width: "8rem",
+                height: "7rem",
+                padding: ".5rem",
+              },
+            }}
+            anchor="right"
+            open={open}
+            onClose={handleClose}
+          >
+            <Link
+              to="/admin-products"
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                textDecoration: "none",
+                color: "white",
+                placeContent: "center",
+                placeItems: "center",
+              }}
+            >
+              <Typography
+                fontFamily="Prata"
+                variant="body2"
+                sx={{
+                  textTransform: "capitalize",
+                  textAlign: "center",
+                  marginTop: ".5rem",
+                  color: "white",
+                }}
+              >
+                Products
+              </Typography>
+            </Link>
+
+            <Link
+              to="/admin-orders"
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                textDecoration: "none",
+                color: "white",
+                placeContent: "center",
+                placeItems: "center",
+              }}
+            >
+              <Typography
+                fontFamily="Prata"
+                variant="body2"
+                sx={{
+                  textTransform: "capitalize",
+                  textAlign: "center",
+                  marginTop: "1rem",
+                  color: "white",
+                  cursor: "pointer",
+                }}
+              >
+                Orders
+              </Typography>
+            </Link>
+            <Typography
+              fontFamily="Prata"
+              variant="body2"
+              onClick={handleSignOut}
+              sx={{
+                textTransform: "capitalize",
+                textAlign: "center",
+                marginTop: "1rem",
+                color: "white",
+                cursor: "pointer",
+              }}
+            >
+              Logout
+            </Typography>
+          </Drawer>
+        ) : (
+          <Drawer
+            sx={{
+              "& .MuiDrawer-paper": {
+                backgroundColor: "#6C665F",
+                marginTop: "5rem",
+                marginRight: "5rem",
+                width: "8rem",
+                height: "fit-content",
+                py: "1rem",
+              },
+            }}
+            anchor="right"
+            open={open}
+            onClose={handleClose}
+          >
+            <Box sx={{ display: "flex", flexDirection: "column" }}>
               <Box
                 sx={{
                   display: "flex",
@@ -260,78 +240,32 @@ function Header() {
                 <Typography
                   fontFamily="Prata"
                   variant="body2"
-                  onClick={handleSignOut}
                   sx={{
                     textTransform: "capitalize",
                     textAlign: "center",
-                    marginTop: "1rem",
+                    marginBottom: "1.2rem",
                     color: "white",
                     cursor: "pointer",
                   }}
                 >
-                  Logout
+                  My orders
                 </Typography>
               </Box>
-            </Drawer>
-          </Box>
-        ) : (
-          <Box>
-            <Typography sx={{ cursor: "pointer" }} onClick={handleOpen}>
-              <img className={icon} src={userIcon} alt="logout" />
-            </Typography>
-            <Drawer
-              sx={{
-                "& .MuiDrawer-paper": {
-                  backgroundColor: "#6C665F",
-                  marginTop: "5rem",
-                  marginRight: "5rem",
-                  width: "8rem",
-                  height: "7rem",
-                },
-              }}
-              anchor="right"
-              open={open}
-              onClose={handleClose}
-            >
-              <Box sx={{ display: "flex", flexDirection: "column" }}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Typography
-                    fontFamily="Prata"
-                    variant="body2"
-                    sx={{
-                      textTransform: "capitalize",
-                      textAlign: "center",
-                      marginTop: "1rem",
-                      marginBottom: "1.2rem",
-                      color: "white",
-                      cursor: "pointer",
-                    }}
-                  >
-                    My orders
-                  </Typography>
-                </Box>
-                <Typography
-                  fontFamily="Prata"
-                  variant="body2"
-                  onClick={handleSignOut}
-                  sx={{
-                    textTransform: "capitalize",
-                    textAlign: "center",
-                    color: "white",
-                    cursor: "pointer",
-                  }}
-                >
-                  Logout
-                </Typography>
-              </Box>
-            </Drawer>
-          </Box>
+              <Typography
+                fontFamily="Prata"
+                variant="body2"
+                onClick={handleSignOut}
+                sx={{
+                  textTransform: "capitalize",
+                  textAlign: "center",
+                  color: "white",
+                  cursor: "pointer",
+                }}
+              >
+                Logout
+              </Typography>
+            </Box>
+          </Drawer>
         )}
 
         <Link className={quantityIcon} to="/checkoutpage">

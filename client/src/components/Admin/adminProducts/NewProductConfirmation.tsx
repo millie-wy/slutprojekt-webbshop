@@ -1,41 +1,30 @@
+import * as React from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useState } from "react";
 
-import { useAdmin } from "../../context/AdminPageContext";
-import { ProductData } from "../../ProductData";
-
-interface Props {
-  product: ProductData;
-}
-
-function RemoveProductConfirmation(props: Props) {
-  const [remove, setRemove] = useState(true);
+export default function NewProductConfirmation() {
+  const [open, setOpen] = React.useState(true);
 
   const handleClose = () => {
-    setRemove(false);
+    setOpen(false);
   };
-
-  const { removeProduct } = useAdmin();
 
   return (
     <div>
       <Dialog
-        open={remove}
+        open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          Are you sure you want to remove this item?
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title">Success!</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            This action cannot be reverted.
+            Your new product was succesfully added!
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -45,19 +34,10 @@ function RemoveProductConfirmation(props: Props) {
             }}
             onClick={handleClose}
           >
-            NO
-          </Button>
-          <Button
-            style={{
-              color: "#333",
-            }}
-            onClick={() => removeProduct(props.product)}
-          >
-            YES
+            OK
           </Button>
         </DialogActions>
       </Dialog>
     </div>
   );
 }
-export default RemoveProductConfirmation;

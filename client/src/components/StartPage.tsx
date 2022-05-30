@@ -1,12 +1,10 @@
 import { Box, CircularProgress, Container, Typography } from "@mui/material";
 import type { Product } from "@server/shared/client.types";
-import { randomBytes } from "crypto";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useOrder } from "../context/OrderContextProvider";
-import { useProduct } from "../context/ProductContext";
+import { useProduct } from "../context/ProductContextProvider";
 import { numWithSpaces } from "../Helper";
-import { ProductData } from "../ProductData";
 
 const StartPage = () => {
   const { products, fetchAllProducts, isLoading } = useProduct();

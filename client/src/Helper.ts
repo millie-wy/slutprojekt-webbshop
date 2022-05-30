@@ -68,6 +68,5 @@ export const sumDeliveryCost = (
 ) => {
   let sum = 0;
   sum = UseSumTotal(itemData, true) + provider.cost;
-  console.log(sum);
   return sum;
 };
