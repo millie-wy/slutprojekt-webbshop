@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import { useProduct } from "../context/ProductContext";
 import { numWithSpaces } from "../Helper";
 import AddToCartButton from "./shared/AddToCartButton";
+import OutOfStockButton from "./shared/OutOfStockButton";
 
 function ProductCard() {
   const { fetchAllProducts, isLoading, filteredProducts } = useProduct();
@@ -80,7 +81,11 @@ function ProductCard() {
               {numWithSpaces(product.price)} SEK
             </Typography>
             <CardActions>
-              <AddToCartButton product={product} size="small" />
+              {!product!.stock ? (
+                <OutOfStockButton size="small" />
+              ) : (
+                <AddToCartButton product={product} size="small" />
+              )}
             </CardActions>
           </Box>
         </Card>

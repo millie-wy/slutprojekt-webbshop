@@ -1,5 +1,6 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { ErrorCodes } from "../../errorRequestHandler";
+import { Product, ProductModel } from "../product";
 import { User } from "../user";
 import { Order, OrderModel } from "./order.model";
 require("express-async-errors");
@@ -15,25 +16,49 @@ export const getAllOrders = async (req: Request, res: Response) => {
 
 // create a new order
 export const addOrder = async (req: Request<{}, {}, Order>, res: Response) => {
-  const order = await OrderModel.create({
+  // let founds: Product[] = [];
+  // for (let i = 0; i < req.body.products.length; i++) {
+  //   let found = await ProductModel.findById(req.body.products[i]._id).exec();
+  //   founds.push(found!);
+  // }
+  // console.log(founds);
+
+  // for (let orderProduct of req.body.products) {
+  //   console.log(req.body.products);
+  //   let findProduct = await ProductModel.findById(orderProduct._id);
+  //   console.log(findProduct);
+  // }
+  req.body.products.map(async (product) => {
+    // find the product based on the id in upcoming order
+    let orderedProduct = await ProductModel.findById(product._id);
+    if (!orderedProduct) throw Error(ErrorCodes.notFound);
+    if (orderedProduct.stock! < product.quantity!)
+      throw Error(ErrorCodes.notEnoughStock);
+
+    // update product stock
+    await ProductModel.findByIdAndUpdate(product._id, {
+      $inc: { stock: -product.quantity! },
+    });
+  });
+
+  const newOrder = await OrderModel.create({
     ...req.body,
     customer: req.session?.user,
   });
-  // const errors = order.validateSync();
-  res.status(200).json(order);
+  res.status(200).json(newOrder);
 };
 
 // update an order (only isShipped)
 export const updateOrder = async (
-  req: Request<{ id: string }>,
+  req: Request<{ _id: string }>,
   res: Response
 ) => {
-  await OrderModel.findById(req.params.id);
+  await OrderModel.findById(req.params._id);
   let { isShipped } = req.body;
 
-  let order = await OrderModel.findByIdAndUpdate(req.params.id, req.body);
+  let order = await OrderModel.findByIdAndUpdate(req.params._id, req.body);
   if (!order) throw Error(ErrorCodes.notFound);
 
   if (isShipped) order!.isShipped = isShipped;
-  res.status(200).json("Updated order with ID :" + req.params.id);
+  res.status(200).json("Updated order with ID :" + req.params._id);
 };

@@ -1,12 +1,13 @@
-import mongoose, { Schema, Types } from "mongoose";
+import mongoose, { ObjectId, Schema, Types } from "mongoose";
 
 export interface Product {
+  _id?: string;
   title: string;
   description: string;
   category: string[];
   price: number;
   stock?: number;
-  quantity: number;
+  quantity?: number;
   imageId: Types.ObjectId;
   /* Virtual */ imageUrl: string;
 }

@@ -11,16 +11,15 @@ import {
   Typography,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { styled } from "@mui/system";
-import { Box } from "@mui/system";
-import { useState } from "react";
+import { Box, styled } from "@mui/system";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import cartIcon from "../assets/icons/icon-shopping-cart.webp";
 import userIcon from "../assets/icons/icon-user.webp";
 import logo from "../assets/images/logo.svg";
 import { useCart } from "../context/CartContextProvider";
-import { sumQuantity } from "../Helper";
 import { useUser } from "../context/UserContextProvider";
+import { sumQuantity } from "../Helper";
 
 interface Page {
   label: string;

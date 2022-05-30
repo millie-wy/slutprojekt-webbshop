@@ -47,7 +47,7 @@ function Footer() {
               </Link>
               <Link underline="none" href="/" color="inherit">
                 <Typography variant="body2" mt=".2rem">
-                  2022 Spring Collection
+                  2022 AW Collection
                 </Typography>
               </Link>
             </Grid>
