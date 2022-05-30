@@ -1,13 +1,16 @@
 import type { Product } from "@server/shared/client.types";
-import { createContext, FC, useContext, useState } from "react";
+import React, { createContext, FC, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { makeRequest } from "../Helper";
 
 interface AdminProductContextValue {
   // products: Product[];
   isEdit: boolean;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
-  saveProduct: (product: Product) => void;
+  updateProduct: (product: Product) => void;
   addProduct: (product: Product) => void;
   removeProduct: (product: Product) => void;
+  fileUpload: (file: any) => void;
 }
 
 export const AdminProductContext = createContext<AdminProductContextValue>({
@@ -15,38 +18,54 @@ export const AdminProductContext = createContext<AdminProductContextValue>({
   isEdit: false,
   addProduct: () => {},
   setEdit: () => {},
-  saveProduct: () => {},
+  updateProduct: () => {},
   removeProduct: () => {},
+  fileUpload: () => {},
 });
 
-// COMMENT BY MILLIE: this file has loads of error after updating the import (client.types), so most of the functions have been commented out
-// reminder: the full product list is in the "product" state under ProductContext so hopefully no need to fetch again here
-
 const AdminProductProvider: FC = (props) => {
+  const navigate = useNavigate();
+
   // COMMENT BY MILLIE: commented out the below state as the product data was the local data which does not exist anymore
   // const [products, setProducts] = useLocalStorageState(productData, "adminLS");
-  const [isEdit, setEdit] = useState(false);
+  const [isEdit, setEdit] = useState<boolean>(false);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
+  const [imageId, setImageId] = useState<string>();
 
   // function that pushes new product to a new list and then updates LS
 
-  const addProduct = (newProduct: Product) => {
+  const addProduct = async (values: Product) => {
+    try {
+      const productObj = {
+        title: values.title,
+        description: values.description,
+        price: values.price,
+        stock: values.stock,
+        category: values.category,
+        imageId: imageId,
+      };
+      console.log(productObj);
+      await makeRequest("/api/product", "POST", productObj);
+    } catch (error) {
+      console.error(error);
+    }
     // COMMENT BY MILLIE: this part should be replaced with POST
     // let newProductList = [...products];
     // newProductList.push(newProduct);
     // setProducts(newProductList);
   };
 
-  // function that removes a product, makes a new list and updates LS
-  const removeProduct = (productToBeRemoved: Product) => {
-    // COMMENT BY MILLIE: this part should be replaced with DELETE
-    // const updatedProductList = products.filter(
-    //   (product) => productToBeRemoved.id !== product.id
-    // );
-    // setProducts(updatedProductList);
+  // function that removes a product from product collection in db
+  const removeProduct = async (product: Product) => {
+    await makeRequest(`/api/product/${product._id}`, "DELETE");
+    setTimeout(() => {
+      navigate("/admin-products");
+    }, 1000);
   };
 
   // update a product
-  const saveProduct = (editedProduct: Product) => {
+  const updateProduct = (editedProduct: Product) => {
+    console.log("clicked - update product");
     // COMMENT BY MILLIE: this part should be replaced with PUT
     // const productExists = products.find((item) => item.id === editedProduct.id);
     // if (productExists) {
@@ -72,6 +91,27 @@ const AdminProductProvider: FC = (props) => {
   //   setEdit(false);
   // };
 
+  const fileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      if (!event.target.files) return;
+      if (imageId) await fetch("/api/media/" + imageId, { method: "DELETE" });
+
+      const formData = new FormData();
+      formData.set("media", event.target.files[0]);
+
+      setIsUploading(true); // something should be done in the page according to this state
+      const response = await fetch("/api/media", {
+        method: "POST",
+        body: formData,
+      });
+      const imageData = await response.json();
+      setIsUploading(false);
+      setImageId(imageData._id);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <AdminProductContext.Provider
       value={{
@@ -79,8 +119,9 @@ const AdminProductProvider: FC = (props) => {
         isEdit,
         setEdit,
         addProduct,
-        saveProduct,
+        updateProduct,
         removeProduct,
+        fileUpload,
       }}
     >
       {props.children}

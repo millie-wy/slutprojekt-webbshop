@@ -33,7 +33,7 @@ interface Props {
 }
 
 function AdminProductsItem(props: Props) {
-  const { isEdit, setEdit, saveProduct } = useAdminProduct();
+  const { isEdit, setEdit, updateProduct } = useAdminProduct();
 
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState<string>(props.product.imageUrl!);
@@ -195,17 +195,7 @@ function AdminProductsItem(props: Props) {
                         <EditIcon style={{ color: "#ed6c02" }} />
                       </Button>
                     ) : (
-                      <Button
-                        onClick={() => {
-                          // saveProduct({
-                          //   id: props.product._id,
-                          //   title,
-                          //   image,
-                          //   description,
-                          //   price,
-                          // });
-                        }}
-                      >
+                      <Button onClick={() => console.log("hi")}>
                         <DoneIcon style={{ color: "#ed6c02" }} />
                       </Button>
                     )}

@@ -32,7 +32,7 @@ const ProductValidationSchema = yup.object({
 });
 
 function AddProductForm() {
-  const { addProduct } = useAdminProduct();
+  const { addProduct, fileUpload } = useAdminProduct();
   const [confirmation, setConfirmation] = useState(false);
 
   // const validateAndSaveNewProduct = (values: Product) => {
@@ -61,7 +61,7 @@ function AddProductForm() {
       initialValues: InitialValue,
       validationSchema: ProductValidationSchema,
       onSubmit: (values: Product) => {
-        console.log(values);
+        addProduct(values);
       },
     });
 
@@ -72,145 +72,179 @@ function AddProductForm() {
         flexDirection: "column",
       }}
     >
-      <form
-        onSubmit={handleSubmit}
+      <div
         style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
+          position: "fixed",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          backgroundColor: "#FFF",
+          padding: "50px",
+          width: "75vw",
+          height: "550px",
         }}
       >
         <div
           style={{
-            display: "flex",
-            flexWrap: "wrap",
-            columnGap: "3rem",
-            justifyContent: "center",
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
           }}
         >
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+          <form
+            onSubmit={handleSubmit}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
-            <TextField
-              required
-              type="text"
-              name="title"
-              label="Title"
-              margin="normal"
-              value={values.title}
-              onChange={handleChange}
-              error={touched.title && Boolean(errors.title)}
-            />
-            <TextField
-              required
-              type="text"
-              name="description"
-              label="Description"
-              value={values.description}
-              onChange={handleChange}
-              error={touched.description && Boolean(errors.description)}
-              margin="normal"
-            />
-          </div>
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
-          >
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                columnGap: "3rem",
+                justifyContent: "center",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "1rem",
+                }}
+              >
+                <TextField
+                  required
+                  type="text"
+                  name="title"
+                  label="Title"
+                  margin="normal"
+                  value={values.title}
+                  onChange={handleChange}
+                  error={touched.title && Boolean(errors.title)}
+                />
+                <TextField
+                  required
+                  type="text"
+                  name="description"
+                  label="Description"
+                  value={values.description}
+                  onChange={handleChange}
+                  error={touched.description && Boolean(errors.description)}
+                  margin="normal"
+                />
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "1rem",
+                }}
+              >
+                <TextField
+                  required
+                  type="number"
+                  name="price"
+                  label="Price"
+                  value={values.price}
+                  onChange={handleChange}
+                  error={touched.price && Boolean(errors.price)}
+                  margin="normal"
+                />
+                <FormControl fullWidth>
+                  <InputLabel id="category">Category</InputLabel>
+                  <Select
+                    required
+                    labelId="category"
+                    name="category"
+                    label="Category"
+                    value={values.category}
+                    onChange={handleChange}
+                    error={touched.category && Boolean(errors.category)}
+                  >
+                    <MenuItem value="Chairs & Stools">Chairs & Stools</MenuItem>
+                    <MenuItem value="Sofas & Armchairs">
+                      Sofas & Armchairs
+                    </MenuItem>
+                    <MenuItem value="Tables">Tables</MenuItem>
+                    <MenuItem value="Beds">Beds</MenuItem>
+                    <MenuItem value="Storage">Storage</MenuItem>
+                    <MenuItem value="Mirrors">Mirrors</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+            </div>
             <TextField
               required
               type="number"
-              name="price"
-              label="Price"
-              value={values.price}
+              name="stock"
+              label="Stock"
+              value={values.stock}
               onChange={handleChange}
-              error={touched.price && Boolean(errors.price)}
+              error={touched.stock && Boolean(errors.stock)}
               margin="normal"
             />
-            <FormControl fullWidth>
-              <InputLabel id="category">Category</InputLabel>
-              <Select
-                required
-                labelId="category"
-                name="category"
-                label="Category"
-                value={values.category}
-                onChange={handleChange}
-                error={touched.category && Boolean(errors.category)}
+            <Box
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                position: "relative",
+                fontSize: "13px",
+              }}
+            >
+              <label
+                htmlFor="uploadImg"
+                style={{
+                  backgroundColor: "#CAC2B9",
+                  color: "white",
+                  padding: ".5rem",
+                  paddingLeft: ".9rem",
+                  paddingRight: ".9rem",
+                  borderRadius: "4px",
+                  marginTop: ".4rem",
+                }}
               >
-                <MenuItem value="Chairs & Stools">Chairs & Stools</MenuItem>
-                <MenuItem value="Sofas & Armchairs">Sofas & Armchairs</MenuItem>
-                <MenuItem value="Tables">Tables</MenuItem>
-                <MenuItem value="Beds">Beds</MenuItem>
-                <MenuItem value="Storage">Storage</MenuItem>
-                <MenuItem value="Mirrors">Mirrors</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-        </div>
-        <TextField /* CHANGE TO CORRECT STOCK DATA */
-          required
-          type="number"
-          name="stock"
-          label="Stock"
-          value={values.stock}
-          onChange={handleChange}
-          error={touched.stock && Boolean(errors.stock)}
-          margin="normal"
-        />
-        <Box
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            position: "relative",
-            fontSize: "12px",
-          }}
-        >
-          <label
-            htmlFor="uploadImg"
-            style={{
-              backgroundColor: "#ed6c02",
-              color: "white",
-              padding: ".1rem",
-              paddingLeft: ".5rem",
-              paddingRight: ".5rem",
-              borderRadius: "4px",
-              marginTop: ".4rem",
-            }}
-          >
-            Choose File
-          </label>
-          <input
-            id="uploadImg"
-            type={"file"}
-            accept="image/*"
-            style={{
-              opacity: 0,
-              position: "absolute",
-              zIndex: -1,
-            }}
-          />
-        </Box>
-        <Button
-          onClick={NewProductConfirmation}
-          size="large"
-          variant="contained"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            width: "200px",
-            backgroundColor: "#CAC2B9",
-            color: "white",
-            letterSpacing: "3px",
-            marginTop: "2rem",
-          }}
-          type="submit"
-        >
-          ADD PRODUCT
-        </Button>
-      </form>
-      {confirmation ? <NewProductConfirmation /> : undefined}
+                Choose File
+              </label>
+              <input
+                id="uploadImg"
+                type={"file"}
+                accept="image/*"
+                style={{
+                  opacity: 0,
+                  position: "absolute",
+                  zIndex: -1,
+                }}
+                onChange={fileUpload}
+              />
+            </Box>
+            <Button
+              onClick={NewProductConfirmation}
+              size="large"
+              variant="contained"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                width: "200px",
+                backgroundColor: "#CAC2B9",
+                color: "white",
+                letterSpacing: "3px",
+                marginTop: "2rem",
+              }}
+              type="submit"
+            >
+              ADD PRODUCT
+            </Button>
+          </form>
+          {confirmation ? <NewProductConfirmation /> : undefined}
+        </div>{" "}
+      </div>
     </Container>
   );
 }
