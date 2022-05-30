@@ -1,7 +1,9 @@
 import {
   Box,
+  Button,
   CircularProgress,
   Container,
+  Modal,
   Paper,
   Table,
   TableBody,
@@ -11,12 +13,15 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useProduct } from "../../../context/ProductContextProvider";
 import AdminProductsItem from "./AdminProductsItem";
+import AddIcon from "@mui/icons-material/Add";
+import AddProductForm from "./AddProductForm";
 
 function AdminProductsTable() {
   const { isLoading, products, fetchAllProducts } = useProduct();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
     fetchAllProducts();
@@ -50,6 +55,30 @@ function AdminProductsTable() {
       >
         Admin {">"} Products
       </Typography>
+
+      <Box style={{ display: "flex", justifyContent: "flex-end" }}>
+        <Button
+          variant="contained"
+          style={{
+            display: "flex",
+            width: "fit-content",
+            backgroundColor: "#CAC2B9",
+            textTransform: "none",
+          }}
+          onClick={() => setIsOpen(true)}
+        >
+          ADD
+          <AddIcon />
+        </Button>
+        <Modal
+          open={isOpen}
+          sx={{ background: "yellow" }}
+          onClose={() => setIsOpen(false)}
+        >
+          <AddProductForm />
+        </Modal>
+      </Box>
+
       <TableContainer component={Paper} sx={{ my: "1.5rem" }}>
         <Table aria-label="admin-products">
           <TableHead>

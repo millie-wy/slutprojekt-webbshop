@@ -8,8 +8,8 @@ export interface Product {
   price: number;
   stock?: number;
   quantity?: number;
-  imageId: Types.ObjectId;
-  /* Virtual */ imageUrl: string;
+  imageId?: Types.ObjectId;
+  /* Virtual */ imageUrl?: string;
 }
 
 export const productSchema = new mongoose.Schema<Product>(

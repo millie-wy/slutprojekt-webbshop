@@ -36,7 +36,7 @@ function AdminProductsItem(props: Props) {
   const { isEdit, setEdit, saveProduct } = useAdminProduct();
 
   const [open, setOpen] = useState(false);
-  const [image, setImage] = useState<string>(props.product.imageUrl);
+  const [image, setImage] = useState<string>(props.product.imageUrl!);
   const [stock, setStock] = useState<number | undefined>(props.product.stock);
   const [title, setTitle] = useState<string>(props.product.title);
   const [category, setCategory] = useState<string>(props.product.category[0]);
@@ -151,16 +151,7 @@ function AdminProductsItem(props: Props) {
                             position: "absolute",
                             zIndex: -1,
                           }}
-                        ></input>
-                        {/* <TextField
-                            required
-                            multiline
-                            label="Image URL"
-                            variant="standard"
-                            onChange={(event) => setImage(event.target.value)}
-                            inputProps={{ style: { fontSize: ".9rem" } }}
-                            InputLabelProps={{ style: { fontSize: ".9rem" } }}
-                          /> */}
+                        />
                       </Box>
                     ) : (
                       <img

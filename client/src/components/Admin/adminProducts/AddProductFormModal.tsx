@@ -26,7 +26,7 @@ const overlayStyles: CSSProperties = {
   zIndex: 1000,
 };
 
-export default function Modal({ open, children, onClose }) {
+export default function AdminProductsTable({ open, children, onClose }) {
   if (!open) return null;
 
   return ReactDOM.createPortal(
