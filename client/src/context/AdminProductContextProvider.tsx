@@ -1,4 +1,5 @@
 import type { Product } from "@server/shared/client.types";
+import { Types } from "mongoose";
 import React, { createContext, FC, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { makeRequest } from "../Helper";
@@ -8,12 +9,12 @@ interface AdminProductContextValue {
   isEdit: boolean;
   isUploading: boolean;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
-  updateProduct: (product: Product) => void;
+  updateProduct: (updateObj: Product) => void;
   addProduct: (product: Product) => void;
   removeProduct: (product: Product) => void;
   fileUpload: (file: any) => void;
-  imageId: string;
-  setImageId: React.Dispatch<React.SetStateAction<string>>;
+  imageId: string | Types.ObjectId;
+  setImageId: React.Dispatch<React.SetStateAction<string | Types.ObjectId>>;
 }
 
 export const AdminProductContext = createContext<AdminProductContextValue>({
@@ -33,7 +34,7 @@ const AdminProductProvider: FC = (props) => {
   const navigate = useNavigate();
   const [isEdit, setEdit] = useState<boolean>(false);
   const [isUploading, setIsUploading] = useState<boolean>(false);
-  const [imageId, setImageId] = useState<string>("");
+  const [imageId, setImageId] = useState<string | Types.ObjectId>("");
 
   // add a new product to the product collection in db
   const addProduct = async (values: Product) => {
@@ -46,7 +47,6 @@ const AdminProductProvider: FC = (props) => {
         category: values.category,
         imageId: imageId,
       };
-      console.log(productObj);
       await makeRequest("/api/product", "POST", productObj);
     } catch (error) {
       console.error(error);
@@ -62,19 +62,21 @@ const AdminProductProvider: FC = (props) => {
   };
 
   // update a product
-  const updateProduct = (editedProduct: Product) => {
-    console.log("clicked - update product");
-    // COMMENT BY MILLIE: this part should be replaced with PUT
-    // const productExists = products.find((item) => item.id === editedProduct.id);
-    // if (productExists) {
-    //   setProducts(
-    //     products.map((item) =>
-    //       item.id === editedProduct.id ? { ...editedProduct } : item
-    //     )
-    //   );
-    // } else {
-    //   setProducts([...products, editedProduct]);
-    // }
+  const updateProduct = async (updateObj) => {
+    try {
+      const productObj = {
+        title: updateObj.title,
+        description: updateObj.description,
+        price: updateObj.price,
+        stock: updateObj.stock,
+        category: updateObj.category,
+        imageId: !imageId ? updateObj.localImage : imageId,
+      };
+      await makeRequest(`/api/product/${updateObj._id}`, "PUT", productObj);
+      navigate("/admin-products");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   // makes a new list that contains the edited product, sets edit to false
