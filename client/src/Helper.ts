@@ -1,5 +1,5 @@
+import type { DeliveryOption, Product } from "@server/shared/client.types";
 import { useCart } from "./context/CartContextProvider";
-import type { Product, DeliveryOption } from "@server/shared/client.types";
 
 // make data fetching request
 export const makeRequest = async (
@@ -17,11 +17,9 @@ export const makeRequest = async (
     },
   });
 
+  const ok = response.ok;
   const result = await response.json();
-  if (response.ok) {
-    return result;
-  }
-  throw new Error(result);
+  return { ok, result };
 };
 
 export const sumQuantity = (itemData: Product[]) => {

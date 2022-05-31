@@ -57,10 +57,10 @@ export const signIn = async (req: Request, res: Response) => {
 };
 
 // sign out
-export const signOut = async (req: Request<{ id: string }>, res: Response) => {
+export const signOut = (req: Request<{ id: string }>, res: Response) => {
   if (!req.session?.user) throw Error(ErrorCodes.unauthorizedLogin);
   req.session = null;
-  res.status(204).json(null);
+  res.status(204).json("You have logged out.");
 };
 
 // return the information stored in the cookie - for testing
