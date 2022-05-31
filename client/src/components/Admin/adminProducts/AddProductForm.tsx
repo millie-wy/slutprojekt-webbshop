@@ -35,8 +35,7 @@ const ProductValidationSchema = yup.object({
 
 function AddProductForm() {
   const { addProduct, fileUpload, isUploading, imageId } = useAdminProduct();
-  const [confirmation, setConfirmation] = useState(false); // setConfirmation is not applied :)
-  const [ openConfirmation, setOpenConfirmation ] = useState(false);
+  const [openConfirmation, setOpenConfirmation] = useState<boolean>(false);
 
   const { values, errors, touched, handleSubmit, handleChange } =
     useFormik<Product>({
@@ -229,7 +228,6 @@ function AddProductForm() {
           ADD PRODUCT
         </Button>
       </form>
-      {confirmation ? <NewProductConfirmation /> : undefined}
     </Container>
   );
 }
