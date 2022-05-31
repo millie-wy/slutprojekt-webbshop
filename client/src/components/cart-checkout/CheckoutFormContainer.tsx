@@ -5,6 +5,7 @@ import { Form, Formik } from "formik";
 import * as yup from "yup";
 import { useCart } from "../../context/CartContextProvider";
 import { useOrder } from "../../context/OrderContextProvider";
+import ErrorSnackBar from "../shared/ErrorSnackBar";
 import CustomerDetails from "./CustomerDetails";
 import DeliveryOptions from "./DeliveryOptions";
 import PaymentMethod from "./PaymentMethod";
@@ -161,6 +162,7 @@ function CheckoutFormContainer() {
           >
             Confirm purchase
           </LoadingButton>
+          <ErrorSnackBar />
         </Box>
       </Form>
     </Formik>
