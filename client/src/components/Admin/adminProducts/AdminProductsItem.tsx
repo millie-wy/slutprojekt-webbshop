@@ -228,6 +228,7 @@ function AdminProductsItem(props: Props) {
                             localImage,
                           };
                           updateProduct(updateObj);
+                          setEdit(false);
                         }}
                       >
                         <DoneIcon style={{ color: "#ed6c02" }} />
