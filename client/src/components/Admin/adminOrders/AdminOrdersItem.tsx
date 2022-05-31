@@ -131,6 +131,43 @@ function AdminordersItem(props: Props) {
                 <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
                   <TableCell
                     align="left"
+                    colSpan={2}
+                    sx={{
+                      color: "#6C665F",
+                      fontSize: "12px",
+                      px: { md: "5rem" },
+                    }}
+                  >
+                    Contact Email
+                  </TableCell>
+                  <TableCell
+                    align="left"
+                    style={{ color: "#6C665F", fontSize: "12px" }}
+                  >
+                    Phone
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+
+              <TableBody>
+                <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+                  <TableCell
+                    align="left"
+                    colSpan={2}
+                    sx={{ fontSize: "12px", px: { md: "5rem" } }}
+                  >
+                    {props.order.customer?.email}
+                  </TableCell>
+                  <TableCell align="left" sx={{ fontSize: "12px" }}>
+                    {props.order.phoneNumber}
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+
+              <TableHead>
+                <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+                  <TableCell
+                    align="left"
                     sx={{
                       color: "#6C665F",
                       fontSize: "12px",
