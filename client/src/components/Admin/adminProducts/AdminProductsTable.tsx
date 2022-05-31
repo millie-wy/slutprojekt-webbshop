@@ -1,9 +1,9 @@
+import AddIcon from "@mui/icons-material/Add";
 import {
   Box,
   Button,
   CircularProgress,
   Container,
-  Modal,
   Paper,
   Table,
   TableBody,
@@ -14,13 +14,14 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useAdminProduct } from "../../../context/AdminProductContextProvider";
 import { useProduct } from "../../../context/ProductContextProvider";
+import AddProductFormModal from "./AddProductFormModal";
 import AdminProductsItem from "./AdminProductsItem";
-import AddIcon from "@mui/icons-material/Add";
-import AddProductForm from "./AddProductForm";
 
 function AdminProductsTable() {
   const { isLoading, products, fetchAllProducts } = useProduct();
+  const { setImageId } = useAdminProduct();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -70,9 +71,13 @@ function AdminProductsTable() {
           ADD
           <AddIcon />
         </Button>
-        <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-          <AddProductForm />
-        </Modal>
+        <AddProductFormModal
+          open={isOpen}
+          onClose={() => {
+            setIsOpen(false);
+            setImageId("");
+          }}
+        />
       </Box>
 
       <TableContainer component={Paper} sx={{ my: "1.5rem" }}>

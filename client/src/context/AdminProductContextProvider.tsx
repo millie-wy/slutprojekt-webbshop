@@ -6,34 +6,36 @@ import { makeRequest } from "../Helper";
 interface AdminProductContextValue {
   // products: Product[];
   isEdit: boolean;
+  isUploading: boolean;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
   updateProduct: (product: Product) => void;
   addProduct: (product: Product) => void;
   removeProduct: (product: Product) => void;
   fileUpload: (file: any) => void;
+  imageId: string;
+  setImageId: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const AdminProductContext = createContext<AdminProductContextValue>({
   // products: [],
   isEdit: false,
+  isUploading: false,
   addProduct: () => {},
   setEdit: () => {},
   updateProduct: () => {},
   removeProduct: () => {},
   fileUpload: () => {},
+  imageId: "",
+  setImageId: () => {},
 });
 
 const AdminProductProvider: FC = (props) => {
   const navigate = useNavigate();
-
-  // COMMENT BY MILLIE: commented out the below state as the product data was the local data which does not exist anymore
-  // const [products, setProducts] = useLocalStorageState(productData, "adminLS");
   const [isEdit, setEdit] = useState<boolean>(false);
   const [isUploading, setIsUploading] = useState<boolean>(false);
-  const [imageId, setImageId] = useState<string>();
+  const [imageId, setImageId] = useState<string>("");
 
-  // function that pushes new product to a new list and then updates LS
-
+  // add a new product to the product collection in db
   const addProduct = async (values: Product) => {
     try {
       const productObj = {
@@ -49,13 +51,9 @@ const AdminProductProvider: FC = (props) => {
     } catch (error) {
       console.error(error);
     }
-    // COMMENT BY MILLIE: this part should be replaced with POST
-    // let newProductList = [...products];
-    // newProductList.push(newProduct);
-    // setProducts(newProductList);
   };
 
-  // function that removes a product from product collection in db
+  // remove a product from product collection in db
   const removeProduct = async (product: Product) => {
     await makeRequest(`/api/product/${product._id}`, "DELETE");
     setTimeout(() => {
@@ -99,6 +97,7 @@ const AdminProductProvider: FC = (props) => {
       const formData = new FormData();
       formData.set("media", event.target.files[0]);
 
+      setImageId("");
       setIsUploading(true); // something should be done in the page according to this state
       const response = await fetch("/api/media", {
         method: "POST",
@@ -117,11 +116,14 @@ const AdminProductProvider: FC = (props) => {
       value={{
         // products,
         isEdit,
+        isUploading,
         setEdit,
         addProduct,
         updateProduct,
         removeProduct,
         fileUpload,
+        imageId,
+        setImageId,
       }}
     >
       {props.children}
