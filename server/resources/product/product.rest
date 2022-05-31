@@ -14,7 +14,7 @@ Content-Type: application/json
     "title": "Staycation",
     "description": "Lightweight, slim wall cabinet in antique brass-colored, thin metal with tempered glass. Metal back. Glass door with which closes with hasp. Three fixed shelves in glass with decorative edge in metal. Dimensions: Width 40.5 cm, height 60 cm, depth 15.5 cm Height between shelves 19 cm. Mounted.",
     "price": 1399,
-    "category": ["Storage"],
+    "category": "Storage",
     "stock": 3
   }
 

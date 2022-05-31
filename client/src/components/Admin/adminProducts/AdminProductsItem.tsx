@@ -6,6 +6,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import {
   Box,
   Button,
+  CircularProgress,
   Collapse,
   FormControl,
   IconButton,
@@ -23,6 +24,7 @@ import {
   Typography,
 } from "@mui/material";
 import type { Product } from "@server/shared/client.types";
+import { Types } from "mongoose";
 import { Fragment, useState } from "react";
 import { useAdminProduct } from "../../../context/AdminProductContextProvider";
 import { numWithSpaces } from "../../../Helper";
@@ -33,13 +35,17 @@ interface Props {
 }
 
 function AdminProductsItem(props: Props) {
-  const { isEdit, setEdit, updateProduct } = useAdminProduct();
+  const { isEdit, setEdit, updateProduct, fileUpload, isUploading } =
+    useAdminProduct();
 
   const [open, setOpen] = useState(false);
-  const [image, setImage] = useState<string>(props.product.imageUrl!);
-  const [stock, setStock] = useState<number | undefined>(props.product.stock);
+  const [_id] = useState<string>(props.product._id!);
+  const [stock, setStock] = useState<number>(props.product.stock!);
   const [title, setTitle] = useState<string>(props.product.title);
-  const [category, setCategory] = useState<string>(props.product.category[0]);
+  const [category, setCategory] = useState<string>(props.product.category);
+  const [localImage] = useState<string | Types.ObjectId>(
+    props.product.imageId!
+  );
   const [description, setDescription] = useState<string>(
     props.product.description
   );
@@ -65,7 +71,6 @@ function AdminProductsItem(props: Props) {
           {props.product.title}
         </TableCell>
         <TableCell>{props.product.category}</TableCell>
-        {/* <TableCell>{numWithSpaces(props.product.price)} SEK</TableCell> */}
         <TableCell>{props.product.stock}</TableCell>
       </TableRow>
 
@@ -123,26 +128,41 @@ function AdminProductsItem(props: Props) {
                           fontSize: "12px",
                         }}
                       >
+                        {/* plan to fix only if we have extra time
                         <img
                           src={`http://localhost:3001${props.product.imageUrl}`}
                           alt={props.product.title}
                           style={{ maxHeight: "180px" }}
-                        />
+                        /> */}
                         <label
                           htmlFor="uploadImg"
                           style={{
-                            backgroundColor: "#ed6c02",
+                            width: "fit-content",
+                            minWidth: "110px",
+                            margin: "auto",
+                            background: isUploading ? "#6C665F" : "#CAC2B9",
                             color: "white",
-                            padding: ".1rem",
-                            paddingLeft: ".5rem",
-                            paddingRight: ".5rem",
+                            padding: ".5rem",
                             borderRadius: "4px",
-                            marginTop: ".4rem",
+                            textAlign: "center",
+                            marginTop: ".5rem",
                           }}
                         >
-                          Choose File
+                          {isUploading ? (
+                            <Box sx={{ fontSize: "12px" }}>
+                              <CircularProgress
+                                color="inherit"
+                                size="12px"
+                                sx={{ textAlign: "center", mr: ".5rem" }}
+                              />
+                              Uploading...
+                            </Box>
+                          ) : (
+                            "Change Image"
+                          )}
                         </label>
                         <input
+                          disabled={isUploading}
                           id="uploadImg"
                           type={"file"}
                           accept="image/*"
@@ -151,6 +171,7 @@ function AdminProductsItem(props: Props) {
                             position: "absolute",
                             zIndex: -1,
                           }}
+                          onChange={fileUpload}
                         />
                       </Box>
                     ) : (
@@ -197,13 +218,16 @@ function AdminProductsItem(props: Props) {
                     ) : (
                       <Button
                         onClick={() => {
-                          // saveProduct({
-                          //   id: props.product._id,
-                          //   title,
-                          //   image,
-                          //   description,
-                          //   price,
-                          // });
+                          const updateObj = {
+                            _id,
+                            title,
+                            description,
+                            price,
+                            stock,
+                            category,
+                            localImage,
+                          };
+                          updateProduct(updateObj);
                         }}
                       >
                         <DoneIcon style={{ color: "#ed6c02" }} />

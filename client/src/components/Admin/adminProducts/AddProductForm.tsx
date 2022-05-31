@@ -22,7 +22,7 @@ const InitialValue: Product = {
   description: "",
   price: 0,
   stock: 0,
-  category: ["Chairs & Stools"],
+  category: "Chairs & Stools",
 };
 
 const ProductValidationSchema = yup.object({

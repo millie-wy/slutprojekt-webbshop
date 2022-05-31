@@ -4,7 +4,7 @@ export interface Product {
   _id?: string;
   title: string;
   description: string;
-  category: string[];
+  category: string;
   price: number;
   stock?: number;
   quantity?: number;
@@ -16,7 +16,7 @@ export const productSchema = new mongoose.Schema<Product>(
   {
     title: { type: String, required: true },
     description: { type: String, required: true },
-    category: { type: [String], required: true },
+    category: { type: String, required: true },
     price: { type: Number, required: true },
     stock: { type: Number },
     quantity: { type: Number },
