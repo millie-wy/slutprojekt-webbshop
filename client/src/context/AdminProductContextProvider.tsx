@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { makeRequest } from "../Helper";
 
 interface AdminProductContextValue {
-  // products: Product[];
   isEdit: boolean;
   isUploading: boolean;
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,7 +17,6 @@ interface AdminProductContextValue {
 }
 
 export const AdminProductContext = createContext<AdminProductContextValue>({
-  // products: [],
   isEdit: false,
   isUploading: false,
   addProduct: () => {},
@@ -61,7 +59,7 @@ const AdminProductProvider: FC = (props) => {
     }, 1000);
   };
 
-  // update a product
+  // update a product in product collection in db
   const updateProduct = async (updateObj) => {
     try {
       const productObj = {
@@ -73,26 +71,16 @@ const AdminProductProvider: FC = (props) => {
         imageId: !imageId ? updateObj.localImage : imageId,
       };
       await makeRequest(`/api/product/${updateObj._id}`, "PUT", productObj);
+      setImageId("");
       navigate("/admin-products");
     } catch (error) {
       console.error(error);
     }
   };
 
-  // makes a new list that contains the edited product, sets edit to false
-  // COMMENT BY MILLIE: dunno what this is but commented out to get rid of errors
-  //   const editedProductList = products.map((item) => {
-  //     if (editedProduct.id === item.id) {
-  //       return editedProduct;
-  //     }
-  //     return item;
-  //   });
-  //   setProducts(editedProductList);
-  //   setEdit(false);
-  // };
-
   const fileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
+      console.log(imageId);
       if (!event.target.files) return;
       if (imageId) await fetch("/api/media/" + imageId, { method: "DELETE" });
 
@@ -100,7 +88,7 @@ const AdminProductProvider: FC = (props) => {
       formData.set("media", event.target.files[0]);
 
       setImageId("");
-      setIsUploading(true); // something should be done in the page according to this state
+      setIsUploading(true);
       const response = await fetch("/api/media", {
         method: "POST",
         body: formData,
@@ -116,7 +104,6 @@ const AdminProductProvider: FC = (props) => {
   return (
     <AdminProductContext.Provider
       value={{
-        // products,
         isEdit,
         isUploading,
         setEdit,

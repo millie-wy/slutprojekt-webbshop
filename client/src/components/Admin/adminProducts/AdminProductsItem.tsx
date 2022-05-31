@@ -25,7 +25,7 @@ import {
 } from "@mui/material";
 import type { Product } from "@server/shared/client.types";
 import { Types } from "mongoose";
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState } from "react";
 import { useAdminProduct } from "../../../context/AdminProductContextProvider";
 import { numWithSpaces } from "../../../Helper";
 import RemoveProductConfirmation from "./RemoveProductConfirmation";
@@ -71,7 +71,6 @@ function AdminProductsItem(props: Props) {
           {props.product.title}
         </TableCell>
         <TableCell>{props.product.category}</TableCell>
-        {/* <TableCell>{numWithSpaces(props.product.price)} SEK</TableCell> */}
         <TableCell>{props.product.stock}</TableCell>
       </TableRow>
 
@@ -129,11 +128,12 @@ function AdminProductsItem(props: Props) {
                           fontSize: "12px",
                         }}
                       >
+                        {/* plan to fix only if we have extra time
                         <img
                           src={`http://localhost:3001${props.product.imageUrl}`}
                           alt={props.product.title}
                           style={{ maxHeight: "180px" }}
-                        />
+                        /> */}
                         <label
                           htmlFor="uploadImg"
                           style={{
@@ -158,7 +158,7 @@ function AdminProductsItem(props: Props) {
                               Uploading...
                             </Box>
                           ) : (
-                            "Choose Image"
+                            "Change Image"
                           )}
                         </label>
                         <input
