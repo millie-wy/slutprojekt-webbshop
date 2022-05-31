@@ -41,7 +41,7 @@ const UserProvider: FC = (props) => {
       let response = await makeRequest("/api/user", "POST", newUser);
       !response.ok ? setError(response.result) : navigate("/");
     },
-    [navigate]
+    [navigate, setError]
   );
 
   const handleSignIn = useCallback(
@@ -51,7 +51,7 @@ const UserProvider: FC = (props) => {
       let response = await makeRequest("/api/user/login", "POST", signInUser);
       !response.ok ? setError(response.result) : navigate("/");
     },
-    [navigate]
+    [navigate, setError]
   );
 
   const handleSignOut = useCallback(async () => {
@@ -62,7 +62,7 @@ const UserProvider: FC = (props) => {
     navigate("/");
     window.location.reload();
     console.log("function end");
-  }, [navigate]);
+  }, [navigate, setError]);
 
   useEffect(() => {
     const getCurrentUser = async () => {
