@@ -116,7 +116,7 @@ const boxStyle2: SxProps = {
 const paperStyle: SxProps = {
   backgroundColor: "#C3BAB1",
   height: "30rem",
-  width: "20rem",
+  width: { xs: "18rem" , sm: "20rem"},
   paddingTop: "2rem",
   marginTop: "1rem",
   marginBottom: "3rem",
