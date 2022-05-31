@@ -12,6 +12,7 @@ import { useFormik } from "formik";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
 import { useUser } from "../context/UserContextProvider";
+import ErrorSnackBar from "./shared/ErrorSnackBar";
 
 const useStyles = makeStyles((theme) => ({
   textFieldStyle: {
@@ -61,13 +62,7 @@ function Signup() {
     },
     validationSchema: validationSchema,
     validateOnMount: true,
-    onSubmit: async (values) => {
-      console.log(values);
-      const error = await handleSignUp(values);
-      if (error) {
-        // TODO: tell the user whats wrong....
-      }
-    },
+    onSubmit: (values) => handleSignUp(values),
   });
 
   return (
@@ -101,7 +96,7 @@ function Signup() {
                 formik.touched.firstname && Boolean(formik.errors.firstname)
               }
               helperText={formik.touched.firstname && formik.errors.firstname}
-            ></TextField>
+            />
 
             <TextField
               className={classes.textFieldStyle}
@@ -114,7 +109,7 @@ function Signup() {
               onChange={formik.handleChange}
               error={formik.touched.lastname && Boolean(formik.errors.lastname)}
               helperText={formik.touched.lastname && formik.errors.lastname}
-            ></TextField>
+            />
 
             <TextField
               className={classes.textFieldStyle}
@@ -127,7 +122,7 @@ function Signup() {
               onChange={formik.handleChange}
               error={formik.touched.email && Boolean(formik.errors.email)}
               helperText={formik.touched.email && formik.errors.email}
-            ></TextField>
+            />
 
             <TextField
               className={classes.textFieldStyle}
@@ -140,10 +135,10 @@ function Signup() {
               onChange={formik.handleChange}
               error={formik.touched.password && Boolean(formik.errors.password)}
               helperText={formik.touched.password && formik.errors.password}
-            ></TextField>
+            />
 
             <Link
-              to="/checkoutpage"
+              to="/login"
               style={{
                 textDecoration: "none",
                 color: "black",
@@ -157,6 +152,8 @@ function Signup() {
             <Button sx={buttonStyle} type="submit">
               Sign up
             </Button>
+
+            <ErrorSnackBar />
           </Box>
         </Paper>
       </form>
@@ -165,14 +162,12 @@ function Signup() {
 }
 
 const paperStyle: SxProps = {
-  backgroundColor: "#C3BAB1",
-  height: "35rem",
+  background: "#C3BAB1",
+  height: "fit-content",
   width: { xs: "20rem", sm: "25", md: "25rem", lg: "25rem", xl: "25rem" },
   paddingTop: "2rem",
-  marginTop: "3rem",
-  marginBottom: "3rem",
-  marginRight: "auto",
-  marginLeft: "auto",
+  margin: "3rem auto",
+  paddingBottom: "2rem",
 };
 const header1: SxProps = {
   fontSize: "2rem",
@@ -201,7 +196,7 @@ const boxStyle2: SxProps = {
   flexDirection: "column",
 };
 const buttonStyle: SxProps = {
-  marginTop: "3rem",
+  marginTop: "2rem",
   backgroundColor: "#6C665F",
   color: "#fff",
   width: "8rem",

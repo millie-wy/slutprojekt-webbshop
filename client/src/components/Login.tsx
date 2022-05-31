@@ -12,6 +12,7 @@ import { useFormik } from "formik";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
 import { useUser } from "../context/UserContextProvider";
+import ErrorSnackBar from "./shared/ErrorSnackBar";
 
 const useStyles = makeStyles((theme) => ({
   textFieldStyle: {
@@ -42,10 +43,7 @@ function Login() {
     },
     validationSchema: validationSchema,
     validateOnMount: true,
-    onSubmit: (values) => {
-      console.log("click");
-      handleSignIn(values);
-    },
+    onSubmit: (values) => handleSignIn(values),
   });
 
   return (
@@ -105,6 +103,8 @@ function Login() {
             <Button sx={buttonStyle} type="submit">
               Login
             </Button>
+
+            <ErrorSnackBar />
           </Box>
         </Paper>
       </form>

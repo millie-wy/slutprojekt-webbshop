@@ -4,6 +4,7 @@ import {
   Dispatch,
   FC,
   SetStateAction,
+  useCallback,
   useContext,
   useState,
 } from "react";
@@ -11,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { FormValues } from "../components/cart-checkout/CheckoutFormContainer";
 import { makeRequest } from "../Helper";
 import { useCart } from "./CartContextProvider";
+import { useError } from "./ErrorContextProvider";
 
 interface OrderContextValue {
   orderIsLoading: boolean;
@@ -51,7 +53,8 @@ const OrderProvider: FC = (props) => {
   const { cart, shipper, paymentMethod } = useCart();
   const [order, setOrder] = useState<Order | undefined>();
   const navigate = useNavigate();
-  const { emptyCart, isSwish, isCreditCard, isInvoice } = useCart();
+  const { emptyCart } = useCart();
+  const { setError } = useError();
 
   /** process formValues and shape the order object */
   const processOrder = async (formValues: FormValues) => {
@@ -72,15 +75,22 @@ const OrderProvider: FC = (props) => {
   };
 
   /** send order object to server in order to create order */
-  const sendOrderToServer = async (order: Order) => {
-    const response = await makeRequest("/api/order", "POST", order);
-    setOrder(response);
-    if (order) {
-      navigate("/confirmation");
-      setOrderIsLoading(false);
-      emptyCart();
-    }
-  };
+  const sendOrderToServer = useCallback(
+    async (order: Order) => {
+      const response = await makeRequest("/api/order", "POST", order);
+      if (!response.ok) {
+        setError(response.result);
+      } else {
+        setOrder(response.result);
+        if (order) {
+          navigate("/confirmation");
+          setOrderIsLoading(false);
+          emptyCart();
+        }
+      }
+    },
+    [emptyCart, navigate, setError]
+  );
 
   return (
     <OrderContext.Provider

@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Container,
   Paper,
   SxProps,
   TextField,
@@ -12,6 +11,7 @@ import { useFormik } from "formik";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
 import { useUser } from "../context/UserContextProvider";
+import ErrorSnackBar from "./shared/ErrorSnackBar";
 
 const useStyles = makeStyles((theme) => ({
   textFieldStyle: {
@@ -53,8 +53,7 @@ function LoginForm() {
         variant="h5"
         sx={{ textAlign: "center", fontFamily: "prata", marginTop: "2rem" }}
       >
-        {" "}
-        Sign in to checkout{" "}
+        Sign in to checkout
       </Typography>
       <form onSubmit={formik.handleSubmit}>
         <Paper sx={paperStyle}>
@@ -100,6 +99,8 @@ function LoginForm() {
             <Button sx={buttonStyle} type="submit">
               Login
             </Button>
+
+            <ErrorSnackBar />
           </Box>
         </Paper>
       </form>
@@ -116,7 +117,7 @@ const boxStyle2: SxProps = {
 const paperStyle: SxProps = {
   backgroundColor: "#C3BAB1",
   height: "30rem",
-  width: { xs: "18rem" , sm: "20rem"},
+  width: { xs: "18rem", sm: "20rem" },
   paddingTop: "2rem",
   marginTop: "1rem",
   marginBottom: "3rem",
