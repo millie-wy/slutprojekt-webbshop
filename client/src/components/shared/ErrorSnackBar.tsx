@@ -1,8 +1,8 @@
 import { Alert, Snackbar } from "@mui/material";
-import { useUser } from "../../context/UserContextProvider";
+import { useError } from "../../context/ErrorContextProvider";
 
 const ErrorSnackBar = () => {
-  const { setError, error } = useUser();
+  const { setError, error } = useError();
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,

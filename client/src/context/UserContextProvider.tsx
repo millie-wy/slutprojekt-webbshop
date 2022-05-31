@@ -9,14 +9,13 @@ import {
 } from "react";
 import { useNavigate } from "react-router-dom";
 import { makeRequest } from "../Helper";
+import { useError } from "./ErrorContextProvider";
 
 interface UserContextValue {
   currentUser: User | undefined;
   handleSignUp: (user: User) => Promise<unknown>;
   handleSignIn: (user: User) => Promise<unknown>;
   handleSignOut: () => Promise<unknown>;
-  error: string;
-  setError: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const UserContext = createContext<UserContextValue>({
@@ -27,14 +26,13 @@ export const UserContext = createContext<UserContextValue>({
   handleSignUp: () => Promise.resolve(),
   handleSignIn: () => Promise.resolve(),
   handleSignOut: () => Promise.resolve(),
-  error: "",
-  setError: () => "",
 });
 
 const UserProvider: FC = (props) => {
   const navigate = useNavigate();
-  const [error, setError] = useState<string>("");
+
   const [currentUser, setCurrentUser] = useState<User | undefined>();
+  const { setError } = useError();
 
   const handleSignUp = useCallback(
     async (user: User) => {
@@ -81,8 +79,6 @@ const UserProvider: FC = (props) => {
         handleSignUp,
         handleSignIn,
         handleSignOut,
-        error,
-        setError,
       }}
     >
       {props.children}
