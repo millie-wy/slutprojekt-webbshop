@@ -10,11 +10,12 @@ import {
   Theme,
   Typography,
 } from "@mui/material";
-import { CSSProperties, FC, useEffect } from "react";
+import { CSSProperties, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useProduct } from "../context/ProductContextProvider";
 import { numWithSpaces } from "../Helper";
 import AddToCartButton from "./shared/AddToCartButton";
+import ErrorSnackBar from "./shared/ErrorSnackBar";
 import OutOfStockButton from "./shared/OutOfStockButton";
 
 function ProductCard() {
@@ -22,7 +23,7 @@ function ProductCard() {
 
   useEffect(() => {
     fetchAllProducts();
-  }, []);
+  }, [fetchAllProducts]);
 
   return isLoading ? (
     <Container sx={{ height: "calc(100vh - 8rem)", mt: "2rem" }}>
@@ -90,6 +91,7 @@ function ProductCard() {
           </Box>
         </Card>
       ))}
+      <ErrorSnackBar />
     </Box>
   );
 }

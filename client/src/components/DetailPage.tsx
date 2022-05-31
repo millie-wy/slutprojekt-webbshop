@@ -1,26 +1,21 @@
+import { Circle } from "@mui/icons-material/";
 import { Box, CircularProgress, Container, Typography } from "@mui/material";
-import type { Product } from "@server/shared/client.types";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import detailInfo from "../assets/images/detailinfo.png";
-import { makeRequest, numWithSpaces } from "../Helper";
+import { useProduct } from "../context/ProductContextProvider";
+import { numWithSpaces } from "../Helper";
 import AddToCartButton from "./shared/AddToCartButton";
-import { Circle } from "@mui/icons-material/";
+import ErrorSnackBar from "./shared/ErrorSnackBar";
 import OutOfStockButton from "./shared/OutOfStockButton";
 
 function DetailPage() {
   const params = useParams<{ id: string }>();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [product, setProduct] = useState<Product>();
+  const { fetchProduct, isLoading, product } = useProduct();
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      const response = await makeRequest(`/api/product/${params.id}`, "GET");
-      setProduct(response);
-      setIsLoading(false);
-    };
-    fetchProduct();
-  }, []);
+    fetchProduct(params.id!);
+  }, [fetchProduct, params.id]);
 
   return isLoading ? (
     <Container sx={{ height: "calc(100vh - 8rem)", mt: "2rem" }}>
@@ -171,6 +166,7 @@ function DetailPage() {
         )}
         <img src={detailInfo} alt="product details" width="350px" />
       </Container>
+      <ErrorSnackBar />
     </Container>
   );
 }
