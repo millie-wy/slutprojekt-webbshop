@@ -6,7 +6,7 @@ import AddProductForm from "./AddProductForm";
 
 const modalStyles: CSSProperties = {
   position: "fixed",
-  top: "7rem",
+  top: "9rem",
   left: "50%",
   transform: "translateX(-50%)",
   background: "#FFF",
@@ -37,7 +37,7 @@ export default function AddProductFormModal({ open, onClose }) {
         >
           <CloseIcon style={{ color: "#333" }} />
         </Button>
-        <Box sx={{ overflow: "scroll" }}>
+        <Box sx={{ overflow: "hidden" }}>
           <Typography
             fontFamily="Prata"
             sx={{
