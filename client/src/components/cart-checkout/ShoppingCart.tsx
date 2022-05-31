@@ -38,6 +38,7 @@ function ShoppingCart() {
           flexDirection: "column",
           padding: "1rem",
           margin: "auto",
+          width: {xs: '17rem', sm: 'auto'}
         }}
       >
         {cart.map((product) => (
@@ -120,7 +121,7 @@ function ShoppingCart() {
                 sx={{
                   display: "flex",
                   placeItems: "center",
-                  fontSize: { xs: "14px", sm: "inherit" },
+                  fontSize: { xs: "12px", sm: "inherit" },
                 }}
               >
                 {numWithSpaces(sumProductPrice(product))} SEK

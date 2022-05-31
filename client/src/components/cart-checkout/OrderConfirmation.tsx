@@ -52,6 +52,7 @@ const OrderConfirmation = () => {
           padding: { xs: "0rem", sm: ".5rem", md: "1rem" },
           background: "#F3F2F0",
           textAlign: "center",
+          width: {xs: '17rem', sm: 'auto'}
         }}
       >
         <Typography
@@ -142,7 +143,7 @@ const OrderConfirmation = () => {
                     <TableCell
                       align="right"
                       sx={{
-                        fontSize: { xs: "12px", sm: "14px" },
+                        fontSize: { xs: "10.5px", sm: "14px" },
                         padding: { xs: 0, sm: "1rem" },
                       }}
                     >
@@ -151,7 +152,7 @@ const OrderConfirmation = () => {
                     <TableCell
                       align="right"
                       sx={{
-                        fontSize: { xs: "12px", sm: "14px" },
+                        fontSize: { xs: "10.5px", sm: "14px" },
                       }}
                     >
                       {numWithSpaces(sumProductPrice(product))} SEK
@@ -177,7 +178,7 @@ const OrderConfirmation = () => {
                     sx={{
                       padding: "30px 16px 5px 16px",
                       border: "none",
-                      fontSize: { xs: "12px", sm: "14px" },
+                      fontSize: { xs: "9.8px", sm: "14px" },
                     }}
                     colSpan={1}
                   >
@@ -256,7 +257,7 @@ const OrderConfirmation = () => {
                       fontWeight: "bold",
                       padding: "4px 16px",
                       border: "none",
-                      fontSize: { xs: "12px", sm: "14px" },
+                      fontSize: { xs: "9.7px", sm: "14px" },
                     }}
                     colSpan={1}
                   >
