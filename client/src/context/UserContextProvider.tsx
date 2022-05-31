@@ -34,6 +34,7 @@ const UserProvider: FC = (props) => {
   const [currentUser, setCurrentUser] = useState<User | undefined>();
   const { setError } = useError();
 
+  // sign up an user account
   const handleSignUp = useCallback(
     async (user: User) => {
       const { firstname, lastname, email, password } = user;
@@ -44,6 +45,7 @@ const UserProvider: FC = (props) => {
     [navigate, setError]
   );
 
+  // sign in user account
   const handleSignIn = useCallback(
     async (user: User) => {
       const { email, password } = user;
@@ -54,23 +56,21 @@ const UserProvider: FC = (props) => {
     [navigate, setError]
   );
 
+  // sign out from an user account
   const handleSignOut = useCallback(async () => {
-    // this one has error
     const response = await makeRequest("/api/user/logout", "DELETE");
     if (!response.ok) setError(response.result);
-    setCurrentUser(undefined);
     navigate("/");
-    window.location.reload();
-    console.log("function end");
   }, [navigate, setError]);
 
   useEffect(() => {
+    // get cookie session of current user
     const getCurrentUser = async () => {
       const response = await makeRequest("/api/user/login", "GET");
       response.ok ? setCurrentUser(response.result) : setCurrentUser(undefined);
     };
     getCurrentUser();
-  }, [handleSignIn, handleSignOut]);
+  }, [handleSignIn, handleSignOut, currentUser]);
 
   return (
     <UserContext.Provider
