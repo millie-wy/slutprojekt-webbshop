@@ -1,7 +1,8 @@
 import type { DeliveryOption, Product } from "@server/shared/client.types";
-import { createContext, FC, useContext, useState } from "react";
+import { createContext, FC, useCallback, useContext, useState } from "react";
 import { useLocalStorageState } from "../components/hooks/useLocalStorageState";
 import { makeRequest } from "../Helper";
+import { useError } from "./ErrorContextProvider";
 
 interface CartContextValue {
   cart: Product[];
@@ -58,6 +59,7 @@ const CartProvider: FC = (props) => {
   const [isSwish, setIsSwish] = useState<Boolean>(false);
   const [isInvoice, setIsInvoice] = useState<Boolean>(false);
   const [deliveryOptions, setDeliveryOptions] = useState<DeliveryOption[]>([]);
+  const { setError } = useError();
 
   /** add items to cart: if the item does not exist in the cart, add; otherwise increase quantity by 1 */
   const addToCart = async (product: Product) => {
@@ -101,9 +103,7 @@ const CartProvider: FC = (props) => {
   };
 
   /** set cart to empty array */
-  const emptyCart = () => {
-    setCart([]);
-  };
+  const emptyCart = () => setCart([]);
 
   /** set state when a shipper is selected */
   const selectShippment = (provider: DeliveryOption) => {
@@ -111,9 +111,9 @@ const CartProvider: FC = (props) => {
   };
 
   /** set state when a payment method is selected */
-  const selectPaymentMethod = (method: string) => {
-    setPaymentMethod(method);
-  };
+  // const selectPaymentMethod = (method: string) => {
+  //   setPaymentMethod(method);
+  // };
 
   /** the below 3 function are for changing the state of the specific payment method when it is being selected,
    *  solely for the form's conditional validation */
@@ -136,10 +136,11 @@ const CartProvider: FC = (props) => {
   };
 
   /** get all delivery options from the delivery options collection in db */
-  const getDeliveryOptions = async () => {
+  const getDeliveryOptions = useCallback(async () => {
     const response = await makeRequest("/api/deliveryOption", "GET");
-    setDeliveryOptions(response);
-  };
+    if (!response.ok) setError(response.result);
+    setDeliveryOptions(response.result);
+  }, [setError]);
 
   return (
     <CartContext.Provider
