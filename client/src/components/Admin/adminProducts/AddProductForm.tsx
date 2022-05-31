@@ -14,7 +14,6 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import * as yup from "yup";
 import { useAdminProduct } from "../../../context/AdminProductContextProvider";
-import NewProductConfirmation from "./NewProductConfirmation";
 import type { Product } from "@server/shared/client.types";
 
 const InitialValue: Product = {
@@ -35,7 +34,7 @@ const ProductValidationSchema = yup.object({
 
 function AddProductForm() {
   const { addProduct, fileUpload, isUploading, imageId } = useAdminProduct();
-  const [confirmation, setConfirmation] = useState(false); // setConfirmation is not applied :)
+  const [openConfirmation, setOpenConfirmation] = useState<boolean>(false);
 
   const { values, errors, touched, handleSubmit, handleChange } =
     useFormik<Product>({
@@ -206,7 +205,7 @@ function AddProductForm() {
           </Typography>
         </Box>
         <Button
-          onClick={NewProductConfirmation}
+          onClick={() => setOpenConfirmation(true)}
           size="large"
           variant="contained"
           style={{
@@ -223,7 +222,6 @@ function AddProductForm() {
           ADD PRODUCT
         </Button>
       </form>
-      {confirmation ? <NewProductConfirmation /> : undefined}
     </Container>
   );
 }

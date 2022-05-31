@@ -25,6 +25,10 @@ function AdminProductsTable() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
+    setIsOpen(false);
+  }, [products])
+
+  useEffect(() => {
     fetchAllProducts();
   }, [fetchAllProducts]);
 
@@ -103,7 +107,7 @@ function AdminProductsTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {products.map((product) => {
+            {[...products].sort((a, b) => (a._id! < b._id! ? 1 : -1)).map((product) => {
               return <AdminProductsItem key={product._id} product={product} />;
             })}
           </TableBody>

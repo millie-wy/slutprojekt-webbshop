@@ -3,6 +3,7 @@ import { Types } from "mongoose";
 import React, { createContext, FC, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { makeRequest } from "../Helper";
+import { useProduct } from "./ProductContextProvider";
 
 interface AdminProductContextValue {
   isEdit: boolean;
@@ -29,6 +30,7 @@ export const AdminProductContext = createContext<AdminProductContextValue>({
 });
 
 const AdminProductProvider: FC = (props) => {
+  const { fetchAllProducts } = useProduct();
   const navigate = useNavigate();
   const [isEdit, setEdit] = useState<boolean>(false);
   const [isUploading, setIsUploading] = useState<boolean>(false);
@@ -46,6 +48,7 @@ const AdminProductProvider: FC = (props) => {
         imageId: imageId,
       };
       await makeRequest("/api/product", "POST", productObj);
+      fetchAllProducts()
     } catch (error) {
       console.error(error);
     }
@@ -54,6 +57,7 @@ const AdminProductProvider: FC = (props) => {
   // remove a product from product collection in db
   const removeProduct = async (product: Product) => {
     await makeRequest(`/api/product/${product._id}`, "DELETE");
+    fetchAllProducts()
     setTimeout(() => {
       navigate("/admin-products");
     }, 1000);
@@ -71,6 +75,7 @@ const AdminProductProvider: FC = (props) => {
         imageId: !imageId ? updateObj.localImage : imageId,
       };
       await makeRequest(`/api/product/${updateObj._id}`, "PUT", productObj);
+      fetchAllProducts()
       setImageId("");
       navigate("/admin-products");
     } catch (error) {

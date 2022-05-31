@@ -25,7 +25,7 @@ import {
 } from "@mui/material";
 import type { Product } from "@server/shared/client.types";
 import { Types } from "mongoose";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { useAdminProduct } from "../../../context/AdminProductContextProvider";
 import { numWithSpaces } from "../../../Helper";
 import RemoveProductConfirmation from "./RemoveProductConfirmation";
@@ -51,6 +51,10 @@ function AdminProductsItem(props: Props) {
   );
   const [price, setPrice] = useState<number>(props.product.price);
   const [openRemove, setOpenRemove] = useState(false);
+
+  useEffect(() => {
+    return () => { setEdit(false) };
+  }, [setEdit]);
 
   const handleChange = (event: SelectChangeEvent) =>
     setCategory(event.target.value as string);
@@ -228,6 +232,7 @@ function AdminProductsItem(props: Props) {
                             localImage,
                           };
                           updateProduct(updateObj);
+                          setEdit(false);
                         }}
                       >
                         <DoneIcon style={{ color: "#ed6c02" }} />
