@@ -84,7 +84,7 @@ const StartPage = () => {
             style={{
               position: "absolute",
               top: Math.floor(Math.random() * (400 - 50) + 50),
-              left: Math.floor(Math.random() * (300 - 50) + 50),
+              left: Math.floor(Math.random() * (200 - 50) + 50),
               textAlign: "center",
               textDecoration: "none",
             }}
