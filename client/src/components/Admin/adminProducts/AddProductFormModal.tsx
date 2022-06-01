@@ -6,7 +6,7 @@ import AddProductForm from "./AddProductForm";
 
 const modalStyles: CSSProperties = {
   position: "fixed",
-  top: "9rem",
+  top: "8rem",
   left: "50%",
   transform: "translateX(-50%)",
   background: "#FFF",

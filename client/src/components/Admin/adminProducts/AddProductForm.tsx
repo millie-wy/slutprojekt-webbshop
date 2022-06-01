@@ -23,13 +23,12 @@ const InitialValue: Product = {
   stock: 0,
   category: "Chairs & Stools",
 };
-
 const ProductValidationSchema = yup.object({
-  title: yup.string().required("Title is required"),
-  description: yup.string().required("Description is required"),
+  title: yup.string().max(20).required("Title is required"),
+  description: yup.string().min(10).required("Description is required"),
   category: yup.string().required("Category is required"),
-  price: yup.number().required("Price is required"),
-  stock: yup.number().required("Stock is required"),
+  price: yup.number().min(1).required("Price is required"),
+  stock: yup.number().min(1).required("Stock is required"),
 });
 
 function AddProductForm() {
@@ -82,15 +81,16 @@ function AddProductForm() {
               value={values.title}
               onChange={handleChange}
               error={touched.title && Boolean(errors.title)}
+              helperText={"Enter at maximum 20 characters"}
             />
             <TextField
-              required
               type="number"
               name="stock"
               label="Stock"
               value={values.stock}
               onChange={handleChange}
               error={touched.stock && Boolean(errors.stock)}
+              helperText={"Enter at least 1 number"}
               margin="normal"
             />
           </Box>
@@ -102,13 +102,13 @@ function AddProductForm() {
             }}
           >
             <TextField
-              required
               type="number"
               name="price"
               label="Price"
               value={values.price}
               onChange={handleChange}
               error={touched.price && Boolean(errors.price)}
+              helperText={"Enter at least 1 number"}
               margin="normal"
             />
             <FormControl fullWidth sx={{ my: "1rem" }}>
@@ -149,6 +149,7 @@ function AddProductForm() {
               value={values.description}
               onChange={handleChange}
               error={touched.description && Boolean(errors.description)}
+              helperText={"Enter at least 10 characters"}
               margin="normal"
               sx={{
                 mx: "auto",
