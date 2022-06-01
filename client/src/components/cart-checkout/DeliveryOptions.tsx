@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { FormEvent, useEffect, useState } from "react";
 import { useCart } from "../../context/CartContextProvider";
+import ErrorSnackBar from "../shared/ErrorSnackBar";
 
 const DeliveryOptions = () => {
   const { selectShippment, deliveryOptions, getDeliveryOptions } = useCart();
@@ -18,7 +19,7 @@ const DeliveryOptions = () => {
 
   useEffect(() => {
     getDeliveryOptions();
-  }, []);
+  }, [getDeliveryOptions]);
 
   return (
     <Container
@@ -116,6 +117,7 @@ const DeliveryOptions = () => {
           })}
         </RadioGroup>
       </Box>
+      <ErrorSnackBar />
     </Container>
   );
 };

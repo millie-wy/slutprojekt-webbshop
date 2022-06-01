@@ -8,33 +8,67 @@ import {
 } from "react";
 import { makeRequest } from "../Helper";
 import type { Product } from "@server/shared/client.types";
+import { useError } from "./ErrorContextProvider";
 interface ProductContextValue {
   products: Product[];
-  fetchAllProducts: () => void;
+  product: Product;
+  fetchAllProducts: () => Promise<unknown>;
+  fetchProduct: (product_Id: string) => Promise<unknown>;
   isLoading: boolean;
   handleCategoryChange: (e) => void;
   filteredProducts: Product[];
 }
 
 export const ProductContext = createContext<ProductContextValue>({
-  fetchAllProducts: () => {},
+  products: [],
+  product: {
+    title: "",
+    description: "",
+    category: "",
+    price: 0,
+  },
+  fetchAllProducts: () => Promise.resolve(),
+  fetchProduct: () => Promise.resolve(),
   isLoading: true,
   handleCategoryChange: () => {},
-  products: [],
   filteredProducts: [],
 });
 
 const ProductProvider: FC = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState<Product[]>([]);
+  const [product, setProduct] = useState<Product>({
+    title: "",
+    description: "",
+    category: "",
+    price: 0,
+  });
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
+  const { setError } = useError();
 
   const fetchAllProducts = useCallback(async () => {
     let response = await makeRequest("/api/product", "GET");
-    setProducts(response);
-    setFilteredProducts(response);
-    setIsLoading(false);
-  }, []);
+    if (!response.ok) {
+      setError(response.result);
+    } else {
+      setProducts(response.result);
+      setFilteredProducts(response.result);
+      setIsLoading(false);
+    }
+  }, [setError]);
+
+  const fetchProduct = useCallback(
+    async (product_Id: string) => {
+      const response = await makeRequest(`/api/product/${product_Id}`, "GET");
+      if (!response.ok) {
+        setError(response.result);
+      } else {
+        setProduct(response.result);
+        setIsLoading(false);
+      }
+    },
+    [setError]
+  );
 
   const handleCategoryChange = (e: ChangeEvent<HTMLLIElement>) => {
     const target = e.target.innerText.trim();
@@ -52,8 +86,10 @@ const ProductProvider: FC = (props) => {
   return (
     <ProductContext.Provider
       value={{
+        product,
         products,
         fetchAllProducts,
+        fetchProduct,
         filteredProducts,
         isLoading,
         handleCategoryChange,

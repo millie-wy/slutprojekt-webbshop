@@ -11,8 +11,8 @@ import {
   Typography,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { Box, styled } from "@mui/system";
-import React, { useState } from "react";
+import { Box } from "@mui/system";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import cartIcon from "../assets/icons/icon-shopping-cart.webp";
 import userIcon from "../assets/icons/icon-user.webp";
@@ -437,11 +437,7 @@ function Header() {
     </AppBar>
   );
 }
-const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  padding: theme.spacing(0, 1),
-  justifyContent: "flex-start",
-}));
+
 const useStyles = makeStyles(() => ({
   ccLogo: {
     width: "80px",

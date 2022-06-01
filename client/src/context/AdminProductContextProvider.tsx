@@ -1,8 +1,15 @@
 import type { Product } from "@server/shared/client.types";
 import { Types } from "mongoose";
-import React, { createContext, FC, useContext, useState } from "react";
+import React, {
+  createContext,
+  FC,
+  useCallback,
+  useContext,
+  useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import { makeRequest } from "../Helper";
+import { useError } from "./ErrorContextProvider";
 import { useProduct } from "./ProductContextProvider";
 
 interface AdminProductContextValue {
@@ -35,10 +42,16 @@ const AdminProductProvider: FC = (props) => {
   const [isEdit, setEdit] = useState<boolean>(false);
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [imageId, setImageId] = useState<string | Types.ObjectId>("");
+  const { setError } = useError();
 
   // add a new product to the product collection in db
-  const addProduct = async (values: Product) => {
-    try {
+  const addProduct = useCallback(
+    async (values: Product) => {
+      if (!imageId) {
+        setError("No image is attached");
+        return;
+      }
+
       const productObj = {
         title: values.title,
         description: values.description,
@@ -47,25 +60,36 @@ const AdminProductProvider: FC = (props) => {
         category: values.category,
         imageId: imageId,
       };
-      await makeRequest("/api/product", "POST", productObj);
-      fetchAllProducts()
-    } catch (error) {
-      console.error(error);
-    }
-  };
+      const response = await makeRequest("/api/product", "POST", productObj);
+      if (!response.ok) {
+        setError(response.result);
+      } else {
+        fetchAllProducts();
+        setImageId("");
+      }
+    },
+    [fetchAllProducts, imageId, setError]
+  );
 
   // remove a product from product collection in db
-  const removeProduct = async (product: Product) => {
-    await makeRequest(`/api/product/${product._id}`, "DELETE");
-    fetchAllProducts()
-    setTimeout(() => {
-      navigate("/admin-products");
-    }, 1000);
-  };
+  const removeProduct = useCallback(
+    async (product: Product) => {
+      const response = await makeRequest(
+        `/api/product/${product._id}`,
+        "DELETE"
+      );
+      if (!response.ok) {
+        setError(response.result);
+      } else {
+        fetchAllProducts();
+      }
+    },
+    [fetchAllProducts, setError]
+  );
 
   // update a product in product collection in db
-  const updateProduct = async (updateObj) => {
-    try {
+  const updateProduct = useCallback(
+    async (updateObj) => {
       const productObj = {
         title: updateObj.title,
         description: updateObj.description,
@@ -74,18 +98,23 @@ const AdminProductProvider: FC = (props) => {
         category: updateObj.category,
         imageId: !imageId ? updateObj.localImage : imageId,
       };
-      await makeRequest(`/api/product/${updateObj._id}`, "PUT", productObj);
-      fetchAllProducts()
-      setImageId("");
-      navigate("/admin-products");
-    } catch (error) {
-      console.error(error);
-    }
-  };
+      const response = await makeRequest(
+        `/api/product/${updateObj._id}`,
+        "PUT",
+        productObj
+      );
+      if (!response.ok) {
+        setError(response.result);
+      } else {
+        fetchAllProducts();
+        setImageId("");
+      }
+    },
+    [fetchAllProducts, imageId, setError]
+  );
 
-  const fileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    try {
-      console.log(imageId);
+  const fileUpload = useCallback(
+    async (event: React.ChangeEvent<HTMLInputElement>) => {
       if (!event.target.files) return;
       if (imageId) await fetch("/api/media/" + imageId, { method: "DELETE" });
 
@@ -98,13 +127,16 @@ const AdminProductProvider: FC = (props) => {
         method: "POST",
         body: formData,
       });
-      const imageData = await response.json();
-      setIsUploading(false);
-      setImageId(imageData._id);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+      if (!response.ok) {
+        setError("Upload unsucessful");
+      } else {
+        const imageData = await response.json();
+        setIsUploading(false);
+        setImageId(imageData._id);
+      }
+    },
+    [imageId, setError]
+  );
 
   return (
     <AdminProductContext.Provider

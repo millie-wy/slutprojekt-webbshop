@@ -1,13 +1,21 @@
 import type { User } from "@server/shared/client.types";
-import { createContext, FC, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  FC,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import { makeRequest } from "../Helper";
+import { useError } from "./ErrorContextProvider";
 
 interface UserContextValue {
   currentUser: User | undefined;
   handleSignUp: (user: User) => Promise<unknown>;
-  handleSignIn: (UserSignIn: User) => void;
-  handleSignOut: () => void;
+  handleSignIn: (user: User) => Promise<unknown>;
+  handleSignOut: () => Promise<unknown>;
 }
 
 export const UserContext = createContext<UserContextValue>({
@@ -16,52 +24,53 @@ export const UserContext = createContext<UserContextValue>({
     password: "",
   },
   handleSignUp: () => Promise.resolve(),
-  handleSignIn: () => {},
-  handleSignOut: () => {},
+  handleSignIn: () => Promise.resolve(),
+  handleSignOut: () => Promise.resolve(),
 });
 
 const UserProvider: FC = (props) => {
   const navigate = useNavigate();
-  // const [error, setError] = useState();
+
   const [currentUser, setCurrentUser] = useState<User | undefined>();
+  const { setError } = useError();
 
-  useEffect(() => {
-    getCurrentUser();
-  }, []);
-
-  const handleSignUp = async (user: User) => {
-    try {
+  // sign up an user account
+  const handleSignUp = useCallback(
+    async (user: User) => {
       const { firstname, lastname, email, password } = user;
       let newUser: User = { firstname, lastname, email, password };
-      await makeRequest("/api/user", "POST", newUser);
-      setTimeout(() => {
-        navigate("/");
-      }, 1000);
-    } catch (error) {
-      return error;
-    }
-  };
+      let response = await makeRequest("/api/user", "POST", newUser);
+      !response.ok ? setError(response.result) : navigate("/");
+    },
+    [navigate, setError]
+  );
 
-  const handleSignIn = async (user: User) => {
-    const { email, password } = user;
-    let signInUser: User = { email, password };
-    await makeRequest("/api/user/login", "POST", signInUser);
-    setTimeout(() => {
-      navigate("/");
-    }, 1000);
-  };
+  // sign in user account
+  const handleSignIn = useCallback(
+    async (user: User) => {
+      const { email, password } = user;
+      let signInUser: User = { email, password };
+      let response = await makeRequest("/api/user/login", "POST", signInUser);
+      !response.ok ? setError(response.result) : navigate("/");
+    },
+    [navigate, setError]
+  );
 
-  const handleSignOut = async () => {
-    await makeRequest("/api/user/logout", "DELETE");
-    setTimeout(() => {
-      navigate("/");
-    }, 1000);
-  };
+  // sign out from an user account
+  const handleSignOut = useCallback(async () => {
+    const response = await makeRequest("/api/user/logout", "DELETE");
+    if (!response.ok) setError(response.result);
+    navigate("/");
+  }, [navigate, setError]);
 
-  const getCurrentUser = async () => {
-    const response = await makeRequest("/api/user/login", "GET");
-    setCurrentUser(response);
-  };
+  useEffect(() => {
+    // get cookie session of current user
+    const getCurrentUser = async () => {
+      const response = await makeRequest("/api/user/login", "GET");
+      response.ok ? setCurrentUser(response.result) : setCurrentUser(undefined);
+    };
+    getCurrentUser();
+  }, [handleSignIn, handleSignOut, currentUser]);
 
   return (
     <UserContext.Provider

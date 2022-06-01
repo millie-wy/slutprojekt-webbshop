@@ -12,6 +12,8 @@ import { useFormik } from "formik";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
 import { useUser } from "../context/UserContextProvider";
+import ErrorSnackBar from "./shared/ErrorSnackBar";
+import NoPermission from "./shared/NoPermission";
 
 const useStyles = makeStyles((theme) => ({
   textFieldStyle: {
@@ -50,7 +52,7 @@ const validationSchema = yup.object({
 });
 
 function Signup() {
-  const { handleSignUp } = useUser();
+  const { handleSignUp, currentUser } = useUser();
   const classes = useStyles();
   const formik = useFormik({
     initialValues: {
@@ -61,118 +63,125 @@ function Signup() {
     },
     validationSchema: validationSchema,
     validateOnMount: true,
-    onSubmit: async (values) => {
-      console.log(values);
-      const error = await handleSignUp(values);
-      if (error) {
-        // TODO: tell the user whats wrong....
-      }
-    },
+    onSubmit: (values) => handleSignUp(values),
   });
 
-  return (
-    <Container>
-      <Box sx={boxStyle}>
-        <Link to="/login" style={{ textDecoration: "none" }}>
-          <Typography sx={header1}>Login</Typography>
-        </Link>
+  if (!currentUser) {
+    return (
+      <Container>
+        <Box sx={boxStyle}>
+          <Link to="/login" style={{ textDecoration: "none" }}>
+            <Typography sx={header1}>Login</Typography>
+          </Link>
 
-        <Typography sx={{ fontSize: "2rem" }}>/</Typography>
+          <Typography sx={{ fontSize: "2rem" }}>/</Typography>
 
-        <Link to="/signup" style={{ textDecoration: "none" }}>
-          <Typography sx={header2}>Sign up</Typography>
-        </Link>
-      </Box>
-      <form onSubmit={formik.handleSubmit}>
-        <Paper sx={paperStyle}>
-          <Typography sx={header3}>Sign up</Typography>
+          <Link to="/signup" style={{ textDecoration: "none" }}>
+            <Typography sx={header2}>Sign up</Typography>
+          </Link>
+        </Box>
+        <form onSubmit={formik.handleSubmit}>
+          <Paper sx={paperStyle}>
+            <Typography sx={header3}>Sign up</Typography>
 
-          <Box sx={boxStyle2}>
-            <TextField
-              className={classes.textFieldStyle}
-              sx={{ marginTop: "2rem" }}
-              required
-              type="text"
-              label="First name"
-              name="firstname"
-              value={formik.values.firstname}
-              onChange={formik.handleChange}
-              error={
-                formik.touched.firstname && Boolean(formik.errors.firstname)
-              }
-              helperText={formik.touched.firstname && formik.errors.firstname}
-            ></TextField>
+            <Box sx={boxStyle2}>
+              <TextField
+                className={classes.textFieldStyle}
+                sx={{ marginTop: "2rem" }}
+                required
+                type="text"
+                label="First name"
+                name="firstname"
+                value={formik.values.firstname}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.firstname && Boolean(formik.errors.firstname)
+                }
+                helperText={formik.touched.firstname && formik.errors.firstname}
+              />
 
-            <TextField
-              className={classes.textFieldStyle}
-              sx={{ marginTop: "2rem" }}
-              required
-              type="text"
-              label="Last name"
-              name="lastname"
-              value={formik.values.lastname}
-              onChange={formik.handleChange}
-              error={formik.touched.lastname && Boolean(formik.errors.lastname)}
-              helperText={formik.touched.lastname && formik.errors.lastname}
-            ></TextField>
+              <TextField
+                className={classes.textFieldStyle}
+                sx={{ marginTop: "2rem" }}
+                required
+                type="text"
+                label="Last name"
+                name="lastname"
+                value={formik.values.lastname}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.lastname && Boolean(formik.errors.lastname)
+                }
+                helperText={formik.touched.lastname && formik.errors.lastname}
+              />
 
-            <TextField
-              className={classes.textFieldStyle}
-              sx={{ marginTop: "2rem" }}
-              required
-              type="email"
-              label="Email address"
-              name="email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              error={formik.touched.email && Boolean(formik.errors.email)}
-              helperText={formik.touched.email && formik.errors.email}
-            ></TextField>
+              <TextField
+                className={classes.textFieldStyle}
+                sx={{ marginTop: "2rem" }}
+                required
+                type="email"
+                label="Email address"
+                name="email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
+              />
 
-            <TextField
-              className={classes.textFieldStyle}
-              sx={{ marginTop: "2rem" }}
-              required
-              type="password"
-              label="Password"
-              name="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
-            ></TextField>
+              <TextField
+                className={classes.textFieldStyle}
+                sx={{ marginTop: "2rem" }}
+                required
+                type="password"
+                label="Password"
+                name="password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.password && Boolean(formik.errors.password)
+                }
+                helperText={formik.touched.password && formik.errors.password}
+              />
 
-            <Link
-              to="/checkoutpage"
-              style={{
-                textDecoration: "none",
-                color: "black",
-                marginTop: "1rem",
-                fontSize: "13px",
-              }}
-            >
-              Sign in here
-            </Link>
+              <Link
+                to="/login"
+                style={{
+                  textDecoration: "none",
+                  color: "black",
+                  marginTop: "1rem",
+                  fontSize: "13px",
+                }}
+              >
+                Sign in here
+              </Link>
 
-            <Button sx={buttonStyle} type="submit">
-              Sign up
-            </Button>
-          </Box>
-        </Paper>
-      </form>
-    </Container>
-  );
+              <Button sx={buttonStyle} type="submit">
+                Sign up
+              </Button>
+
+              <ErrorSnackBar />
+            </Box>
+          </Paper>
+        </form>
+      </Container>
+    );
+  } else {
+    return (
+      <NoPermission
+        page="No permission"
+        description="You must log out before creating a new account."
+      />
+    );
+  }
 }
 
 const paperStyle: SxProps = {
-  backgroundColor: "#C3BAB1",
-  height: "35rem",
+  background: "#C3BAB1",
+  height: "fit-content",
   width: { xs: "20rem", sm: "25", md: "25rem", lg: "25rem", xl: "25rem" },
   paddingTop: "2rem",
-  marginTop: "3rem",
-  marginBottom: "3rem",
-  marginRight: "auto",
-  marginLeft: "auto",
+  margin: "3rem auto",
+  paddingBottom: "2rem",
 };
 const header1: SxProps = {
   fontSize: "2rem",
@@ -201,7 +210,7 @@ const boxStyle2: SxProps = {
   flexDirection: "column",
 };
 const buttonStyle: SxProps = {
-  marginTop: "3rem",
+  marginTop: "2rem",
   backgroundColor: "#6C665F",
   color: "#fff",
   width: "8rem",

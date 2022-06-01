@@ -53,7 +53,7 @@ function AdminProductsItem(props: Props) {
   const [openRemove, setOpenRemove] = useState(false);
 
   useEffect(() => {
-    return () => { setEdit(false) };
+    return () => setEdit(false);
   }, [setEdit]);
 
   const handleChange = (event: SelectChangeEvent) =>
@@ -114,13 +114,8 @@ function AdminProductsItem(props: Props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow contentEditable={isEdit}>
-                  <TableCell
-                    align="left"
-                    sx={{
-                      px: { md: "5rem" },
-                    }}
-                  >
+                <TableRow>
+                  <TableCell align="left" sx={{ px: { md: "5rem" } }}>
                     {isEdit ? (
                       <Box
                         style={{
@@ -272,7 +267,7 @@ function AdminProductsItem(props: Props) {
               </TableHead>
 
               <TableBody>
-                <TableRow contentEditable={isEdit}>
+                <TableRow>
                   <TableCell align="left" sx={{ px: { md: "5rem" } }}>
                     {isEdit ? (
                       <FormControl fullWidth>
@@ -308,7 +303,6 @@ function AdminProductsItem(props: Props) {
                         value={String(price)}
                         variant="standard"
                         onChange={(event) => {
-                          console.log(isNaN(Number(event.target.value)));
                           if (!isNaN(Number(event.target.value))) {
                             setPrice(Number(event.target.value));
                           }
@@ -355,35 +349,36 @@ function AdminProductsItem(props: Props) {
                     <Typography fontSize="12px">Description</Typography>
                   </TableCell>
                 </TableRow>
-
-                <TableCell
-                  colSpan={4}
-                  align="left"
-                  sx={{
-                    paddingX: { md: "5rem" },
-                  }}
-                >
-                  {isEdit ? (
-                    <TextareaAutosize
-                      aria-label="description"
-                      value={description}
-                      style={{
-                        width: "100%",
-                        border: "none",
-                        fontFamily: "inherit",
-                        fontSize: ".9rem",
-                        padding: "0.5rem 0.2rem ",
-                        backgroundColor: "#F8F4EF",
-                        borderBottom: "1px solid grey",
-                      }}
-                      onChange={(event) => setDescription(event.target.value)}
-                    />
-                  ) : (
-                    <Typography fontSize="12px">
-                      {props.product.description}
-                    </Typography>
-                  )}
-                </TableCell>
+                <TableRow>
+                  <TableCell
+                    colSpan={4}
+                    align="left"
+                    sx={{
+                      paddingX: { md: "5rem" },
+                    }}
+                  >
+                    {isEdit ? (
+                      <TextareaAutosize
+                        aria-label="description"
+                        value={description}
+                        style={{
+                          width: "100%",
+                          border: "none",
+                          fontFamily: "inherit",
+                          fontSize: ".9rem",
+                          padding: "0.5rem 0.2rem ",
+                          backgroundColor: "#F8F4EF",
+                          borderBottom: "1px solid grey",
+                        }}
+                        onChange={(event) => setDescription(event.target.value)}
+                      />
+                    ) : (
+                      <Typography fontSize="12px">
+                        {props.product.description}
+                      </Typography>
+                    )}
+                  </TableCell>
+                </TableRow>
               </TableBody>
             </Table>
           </Collapse>

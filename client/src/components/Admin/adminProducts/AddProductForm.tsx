@@ -10,11 +10,11 @@ import {
   Typography,
 } from "@mui/material";
 import TextField from "@mui/material/TextField";
+import type { Product } from "@server/shared/client.types";
 import { useFormik } from "formik";
-import { useState } from "react";
 import * as yup from "yup";
 import { useAdminProduct } from "../../../context/AdminProductContextProvider";
-import type { Product } from "@server/shared/client.types";
+import ErrorSnackBar from "../../shared/ErrorSnackBar";
 
 const InitialValue: Product = {
   title: "",
@@ -34,15 +34,12 @@ const ProductValidationSchema = yup.object({
 
 function AddProductForm() {
   const { addProduct, fileUpload, isUploading, imageId } = useAdminProduct();
-  const [openConfirmation, setOpenConfirmation] = useState<boolean>(false);
 
   const { values, errors, touched, handleSubmit, handleChange } =
     useFormik<Product>({
       initialValues: InitialValue,
       validationSchema: ProductValidationSchema,
-      onSubmit: (values: Product) => {
-        addProduct(values);
-      },
+      onSubmit: (values: Product) => addProduct(values),
     });
 
   return (
@@ -209,7 +206,6 @@ function AddProductForm() {
           </Typography>
         </Box>
         <Button
-          onClick={() => setOpenConfirmation(true)}
           size="large"
           variant="contained"
           style={{
@@ -226,6 +222,7 @@ function AddProductForm() {
           ADD PRODUCT
         </Button>
       </form>
+      <ErrorSnackBar />
     </Container>
   );
 }
