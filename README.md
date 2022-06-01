@@ -1,6 +1,8 @@
 # Webbshop
 
-write something
+This mocked online store comme ci comme ça is an upgrade to the previous version. Previously we had our data saved in a local file and local storage, and in this update we have built the fully functional backend that allows to all the data saved and handled through MongoDB. We have also created 2 different user rights - admin and user. Admin can add, edit or delete any products and have an overall to the orders, while a user can sign up an account and place an order. 
+
+This project was built with React / TypeScript with MUI in the front end, and Express, NodeJS, MongoDB, Mongoose and Multer in the backend. 
 
 [To repo](https://github.com/millie-wy/slutprojekt-webbshop "Webbshop")
 
