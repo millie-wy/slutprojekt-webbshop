@@ -26,8 +26,9 @@ function ShoppingCart() {
           fontFamily: "Prata",
           mt: "1rem",
           mb: "1rem",
+          fontSize: { xs: "18px", sm: "24px" },
         }}
-        variant="h5"
+        component="h5"
       >
         1. Shopping Cart
       </Typography>
@@ -38,7 +39,7 @@ function ShoppingCart() {
           flexDirection: "column",
           padding: "1rem",
           margin: "auto",
-          width: { xs: "17rem", sm: "auto" },
+          width: { xs: 1, sm: "auto" },
         }}
       >
         {cart.map((product) => (
@@ -46,14 +47,16 @@ function ShoppingCart() {
             sx={{
               textAlign: "center",
               display: "flex",
-              padding: ".8rem 1rem",
+              p: { xs: ".8rem 0 ", sm: ".8rem 1rem" },
+              position: { xs: "relative", sm: "unset" },
             }}
             key={product._id}
           >
-            <img
-              style={{ width: 80 }}
+            <Box
+              component="img"
               src={`http://localhost:3001${product.imageUrl}`}
               alt={product.title}
+              sx={{ width: { xs: "40px", sm: "80px", md: "80px" } }}
             />
             <Box
               key={product._id}
@@ -69,7 +72,12 @@ function ShoppingCart() {
                   style={{ color: "black", textDecoration: "none" }}
                   to={`/detail/${product._id}`}
                 >
-                  <Typography variant="inherit" align="left" m="1rem">
+                  <Typography
+                    variant="inherit"
+                    align="left"
+                    m="1rem"
+                    sx={{ fontSize: { xs: "12px", sm: "16px" } }}
+                  >
                     {product.title}
                   </Typography>
                 </Link>
@@ -89,11 +97,22 @@ function ShoppingCart() {
                     aria-label="reduce"
                     onClick={() => onReduceQuantity(product)}
                   >
-                    <RemoveIcon fontSize="small" />
+                    <RemoveIcon
+                      sx={{
+                        fontSize: { xs: "12px", sm: "small" },
+                      }}
+                    />
                   </Button>
                   <Typography
                     variant="body2"
-                    sx={{ background: "white", padding: ".2rem .8rem" }}
+                    sx={{
+                      background: "white",
+                      display: "flex",
+                      placeContent: "center",
+                      placeItems: "center",
+                      padding: { xs: "0 .3rem", sm: ".2rem .8rem" },
+                      fontSize: { xs: "12px", sm: "16px" },
+                    }}
                   >
                     {product.quantity}
                   </Typography>
@@ -112,7 +131,7 @@ function ShoppingCart() {
                     aria-label="reduce"
                     onClick={() => onAddQuantity(product)}
                   >
-                    <AddIcon fontSize="small" />
+                    <AddIcon sx={{ fontSize: { xs: "12px", sm: "small" } }} />
                   </Button>
                 </ButtonGroup>
               </Box>
@@ -128,7 +147,6 @@ function ShoppingCart() {
               </Typography>
             </Box>
             <ClearIcon
-              fontSize="small"
               sx={{
                 "&:hover": {
                   color: "#828282",
@@ -137,6 +155,9 @@ function ShoppingCart() {
                 border: "none",
                 color: "black",
                 cursor: "pointer",
+                fontSize: { xs: "12px", sm: "small" },
+                position: { xs: "absolute", sm: "unset" },
+                right: { xs: "0" },
               }}
               onClick={() => removeFromCart(product)}
             >
@@ -150,12 +171,8 @@ function ShoppingCart() {
             width: "80%",
             margin: "1.5rem auto",
           }}
-        ></Box>
-        <Box
-          sx={{
-            m: "1rem 2rem",
-          }}
-        >
+        />
+        <Box sx={{ m: { xs: "1rem .5rem", sm: "1rem 2rem" } }}>
           <Box
             sx={{
               display: "flex",

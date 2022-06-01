@@ -33,8 +33,9 @@ const DeliveryOptions = () => {
           fontFamily: "Prata",
           mt: "1rem",
           mb: "1rem",
+          fontSize: { xs: "18px", sm: "24px" },
         }}
-        variant="h5"
+        component="h5"
       >
         2. Delivery Method
       </Typography>
@@ -76,7 +77,13 @@ const DeliveryOptions = () => {
                       alt={provider.provider}
                       height="18px"
                     />
-                    <Typography variant="body2" sx={{ marginX: "1rem" }}>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        mx: { xs: 0, sm: "1rem" },
+                        mt: { xs: ".5rem", sm: 0 },
+                      }}
+                    >
                       {provider.cost} SEK
                     </Typography>
                     <Typography variant="overline" color="#6C665F">
@@ -104,7 +111,13 @@ const DeliveryOptions = () => {
                     <Typography variant="body2" style={{ fontWeight: "bold" }}>
                       {provider.provider}
                     </Typography>
-                    <Typography variant="body2" sx={{ marginX: "1rem" }}>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        mx: { xs: 0, sm: "1rem" },
+                        mt: { xs: ".5rem", sm: 0 },
+                      }}
+                    >
                       FREE
                     </Typography>
                     <Typography variant="overline" color="#6C665F">

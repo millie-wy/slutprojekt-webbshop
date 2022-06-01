@@ -18,8 +18,9 @@ const CustomerDetails = () => {
           fontFamily: "Prata",
           mt: "3rem",
           mb: "1rem",
+          fontSize: { xs: "18px", sm: "24px" },
         }}
-        variant="h5"
+        component="h5"
       >
         3. Delivery Details
       </Typography>
@@ -46,8 +47,9 @@ const CustomerDetails = () => {
               textTransform: "uppercase",
               fontFamily: "Prata",
               mb: "1rem",
+              fontSize: { xs: "16px", sm: "20px" },
             }}
-            variant="h6"
+            component="h6"
           >
             Address
           </Typography>
@@ -115,8 +117,9 @@ const CustomerDetails = () => {
               fontFamily: "Prata",
               mt: "2rem",
               mb: "1rem",
+              fontSize: { xs: "16px", sm: "20px" },
             }}
-            variant="h6"
+            component="h6"
           >
             Contact Number
           </Typography>

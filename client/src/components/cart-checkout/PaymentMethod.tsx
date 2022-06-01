@@ -44,8 +44,9 @@ const PaymentMethod = () => {
           fontFamily: "Prata",
           mt: "3rem",
           mb: "1rem",
+          fontSize: { xs: "18px", sm: "24px" },
         }}
-        variant="h5"
+        component="h5"
       >
         4. Payment Method
       </Typography>
