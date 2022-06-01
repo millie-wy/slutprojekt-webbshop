@@ -79,6 +79,7 @@ const CartProvider: FC = (props) => {
   const onAddQuantity = (product: Product) => {
     const updatedQuantity = cart.map((item) => {
       if (product._id !== item._id) return item;
+      if (product.quantity! >= product.stock!) return item;
       return { ...item, quantity: item.quantity! + 1 };
     });
     setCart(updatedQuantity);
