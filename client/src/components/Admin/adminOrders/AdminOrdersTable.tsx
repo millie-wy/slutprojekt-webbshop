@@ -69,9 +69,11 @@ function AdminOrderTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {orders.map((order) => {
-                return <AdminOrdersItem key={order._id} order={order} />;
-              })}
+              {orders
+                .sort((a, b) => (a.updatedAt! < b.updatedAt! ? 1 : -1))
+                .map((order) => {
+                  return <AdminOrdersItem key={order._id} order={order} />;
+                })}
             </TableBody>
           </Table>
         </TableContainer>
