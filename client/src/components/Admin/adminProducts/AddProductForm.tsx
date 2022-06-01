@@ -69,7 +69,6 @@ function AddProductForm() {
             sx={{
               display: "flex",
               flexDirection: "column",
-              rowGap: "10rem",
               gap: { xs: 0, sm: ".5rem", md: "1rem" },
             }}
           >
