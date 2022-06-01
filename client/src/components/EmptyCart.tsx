@@ -25,7 +25,7 @@ const EmptyCart = () => {
           textAlign: "center",
         }}
       >
-        <img src={emptyCart} alt="empty cart" height="300px" />
+        <img src={emptyCart} alt="empty cart" style={{ height:"100%", maxHeight:'300px', width:'100%',maxWidth:"300px"}} />
         <Typography>Your cart is empty.</Typography>
         <HomeButton message="Explore our collections" />
       </Box>
