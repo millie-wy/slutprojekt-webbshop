@@ -17,6 +17,8 @@ import NoPermission from "./shared/NoPermission";
 
 const useStyles = makeStyles((theme) => ({
   textFieldStyle: {
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    borderRadius: '5px',
     marginTop: "2rem",
     "& .MuiInputBase-input": {
       "& fieldset": {
@@ -178,9 +180,11 @@ function Signup() {
 const paperStyle: SxProps = {
   background: "#C3BAB1",
   height: "fit-content",
-  width: { xs: "20rem", sm: "25", md: "25rem", lg: "25rem", xl: "25rem" },
+  maxWidth: "20rem",
+  width: "100%",
   paddingTop: "2rem",
   margin: "3rem auto",
+  marginTop: "1.5rem",
   paddingBottom: "2rem",
 };
 const header1: SxProps = {
@@ -210,7 +214,7 @@ const boxStyle2: SxProps = {
   flexDirection: "column",
 };
 const buttonStyle: SxProps = {
-  marginTop: "2rem",
+  marginTop: "1.5rem",
   backgroundColor: "#6C665F",
   color: "#fff",
   width: "8rem",

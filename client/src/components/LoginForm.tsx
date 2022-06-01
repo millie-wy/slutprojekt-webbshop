@@ -15,6 +15,8 @@ import ErrorSnackBar from "./shared/ErrorSnackBar";
 
 const useStyles = makeStyles((theme) => ({
   textFieldStyle: {
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    borderRadius: "5px",
     marginTop: "2rem",
     "& .MuiInputBase-input": {
       "& fieldset": {
@@ -119,7 +121,7 @@ const paperStyle: SxProps = {
   height: "30rem",
   width: { xs: "18rem", sm: "20rem" },
   paddingTop: "2rem",
-  marginTop: "1rem",
+  marginTop: "1.5rem",
   marginBottom: "3rem",
   marginRight: "auto",
   marginLeft: "auto",
