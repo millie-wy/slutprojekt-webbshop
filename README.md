@@ -13,34 +13,21 @@ Ella Larsson (https://github.com/EllaMiri) </br>
 Fia Andersson (https://github.com/fiababiakandersson) </br>
 Millie Cheung (https://github.com/millie-wy)
 
-### Getting started
+## Getting started
 
-#### Install & Run
+### Step 1:
 
-Run both client and server in parallel
+In directory **server**, run:  
+`npm i` to install all dependencies
 
-```
-npm install
-npm start
-```
+Then in the same directory, run: `npm start`
 
-#### Installation in two tabs
+### Step 2:
 
-Open two terminals and run the following commands
+Open a new terminal window and in directory **client**, run:  
+`npm i` to install all dependencies.
 
-```
-npm run client-install
-npm run server-install
-```
-
-#### Run project in two tabs
-
-Open two terminals and run the following commands
-
-```
-npm run client
-npm run server
-```
+Then in the same directory, run: `npm start`
 
 ---
 
