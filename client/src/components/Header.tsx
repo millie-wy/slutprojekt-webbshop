@@ -66,7 +66,7 @@ function Header() {
 
   const icons = () => {
     return (
-      <div className={iconsContainer} style={{ gap: ".5rem" }}>
+      <div className={iconsContainer} style={{ gap: ".5rem"}}>
         <Typography sx={{ cursor: "pointer" }} onClick={handleOpen}>
           <img className={icon} src={userIcon} alt="userIcon" />
         </Typography>
@@ -299,6 +299,7 @@ function Header() {
             fontFamily: "Prata",
             m: "2.5rem",
             display: { xs: "none", sm: "none", md: "block", lg: "block" },
+            margin: { sm: ".7rem" },
           }}
         >
           {label}
@@ -322,6 +323,7 @@ function Header() {
             fontFamily: "Prata",
             m: "2.5rem",
             display: { xs: "none", sm: "none", md: "block", lg: "block" },
+            margin: { sm:'.7rem' }
           }}
         >
           {label}
@@ -345,12 +347,24 @@ function Header() {
       <Toolbar
         sx={{
           width: "100%",
+          paddingRight: {
+            sm: "0",
+          },
+          paddingLeft: {
+            sm: "0",
+          },
           justifyContent: {
             xs: "space-between",
             sm: "space-between",
             md: "space-around",
             lg: "space-around",
           },
+          columnGap: {
+            sm: "0",
+          },
+          margin: {
+            md: '0',
+          }
         }}
       >
         <Box

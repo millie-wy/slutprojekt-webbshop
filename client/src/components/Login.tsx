@@ -17,6 +17,8 @@ import NoPermission from "./shared/NoPermission";
 
 const useStyles = makeStyles((theme) => ({
   textFieldStyle: {
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    borderRadius: "5px",
     marginTop: "2rem",
     "& .MuiInputBase-input": {
       "& fieldset": {
@@ -132,13 +134,13 @@ const boxStyle2: SxProps = {
   alignItems: "center",
   flexDirection: "column",
 };
-
 const paperStyle: SxProps = {
   backgroundColor: "#C3BAB1",
   height: "30rem",
-  width: "20rem",
+  maxWidth: '20rem',
+  width: "100%",
   paddingTop: "2rem",
-  marginTop: "3rem",
+  marginTop: "1.5rem",
   marginBottom: "3rem",
   marginRight: "auto",
   marginLeft: "auto",
