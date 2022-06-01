@@ -57,6 +57,7 @@ const ProductProvider: FC = (props) => {
     }
   }, [setError]);
 
+  // get a specific product by id
   const fetchProduct = useCallback(
     async (product_Id: string) => {
       const response = await makeRequest(`/api/product/${product_Id}`, "GET");
@@ -70,6 +71,7 @@ const ProductProvider: FC = (props) => {
     [setError]
   );
 
+  // filter product based on the category clicked
   const handleCategoryChange = (e: ChangeEvent<HTMLLIElement>) => {
     const target = e.target.innerText.trim();
     target !== "All" ? filterProducts(target) : setFilteredProducts(products);

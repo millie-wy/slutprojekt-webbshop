@@ -27,9 +27,3 @@ export const selfOrAdmin = async (
   if (!admin || !permittedUser) throw Error(ErrorCodes.accessDenied);
   next();
 };
-
-/* SECURITY FUNCTIONS THAT WE CAN USE 
-const validBody = async (req: Request, res: Response, next: NextFunction) => {
-  await new UserModel(req.body).validate();
-};
-*/

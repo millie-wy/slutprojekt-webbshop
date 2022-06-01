@@ -90,7 +90,7 @@ function AddProductForm() {
               value={values.stock}
               onChange={handleChange}
               error={touched.stock && Boolean(errors.stock)}
-              helperText={"Enter at least 1 number"}
+              helperText={"Enter at least 1"}
               margin="normal"
             />
           </Box>
@@ -108,7 +108,7 @@ function AddProductForm() {
               value={values.price}
               onChange={handleChange}
               error={touched.price && Boolean(errors.price)}
-              helperText={"Enter at least 1 number"}
+              helperText={"Enter at least 1"}
               margin="normal"
             />
             <FormControl fullWidth sx={{ my: "1rem" }}>

@@ -16,18 +16,6 @@ export const getAllOrders = async (req: Request, res: Response) => {
 
 // create a new order
 export const addOrder = async (req: Request<{}, {}, Order>, res: Response) => {
-  // let founds: Product[] = [];
-  // for (let i = 0; i < req.body.products.length; i++) {
-  //   let found = await ProductModel.findById(req.body.products[i]._id).exec();
-  //   founds.push(found!);
-  // }
-  // console.log(founds);
-
-  // for (let orderProduct of req.body.products) {
-  //   console.log(req.body.products);
-  //   let findProduct = await ProductModel.findById(orderProduct._id);
-  //   console.log(findProduct);
-  // }
   req.body.products.map(async (product) => {
     // find the product based on the id in upcoming order
     let orderedProduct = await ProductModel.findById(product._id);

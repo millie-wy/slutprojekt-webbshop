@@ -6,6 +6,7 @@ import { Readable } from "stream";
 import { ErrorCodes } from "../../errorRequestHandler";
 import { bucket } from "./media.model";
 
+// get a specific media by id
 export const getMedia = async (req: Request, res: Response) => {
   const _id = new Types.ObjectId(req.params.id);
   const file = await bucket.find({ _id }).next();
@@ -18,6 +19,7 @@ export const getMedia = async (req: Request, res: Response) => {
   readableStream.pipe(res);
 };
 
+// add a media
 export const addMedia = async (
   req: Request,
   res: Response,
@@ -45,12 +47,12 @@ export const addMedia = async (
       res.status(201).json(file);
     });
 
-  // these lines for error doesnt work for now?
   readableStream.pipe(piplines).on("error", () => {
     return Error(ErrorCodes.unsupportedImgFormat);
   });
 };
 
+// remove a media
 export const deleteMedia = async (req: Request, res: Response) => {
   const _id = new Types.ObjectId(req.params.id);
   const file = await bucket.find({ _id }).next();

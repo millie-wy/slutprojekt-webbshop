@@ -11,15 +11,12 @@ export interface User {
   createdAt?: Date;
 }
 
-// combines user and a xxx?
-// export type UserDocument = User & Document;
-
 const userSchema = new mongoose.Schema<User>(
   {
     firstname: { type: String, required: true },
     lastname: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: true, select: false }, // to not include password unless on request
+    password: { type: String, required: true, select: false },
     isAdmin: { type: Boolean, default: false },
   },
   {
@@ -28,7 +25,6 @@ const userSchema = new mongoose.Schema<User>(
     toObject: { virtuals: true },
     strict: "throw",
   }
-  // whether the the virtual values will also be saved in db
 );
 
 userSchema.virtual("fullname").get(function (this: User) {

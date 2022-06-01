@@ -51,22 +51,6 @@ const CustomerDetails = () => {
           >
             Address
           </Typography>
-          {/* <TextField
-            style={{
-              backgroundColor: "white",
-              height: "55px",
-              marginBottom: "1rem",
-            }}
-            id="name"
-            name="name"
-            label="Name"
-            type="text"
-            margin="normal"
-            value={values.name}
-            onChange={handleChange}
-            error={touched.name && Boolean(errors.name)}
-            helperText={errors.name}
-          /> */}
           <TextField
             fullWidth
             style={{
@@ -125,22 +109,6 @@ const CustomerDetails = () => {
             }
             helperText={errors.deliveryAddress?.city}
           />
-          {/* <TextField
-            style={{
-              backgroundColor: "white",
-              height: "55px",
-              marginBottom: "1rem",
-            }}
-            id="email"
-            name="email"
-            label="Email"
-            type="text"
-            margin="normal"
-            value={values.email}
-            onChange={handleChange}
-            error={touched.email && Boolean(errors.email)}
-            helperText={errors.email}
-          /> */}
           <Typography
             sx={{
               textTransform: "uppercase",

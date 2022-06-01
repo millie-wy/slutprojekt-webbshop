@@ -110,11 +110,6 @@ const CartProvider: FC = (props) => {
     setShipper(provider);
   };
 
-  /** set state when a payment method is selected */
-  // const selectPaymentMethod = (method: string) => {
-  //   setPaymentMethod(method);
-  // };
-
   /** the below 3 function are for changing the state of the specific payment method when it is being selected,
    *  solely for the form's conditional validation */
   const selectSwish = () => {

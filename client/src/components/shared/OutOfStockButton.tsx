@@ -1,5 +1,4 @@
 import { Button } from "@mui/material";
-import type { Product } from "@server/shared/client.types";
 import { CSSProperties } from "react";
 interface Props {
   size: string | any;

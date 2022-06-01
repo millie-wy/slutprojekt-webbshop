@@ -35,5 +35,5 @@ Content-Type: application/json
 ### sign out
 DELETE http://localhost:3001/api/user/logout
 
-### get cookie session (for testing)
+### get cookie session
 GET http://localhost:3001/api/user/login

@@ -22,6 +22,7 @@ export const makeRequest = async (
   return { ok, result };
 };
 
+// sum quantity of the same product
 export const sumQuantity = (itemData: Product[]) => {
   let sum = 0;
   for (let i = 0; i < itemData.length; i++) {
@@ -30,6 +31,7 @@ export const sumQuantity = (itemData: Product[]) => {
   return sum;
 };
 
+// sum of all product prices, with or without shipping
 export const UseSumTotal = (itemData: Product[], includeShipping: boolean) => {
   const { shipper } = useCart();
   let sum = 0;
@@ -43,6 +45,7 @@ export const UseSumTotal = (itemData: Product[], includeShipping: boolean) => {
   return sum;
 };
 
+// calculate the 25% VAT based on the total price
 export const calculateVat = (itemData: Product[]) => {
   const vatRate = 0.25;
   let sum = 0;
@@ -50,12 +53,14 @@ export const calculateVat = (itemData: Product[]) => {
   return sum;
 };
 
+// sum price of the same product
 export const sumProductPrice = (product: Product) => {
   let sum = 0;
   sum += product.price * product.quantity!;
   return sum;
 };
 
+// format price
 export const numWithSpaces = (num: number) => {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 };
