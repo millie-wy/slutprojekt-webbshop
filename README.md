@@ -2,7 +2,7 @@
 
 write something
 
-[To repo]([https://ehgoewio.se](https://github.com/millie-wy/slutprojekt-webbshop) "Webbshop")
+[To repo](https://github.com/millie-wy/slutprojekt-webbshop "Webbshop")
 
 ### Developers
 
