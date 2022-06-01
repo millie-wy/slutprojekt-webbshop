@@ -32,36 +32,31 @@ function DetailPage() {
     </Container>
   ) : (
     <Container
-      style={{
+      sx={{
         display: "flex",
         justifyContent: "center",
-        marginTop: "4rem",
-        marginBottom: "4rem",
-      }}
-      sx={{
+        mt: "4rem",
+        mb: "4rem",
         flexDirection: { xs: "column", sm: "column", md: "row", lg: "row" },
       }}
     >
-      <Container
+      <Box
         component="img"
-        height="300"
-        style={{
-          height: "650px",
+        sx={{
+          maxHeight: "650px",
           maxWidth: "500px",
-          marginTop: "2rem",
-          marginBottom: "2rem",
+          mt: "2rem",
+          mb: "2rem",
         }}
         src={`http://localhost:3001${product!.imageUrl}`}
-      ></Container>
+      />
       <Container
-        style={{
+        sx={{
           display: "flex",
           flexDirection: "column",
-          width: "fit-content",
-        }}
-        sx={{
-          marginLeft: { md: 0, lg: "2rem" },
-          marginTop: { sm: 0, md: "4rem", lg: "4rem" },
+          width: 1,
+          ml: { md: 0, lg: "2rem" },
+          mt: { sm: 0, md: "4rem", lg: "4rem" },
         }}
       >
         <Typography variant="h3" gutterBottom style={{ fontSize: "2rem" }}>
@@ -70,10 +65,11 @@ function DetailPage() {
         <Typography
           variant="h6"
           gutterBottom
-          style={{
+          sx={{
             fontSize: "13px",
             marginTop: "1rem",
             marginBottom: "2rem",
+            width: 1,
             maxWidth: "400px",
             color: "#545454",
           }}
@@ -164,7 +160,12 @@ function DetailPage() {
             </Typography>
           </Box>
         )}
-        <img src={detailInfo} alt="product details" width="350px" />
+        <Box
+          component="img"
+          src={detailInfo}
+          alt="product details"
+          sx={{ maxWidth: "350px" }}
+        />
       </Container>
       <ErrorSnackBar />
     </Container>
