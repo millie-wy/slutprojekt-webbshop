@@ -34,17 +34,6 @@ const UserProvider: FC = (props) => {
   const [currentUser, setCurrentUser] = useState<User | undefined>();
   const { setError } = useError();
 
-  // sign up an user account
-  const handleSignUp = useCallback(
-    async (user: User) => {
-      const { firstname, lastname, email, password } = user;
-      let newUser: User = { firstname, lastname, email, password };
-      let response = await makeRequest("/api/user", "POST", newUser);
-      !response.ok ? setError(response.result) : navigate("/");
-    },
-    [navigate, setError]
-  );
-
   // sign in user account
   const handleSignIn = useCallback(
     async (user: User) => {
@@ -54,6 +43,19 @@ const UserProvider: FC = (props) => {
       !response.ok ? setError(response.result) : navigate("/");
     },
     [navigate, setError]
+  );
+
+  // sign up an user account
+  const handleSignUp = useCallback(
+    async (user: User) => {
+      const { firstname, lastname, email, password } = user;
+      let newUser: User = { firstname, lastname, email, password };
+      let response = await makeRequest("/api/user", "POST", newUser);
+      !response.ok
+        ? setError(response.result)
+        : handleSignIn({ email: user.email, password: user.password });
+    },
+    [handleSignIn, setError]
   );
 
   // sign out from an user account
