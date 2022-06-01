@@ -4,16 +4,16 @@ import mongoose from "mongoose";
 import { errorHandler } from "./errorRequestHandler";
 import {
   deliveryOptionRouter,
+  mediaRouter,
   orderRouter,
   productRouter,
   userRouter,
 } from "./resources";
-import { mediaRouter } from "./resources/media";
 require("express-async-errors");
 
 const app = express();
 
-// add global middlewares
+// global middlewares
 app.use(express.json());
 app.use(
   cookieSession({
@@ -24,7 +24,7 @@ app.use(
   })
 );
 
-// add routers
+// routers
 app.use("/api/user", userRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/product", productRouter);

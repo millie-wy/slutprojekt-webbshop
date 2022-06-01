@@ -13,12 +13,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import { useEffect } from "react";
 import { useAdminOrder } from "../../../context/AdminOrderContextProvider";
-import ErrorSnackBar from "../../shared/ErrorSnackBar";
-import AdminOrdersItem from "./AdminOrdersItem";
 import { useUser } from "../../../context/UserContextProvider";
-import EmptyPage from "../../shared/EmptyPage";
+import ErrorSnackBar from "../../shared/ErrorSnackBar";
 import NoPermission from "../../shared/NoPermission";
-// import { Props } from "../../shared/EmptyPage";
+import AdminOrdersItem from "./AdminOrdersItem";
 
 function AdminOrderTable() {
   const { currentUser } = useUser();

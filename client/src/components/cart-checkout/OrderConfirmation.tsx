@@ -101,15 +101,6 @@ const OrderConfirmation = () => {
                   >
                     Quantity
                   </TableCell>
-                  {/* <TableCell
-                    align="right"
-                    sx={{
-                      fontSize: { xs: "12px", sm: "14px" },
-                      padding: { xs: 0, sm: "1rem" },
-                    }}
-                  >
-                    Unit Price
-                  </TableCell> */}
                   <TableCell
                     align="right"
                     sx={{ fontSize: { xs: "12px", sm: "14px" } }}
@@ -120,8 +111,7 @@ const OrderConfirmation = () => {
               </TableHead>
               <TableBody>
                 {order!.products.map((product) => (
-                  <TableRow key={product.title}>
-                    {/* // the above line should be id */}
+                  <TableRow key={product._id}>
                     <TableCell
                       size="small"
                       component="th"

@@ -1,8 +1,8 @@
 # Webbshop
 
-This mocked online store comme ci comme ça is an upgrade to the previous version. Previously we had our data saved in a local file and local storage, and in this update we have built the fully functional backend that allows to all the data saved and handled through MongoDB. We have also created 2 different user rights - admin and user. Admin can add, edit or delete any products and have an overall to the orders, while a user can sign up an account and place an order. 
+This mocked online store comme ci comme ça is an upgrade to the previous version. Previously we had our data saved in a local file and local storage, and in this update we have built the fully functional backend that allows to all the data saved and handled through MongoDB. We have also created 2 different user rights - admin and user. Admin can add, edit or delete any products and have an overall to the orders, while a user can sign up an account and place an order.
 
-This project was built with React / TypeScript with MUI in the front end, and Express, NodeJS, MongoDB, Mongoose and Multer in the backend. 
+This project was built with React / TypeScript with MUI in the front end, and Express, NodeJS, MongoDB, Mongoose and Multer in the backend.
 
 [To repo](https://github.com/millie-wy/slutprojekt-webbshop "Webbshop")
 
@@ -46,9 +46,9 @@ npm run server
 
 Krav för godkänt:
 
-- [ ] Alla sidor skall vara responsiva. (G) 
-- [ ] Arbetet ska implementeras med en React frontend och en Express backend. (G) 
-- [ ] Skapa ett ER diagram och koddiagram, detta ska lämnas in vid idégodkännandet G) 
+- [ ] Alla sidor skall vara responsiva. (G)
+- [ ] Arbetet ska implementeras med en React frontend och en Express backend. (G)
+- [ ] Skapa ett ER diagram och koddiagram, detta ska lämnas in vid idégodkännandet (G)
 - [ ] Beskriv er företagsidé i en kort textuell presentation, detta ska lämnas in vid idégodkännandet (G)
 - [ ] All data som programmet utnyttjar ska vara sparat i en Mongo-databas (produkter, beställningar, konton mm) (G)
 - [ ] Man ska kunna logga in som administratör i systemet (G)
@@ -66,7 +66,7 @@ Krav för godkänt:
 
 Krav för välgodkänt:
 
-- [ ] Man ska kunna registrera sig som administratör på sidan, nya användare ska sparas i databasen (VG)       
+- [ ] Man ska kunna registrera sig som administratör på sidan, nya användare ska sparas i databasen (VG)
 - [ ] En administratör behöver godkännas av en tidigare administratör innan man kan logga in fösta gången (VG)
 - [ ] När man är inloggad som kund ska man kunna se sina gjorda beställning och om det är skickade eller inte (VG)
 - [ ] Administratörer ska kunna markera beställningar som skickade (VG)

@@ -39,7 +39,6 @@ export const updateProduct = async (
     req.body
   );
   if (!updatingProduct) throw Error(ErrorCodes.notFound);
-  // MongooseError.StrictModeError ??
   if (title) updatingProduct!.title = title;
   if (description) updatingProduct!.description = description;
   if (category) updatingProduct!.category = category;

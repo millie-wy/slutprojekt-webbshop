@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   console.error(err);
 
+  // if it is mongo validation error or castError
   if ((err as MongoError).code === 11000)
     return res
       .status(401)

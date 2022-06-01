@@ -38,7 +38,7 @@ function ShoppingCart() {
           flexDirection: "column",
           padding: "1rem",
           margin: "auto",
-          width: {xs: '17rem', sm: 'auto'}
+          width: { xs: "17rem", sm: "auto" },
         }}
       >
         {cart.map((product) => (

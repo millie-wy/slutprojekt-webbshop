@@ -127,12 +127,6 @@ function AdminProductsItem(props: Props) {
                           fontSize: "12px",
                         }}
                       >
-                        {/* plan to fix only if we have extra time
-                        <img
-                          src={`http://localhost:3001${props.product.imageUrl}`}
-                          alt={props.product.title}
-                          style={{ maxHeight: "180px" }}
-                        /> */}
                         <label
                           htmlFor="uploadImg"
                           style={{

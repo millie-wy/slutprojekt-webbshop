@@ -7,7 +7,6 @@ import React, {
   useContext,
   useState,
 } from "react";
-import { useNavigate } from "react-router-dom";
 import { makeRequest } from "../Helper";
 import { useError } from "./ErrorContextProvider";
 import { useProduct } from "./ProductContextProvider";
@@ -38,7 +37,6 @@ export const AdminProductContext = createContext<AdminProductContextValue>({
 
 const AdminProductProvider: FC = (props) => {
   const { fetchAllProducts } = useProduct();
-  const navigate = useNavigate();
   const [isEdit, setEdit] = useState<boolean>(false);
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [imageId, setImageId] = useState<string | Types.ObjectId>("");
@@ -113,6 +111,7 @@ const AdminProductProvider: FC = (props) => {
     [fetchAllProducts, imageId, setError]
   );
 
+  // upload new image to the media collection in db (and remove if there is an existing one)
   const fileUpload = useCallback(
     async (event: React.ChangeEvent<HTMLInputElement>) => {
       if (!event.target.files) return;
