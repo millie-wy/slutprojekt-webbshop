@@ -58,10 +58,13 @@ const OrderProvider: FC = (props) => {
 
   /** process formValues and shape the order object */
   const processOrder = async (formValues: FormValues) => {
+    const trimmedZipCode = formValues.deliveryAddress.zipCode
+      .toString()
+      .replace(/\s/g, "");
     const boughtItems = [...cart];
     const deliveryAddress = {
       street: formValues.deliveryAddress.street,
-      zipCode: Number(formValues.deliveryAddress.zipCode),
+      zipCode: Number(trimmedZipCode),
       city: formValues.deliveryAddress.city,
     };
     let updatedOrder: Order = {
