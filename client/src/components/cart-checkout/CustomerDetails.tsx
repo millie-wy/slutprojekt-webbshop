@@ -87,10 +87,10 @@ const CustomerDetails = () => {
             value={values.deliveryAddress.zipCode}
             onChange={handleChange}
             error={
-              touched.deliveryAddress?.street &&
-              Boolean(errors.deliveryAddress?.street)
+              touched.deliveryAddress?.zipCode &&
+              Boolean(errors.deliveryAddress?.zipCode)
             }
-            helperText={errors.deliveryAddress?.street}
+            helperText={errors.deliveryAddress?.zipCode}
           />
           <TextField
             style={{

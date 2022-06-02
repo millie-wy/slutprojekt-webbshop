@@ -33,6 +33,7 @@ function CheckoutFormContainer() {
   const phoneRegExp = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
   const personalIdentityRegExp =
     /^(19|20)?(\d{6}([-+]|\s)\d{4}|(?!19|20)\d{10})$/;
+  const zipCodeRegExp = /^[0-9]+$/;
 
   const InitialValue: FormValues = {
     deliveryAddress: {
@@ -53,7 +54,12 @@ function CheckoutFormContainer() {
   const ValidationSchema = yup.object().shape({
     deliveryAddress: yup.object().shape({
       street: yup.string().min(3).required("Required"),
-      zipCode: yup.string().min(5).max(6).required("Required"),
+      zipCode: yup
+        .string()
+        .min(5)
+        .max(6)
+        .required("Required")
+        .matches(zipCodeRegExp, "Invalid zip code"),
       city: yup.string().required("Required"),
     }),
     phoneNumber: yup
